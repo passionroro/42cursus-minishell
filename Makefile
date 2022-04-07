@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/04/06 16:33:55 by rohoarau         ###   ########.fr        #
+#    Updated: 2022/04/07 14:13:50 by henkaoua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 LFLAGS = -I include/
 CFLAGS = -Wall -Wextra -Werror
 DEBUGGING = -ggdb
+LREADLINE = -lreadline
 CC = gcc
 RM = rm -rf
 AR = ar rc
@@ -36,7 +37,7 @@ $(NAME): $(OBJS)
 		make -C $(LIB_DIR)
 		@echo "Compilation of $(LIB_DIR):  \033[1;32mOK\033[m"
 		@echo ""
-		$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) $(LIB_DIR)$(LIBFT) -o $(NAME)
+		$(CC) $(CFLAGS) $(LREADLINE) $(OBJS) $(LFLAGS) $(LIB_DIR)$(LIBFT) -o $(NAME)
 		@echo "Compilation of $(NAME):  \033[1;32mOK\033[m"
 		@echo ""
 

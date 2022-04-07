@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:36:59 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/04/06 23:49:42 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/04/07 16:02:06 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,45 @@ int	run_prompt(char *str, t_minishell sh)
 
 void	signal_handler(int sig)
 {
-	//t_minishell	sh;
+	struct termios	ter;
 
 	if (sig == 2)
-		write(1, "\n[prompt]$ ", 11);
+	{
+		if (tcgetattr(STDIN_FILENO, &ter) != 0)
+			perror("tcgetatt() error\n");
+		else
+		{
+			write(1, "\n[prompt]$ ", 11);
+			ter.c_lflag &= ~(ECHO | ECHONL | ICANON);
+			tcsetattr(STDIN_FILENO, TCSANOW, &ter);
+		}
+	}
 	if (sig == 3)
 		return ;
-		//sh.line_read = "\0";
 }
 
-int	main(int argc, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)envp;
-	int			pid;
-	int			exit;
-	t_minishell	sh;
+	(void)argv;
+	int				exit;
+	t_minishell		sh;
 
 	if (argc != 1)
 		return (1);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
 	exit = 1;
-	pid = getpid();
 	while (exit)
 	{
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
 		sh.line_read = readline("[prompt]$ ");
-		printf("line_read	%s\n", sh.line_read);
+		if (sh.line_read)
+			break ;
+		add_history (sh.line_read);
+		printf("line_read : %s\n", sh.line_read);
 		exit = ft_strncmp(sh.line_read, "exit", sizeof(sh.line_read));
 	}
 	free(sh.line_read);
+	sh.line_read = NULL;
 	return (0);
 }

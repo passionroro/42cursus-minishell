@@ -13,6 +13,7 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <unistd.h>
+#include <termios.h>
 
 enum	e_rror
 {
@@ -21,7 +22,7 @@ enum	e_rror
 
 typedef struct s_minishell
 {
-	char *prompt;
+	char *line_read;
 }	t_minishell;
 
 #endif
