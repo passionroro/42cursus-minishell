@@ -3,64 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/06 14:36:59 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/04/07 16:02:06 by henkaoua         ###   ########.fr       */
+/*   Created: 2022/04/10 22:44:05 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/04/11 13:49:02 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
-/*
-int	run_prompt(char *str, t_minishell sh)
+void	sig_handler(int signum)
 {
-	sh->prompt = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!sh->prompt)
-		return (ERR_MALLOC);
-}*/
-
-void	signal_handler(int sig)
-{
-	struct termios	ter;
-
-	if (sig == 2)
-	{
-		if (tcgetattr(STDIN_FILENO, &ter) != 0)
-			perror("tcgetatt() error\n");
-		else
-		{
-			write(1, "\n[prompt]$ ", 11);
-			ter.c_lflag &= ~(ECHO | ECHONL | ICANON);
-			tcsetattr(STDIN_FILENO, TCSANOW, &ter);
-		}
-	}
-	if (sig == 3)
-		return ;
+	if (signum == 2)
+		write(1, "\n[prompt]$ ", 11);
+	return ;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)envp;
 	(void)argv;
-	int				exit;
-	t_minishell		sh;
+	(void)argc;
+	sigs	sa;
+	char	*input;
+	char	**path;
+	int		exit;
 
-	if (argc != 1)
-		return (1);
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	sa.sa_handler = &sig_handler;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	path = ft_split(envp[12] + 5, ':');
+	if (!path)
+		return (NULL);
 	exit = 1;
 	while (exit)
 	{
-		sh.line_read = readline("[prompt]$ ");
-		if (sh.line_read)
-			break ;
-		add_history (sh.line_read);
-		printf("line_read : %s\n", sh.line_read);
-		exit = ft_strncmp(sh.line_read, "exit", sizeof(sh.line_read));
+		input = readline("[prompt]$");
+		add_history(input);
+		exit = ft_strncmp(input, "exit", sizeof(input));
+		free(input);
 	}
-	free(sh.line_read);
-	sh.line_read = NULL;
+	//free
 	return (0);
 }

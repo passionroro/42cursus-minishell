@@ -15,6 +15,8 @@
 # include <unistd.h>
 #include <termios.h>
 
+typedef struct sigaction	sigs;
+
 enum	e_rror
 {
 	ERR_MALLOC = 1,
