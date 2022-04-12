@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/14 17:40:52 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/04/11 14:40:30 by rohoarau         ###   ########.fr       */
+/*   Created: 2022/04/11 16:03:14 by rohoarau          #+#    #+#             */
+/*   Updated: 2022/04/11 17:55:39 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int	ft_malloc_array(char ***str, char sep, char *line)
 {
-	char	*ptr;
-	t_size	i;
-	t_size	len;
+	*str = ft_split(line, sep);
+	if (!*str)
+		return (ERR_MALLOC);
+	return (0);
+}
 
-	if (!s1 || !s2)
-		return (NULL);
-	len = ft_strlen(s1);
-	ptr = malloc(sizeof(char) * (len + ft_strlen(s2) + 1));
-	if (ptr == NULL)
-		return (0);
+void	ft_free_array(char **str)
+{
+	int	i;
+
 	i = -1;
-	while (s1[++i])
-		ptr[i] = s1[i];
-	i = -1;
-	while (s2[++i])
-	{
-		ptr[len] = s2[i];
-		len++;
-	}
-	ptr[len] = '\0';
-	free((void *)s1);
-	return (ptr);
+	while (str[++i])
+		free(str[i]);
+	free(str);
 }

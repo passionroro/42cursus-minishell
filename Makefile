@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/04/07 14:13:50 by henkaoua         ###   ########.fr        #
+#    Updated: 2022/04/11 16:21:18 by rohoarau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ LIB_DIR		=	libft/
 OBJ_DIR		=	obj/
 SRCS_DIR	=	src/
 SRCS		=	main.c				\
+				utils.c
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 

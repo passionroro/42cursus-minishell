@@ -13,7 +13,7 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <unistd.h>
-#include <termios.h>
+# include <termios.h>
 
 typedef struct sigaction	sigs;
 
@@ -24,7 +24,14 @@ enum	e_rror
 
 typedef struct s_minishell
 {
-	char *line_read;
+	int		exit;
+	char	*rec;
+	char	**input;
+	char	**path;
+	char	**envp;
 }	t_minishell;
+
+void	ft_free_array(char **str);
+int	ft_malloc_array(char ***str, char sep, char *line);
 
 #endif
