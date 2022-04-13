@@ -29,6 +29,7 @@ typedef struct s_minishell
 	char	**input;
 	char	**path;
 	char	**envp;
+	struct termios	save;
 }	t_minishell;
 
 void	ft_free_array(char **str);
