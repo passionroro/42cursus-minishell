@@ -28,10 +28,12 @@ typedef struct s_minishell
 	char	*rec;
 	char	**input;
 	char	**path;
-	char	*envp;
+	char	**envp;
 }	t_minishell;
 
 void	ft_free_array(char **str);
-int	ft_malloc_array(char ***str, char sep, char *line);
+int		ft_malloc_array(char ***str, char sep, char *line);
+char	*add_backslash(char *str);
+int		input_isnt_empty(char *str);
 
 #endif

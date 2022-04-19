@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:40:52 by rohoarau          #+#    #+#             */
-/*   Updated: 2021/11/18 15:17:23 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/04/11 14:40:30 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		len++;
 	}
 	ptr[len] = '\0';
+	free((void *)s1);
 	return (ptr);
 }
