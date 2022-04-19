@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 16:03:14 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/04/19 14:41:58 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/04/19 19:11:31 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,3 +60,12 @@ int	input_isnt_empty(char *str)
 	else
 		return (0);
 }
+
+/*int	print_error_message(int err_num, char *str, int	ret)
+{
+	if (err_num == 1)
+		write(2, "Error: malloc\n", 14);
+	if (err_num == -1)
+		perror("zsh: command not found: %s\n", str);
+	return (ret);
+}*/

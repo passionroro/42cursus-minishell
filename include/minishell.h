@@ -14,6 +14,7 @@
 # include <signal.h>
 # include <unistd.h>
 # include <termios.h>
+# include <string.h>
 
 typedef struct sigaction	sigs;
 
@@ -25,15 +26,17 @@ enum	e_rror
 typedef struct s_minishell
 {
 	int		exit;
+	int		id;
 	char	*rec;
 	char	**input;
 	char	**path;
 	char	**envp;
+	char	*join;
 }	t_minishell;
 
 void	ft_free_array(char **str);
 int		ft_malloc_array(char ***str, char sep, char *line);
 char	*add_backslash(char *str);
 int		input_isnt_empty(char *str);
-
+int		print_error_message(int err_num);
 #endif
