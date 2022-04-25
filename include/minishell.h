@@ -23,10 +23,20 @@ enum	e_rror
 	ERR_MALLOC = 1,
 };
 
+typedef struct s_node
+{
+	struct s_node	*next;
+	char			*content;
+	char			**input;
+	char			*join;
+	int				fd[2];
+}	t_node;
+
 typedef struct s_minishell
 {
 	int		exit;
 	int		id;
+	int		ret_val; //global
 	char	*rec;
 	char	**input;
 	char	**path;
@@ -39,4 +49,6 @@ int		ft_malloc_array(char ***str, char sep, char *line);
 char	*add_backslash(char *str);
 int		input_isnt_empty(char *str);
 int		print_error_message(int err_num);
+char	*malloc_len(char *s, int len);
+int		new_node(t_node *com, char *str,  int len, int ret);
 #endif

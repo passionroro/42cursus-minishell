@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/04/11 16:21:18 by rohoarau         ###   ########.fr        #
+#    Updated: 2022/04/25 15:47:25 by henkaoua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,9 @@ LIBFT 		= 	libft.a
 LIB_DIR		=	libft/
 OBJ_DIR		=	obj/
 SRCS_DIR	=	src/
-SRCS		=	main.c				\
-				utils.c
+SRCS		=	main.c		\
+				utils.c		\
+				2utils.c
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 

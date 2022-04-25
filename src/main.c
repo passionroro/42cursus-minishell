@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:44:05 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/04/19 20:23:03 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:57:51 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,37 @@ int	check_for_backslash(t_minishell *sh, int ret)
 
 int	is_real_command(t_minishell *sh)
 {
-	if (ft_malloc_array(&sh->path, ':', sh->envp[12] + 5)
+	t_node	*com;
+	int		i;
+	int		l;
+
+	i = -1;
+	com = (t_node *)malloc(sizeof(t_node));
+	while (sh->rec[++i] && sh->rec[i] != '|')
+		l = i + 2;
+	com->content = malloc_len(sh->rec, i);
+	com->next = NULL;
+	if (sh->rec[i] == '\0')
+		i--;
+	while (sh->rec[++i])
+		if (sh->rec[i] == '|' && sh->rec[i + 1] == '\0')
+			l = new_node(com, sh->rec + l, i - l, i + 1);
+	/*if (ft_malloc_array(&sh->path, ':', sh->envp[12] + 5)
 		|| ft_malloc_array(&sh->input, ' ', sh->rec))
 		return (ERR_MALLOC);
 	if (check_for_backslash(sh, -1) == -1)
 	{
 		printf("zsh: command not found: %s\n", sh->input[0]);
-		//ft_free_array(sh->path);
-// IDK why it says that << sh->path >> was freed before.
 		ft_free_array(sh->input);
 		return (-1);
 	}
-	return (execve(sh->join, &sh->input[0], sh->envp));
+	return (execve(sh->join, &sh->input[0], sh->envp));*/
+	return (0);
 }
 
+//check for $ sign and the following word
+//deal with quotes: single quotes prints the word itself (so 'PATH' prints < PATH >), double quotes make evrything inside them one string (so ECHO "bla bla" prints < bla bla >).
 //fix the signals
-//deal with Aliases and Special Characters
 
 int	main(int argc, char **argv, char **envp)
 {
