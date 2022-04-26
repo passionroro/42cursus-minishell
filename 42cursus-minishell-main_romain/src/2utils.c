@@ -16,7 +16,7 @@ char	*malloc_len(char *s, int len)
 {
 	char	*new;
 
-	new = (char *)malloc(sizeof(char) * len + 1);
+	new = (char *)malloc(sizeof(char) * (len + 1));
 	new[len] = '\0';
 	while (--len >= 0)
 		new[len] = s[len];
