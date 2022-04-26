@@ -20,6 +20,7 @@ char	*malloc_len(char *s, int len)
 	new[len] = '\0';
 	while (--len >= 0)
 		new[len] = s[len];
+	//maybe free s here
 	return (new);
 }
 
