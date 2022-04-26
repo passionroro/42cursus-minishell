@@ -26,10 +26,12 @@ enum	e_rror
 typedef struct s_node
 {
 	struct s_node	*next;
+	struct s_node	*last;
 	char			*content;
-	char			**input;
-	char			*join;
+	char			**args;
+	char			*path;
 	int				fd[2];
+	int				id;
 }	t_node;
 
 typedef struct s_minishell
@@ -38,10 +40,8 @@ typedef struct s_minishell
 	int		id;
 	int		ret_val; //global
 	char	*rec;
-	char	**input;
 	char	**path;
 	char	**envp;
-	char	*join;
 }	t_minishell;
 
 void	ft_free_array(char **str);

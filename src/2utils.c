@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:46:02 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/04/25 15:58:49 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:02:21 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	new_node(t_node *com, char *str, int len, int ret)
 
 	if (str[ret] == '\0')
 		len++;
-	//printf("str recieved in function: %s\n", str);
 	new = (t_node *)malloc(sizeof(t_node));
 	new->content = malloc_len(str, len);
 	new->next = NULL;
 	while (com->next != NULL)
 		com = com->next;
+	new->last = com;
 	com->next = new;
 	return (ret);
 }
