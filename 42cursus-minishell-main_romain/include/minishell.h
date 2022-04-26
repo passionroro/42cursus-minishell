@@ -26,9 +26,9 @@ enum	e_rror
 typedef struct s_node
 {
 	struct s_node	*next;
-	char			*content;
-	char			**input;
-	char			*join;
+	char			*content;	
+	char			**input;	//arguments
+	char			*join;		//path
 	int				fd[2];
 }	t_node;
 
