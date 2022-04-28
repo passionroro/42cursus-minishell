@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/04/25 15:47:25 by henkaoua         ###   ########.fr        #
+#    Updated: 2022/04/28 15:03:09 by henkaoua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ OBJ_DIR		=	obj/
 SRCS_DIR	=	src/
 SRCS		=	main.c		\
 				utils.c		\
-				2utils.c
+				2utils.c	\
+				temp.c
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
