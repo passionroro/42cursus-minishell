@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:50:37 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/04/28 15:12:50 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/05/15 15:41:21 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ typedef struct s_node
 	char			*content; //entire pipe command
 	char			**args; //command devided to words
 	char			*path;
-	int				fd[2];
 	int				id;
 }	t_node;
 
 typedef struct s_minishell
 {
 	int		exit;
-	int		id;
 	char	*input;
 	char	**commands;
 	char	**path;
@@ -74,4 +72,5 @@ int		print_error_message(int err_num);
 char	*malloc_len(char *s, int len);
 void	new_node(t_node *com, char *str);
 t_node	*list_init(t_minishell *sh);
+int		cnt_nodes(t_node *com);
 #endif

@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:44:05 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/04/28 15:13:25 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/05/15 15:41:40 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,54 @@ int	command_exec(t_node *com, t_minishell *sh)
 		return (ERR_MALLOC);
 	if (command_access(sh, com, -1) == -1)
 	{
-		printf("zsh: command not found: %s\n", com->args[0]);
+		printf("zsh: command not found: %s\n", com->args[0] + 1);
 		ft_free_array(com->args);
 		return (-1);
 	}
-
 	return (execve(com->path, &com->args[0], sh->envp));
+}
+
+void	redirect(t_minishell *sh, t_node *com, int last)
+{
+	int	pid;
+	int	fd[2];
+
+	pipe(fd);
+	pid = fork();
+	if(pid != 0)
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		wait(0);
+		close(fd[0]);
+	}
+	else
+	{
+		close(fd[0]);
+		if (!last)
+			dup2(fd[1], 1);
+		command_exec(com, sh);
+	}
 }
 
 int	is_real_command(t_minishell *sh)
 {
 	t_node	*com;
+	int		saved_fd;
 
+	saved_fd = dup(0);
 	com = list_init(sh);
-	print_list(com);
 	while (com)
 	{
-		com->id = fork();
-		if (com->id == 0)
-			return (command_exec(com, sh));
+		if (com->next == NULL)
+			redirect(sh, com, 1);
 		else
-			waitpid(com->id, NULL, 0);
+			redirect(sh, com, 0);
 		com = com->next;
 	}
-	return (-1);
+	dup2(saved_fd, 0);
+	close(saved_fd);
+	return (0);
 }
 
 //check for $ sign and the following word
@@ -85,17 +109,14 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	sh.envp = envp;
-	sh.exit = 0;
-	while (!sh.exit)
+
+	while (1)
 	{
 		sh.input = readline("[prompt]$ ");
 		if (input_isnt_empty(sh.input))
 		{
 			add_history(sh.input);
-			if (fork() == 0)
-				sh.exit = is_real_command(&sh);
-			else
-				wait(NULL);
+			ret_val = is_real_command(&sh);
 		}
 		free(sh.input);
 	}

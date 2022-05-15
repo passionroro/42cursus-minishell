@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:46:02 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/04/28 15:14:05 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:38:42 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,17 @@ t_node	*list_init(t_minishell *sh)
 	while (sh->commands[++i])
 		new_node(com, sh->commands[i]);
 	return (com);
+}
+
+int	cnt_nodes(t_node *com)
+{
+	int	i;
+
+	i = 0;
+	while (com)
+	{
+		com = com->next;
+		i++;
+	}
+	return (i);
 }

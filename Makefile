@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/04/28 15:03:09 by henkaoua         ###   ########.fr        #
+#    Updated: 2022/05/12 14:06:45 by henkaoua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ $(NAME): $(OBJS)
 		make -C $(LIB_DIR)
 		@echo "Compilation of $(LIB_DIR):  \033[1;32mOK\033[m"
 		@echo ""
-		$(CC) $(CFLAGS) $(LREADLINE) $(OBJS) $(LFLAGS) $(LIB_DIR)$(LIBFT) -o $(NAME)
+		$(CC) $(CFLAGS) -ggdb $(LREADLINE) $(OBJS) $(LFLAGS) $(LIB_DIR)$(LIBFT) -o $(NAME)
 		@echo "Compilation of $(NAME):  \033[1;32mOK\033[m"
 		@echo ""
 
