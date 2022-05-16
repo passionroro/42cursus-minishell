@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:44:05 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/15 15:41:40 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/05/16 10:42:07 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,14 @@ int	command_exec(t_node *com, t_minishell *sh)
 
 void	redirect(t_minishell *sh, t_node *com, int last)
 {
-	int	pid;
 	int	fd[2];
 
 	pipe(fd);
-	pid = fork();
-	if(pid != 0)
+	com->id = fork();
+	if(com->id != 0)
 	{
 		close(fd[1]);
 		dup2(fd[0], 0);
-		wait(0);
 		close(fd[0]);
 	}
 	else
@@ -74,6 +72,7 @@ void	redirect(t_minishell *sh, t_node *com, int last)
 		close(fd[0]);
 		if (!last)
 			dup2(fd[1], 1);
+		close(fd[1]);
 		command_exec(com, sh);
 	}
 }
@@ -81,10 +80,12 @@ void	redirect(t_minishell *sh, t_node *com, int last)
 int	is_real_command(t_minishell *sh)
 {
 	t_node	*com;
+	t_node	*head;
 	int		saved_fd;
 
 	saved_fd = dup(0);
 	com = list_init(sh);
+	head = com;
 	while (com)
 	{
 		if (com->next == NULL)
@@ -92,6 +93,11 @@ int	is_real_command(t_minishell *sh)
 		else
 			redirect(sh, com, 0);
 		com = com->next;
+	}
+	while (head)
+	{
+		waitpid(head->id, NULL, 0);
+		head = head->next;
 	}
 	dup2(saved_fd, 0);
 	close(saved_fd);
