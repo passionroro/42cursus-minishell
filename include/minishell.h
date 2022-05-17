@@ -50,7 +50,6 @@ typedef struct s_node
 
 typedef struct s_minishell
 {
-	int		exit;
 	int		id;
 	char	*input;
 	char	**commands;

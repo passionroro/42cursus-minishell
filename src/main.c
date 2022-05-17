@@ -90,41 +90,59 @@ void	dollar_sign_check(t_node *com)
 	}
 }
 
-int	command_exec(t_node *com, t_minishell *sh)
+void	redirect(t_minishell *sh, t_node *com, int last)
 {
-	if (ft_malloc_array(&com->args, ' ', com->content))
-		return (ERR_MALLOC);
-	dollar_sign_check(com);
-	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0])))
-		return (ERR_MALLOC);
-	if (command_access(sh, com, -1) == -1)
-		return (-1);
-	return (execve(com->path, &com->args[0], sh->envp));
+	int	fd[2];
+
+	pipe(fd);
+	com->id = fork();
+	if(com->id != 0)
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		close(fd[0]);
+	}
+	else
+	{
+		close(fd[0]);
+		if (!last)
+			dup2(fd[1], 1);
+		close(fd[1]);
+		command_exec(com, sh);
+	}
 }
 
-int	is_real_command(t_node *com)
+int	is_real_command(t_minishell *sh)
 {
+	t_node	*com;
+	t_node	*head;
+	int		saved_fd;
+
+	saved_fd = dup(0);
+	com = list_init(sh);
+	head = com;
 	while (com)
 	{
-		if (built_in_check(com) == -1)
-		{
-			com->id = fork();
-			if (com->id == 0)
-				return (command_exec(com, com->sh));
-			else
-				waitpid(com->id, NULL, 0);
-		}
+		if (com->next == NULL)
+			redirect(sh, com, 1);
+		else
+			redirect(sh, com, 0);
 		com = com->next;
 	}
-	return (-1);
+	while (head)
+	{
+		waitpid(head->id, NULL, 0);
+		head = head->next;
+	}
+	dup2(saved_fd, 0);
+	close(saved_fd);
+	return (0);
 }
 
 //check for $ sign and the following word
 //deal with quotes: single quotes prints the word itself (so 'PATH' prints < PATH >), double quotes make evrything inside them one string (so ECHO "bla bla" prints < bla bla >).
 //fix the signals
 
-void	signal_handler(int sig)
-{
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
@@ -162,24 +180,16 @@ int	main(int argc, char **argv, char **envp)
 	sh.envp = env_init(envp);
 	sh.exit = 0;
 	ft_signals(&save);
-	while (!sh.exit)
+	while (1)
 	{
 		sh.input = readline("[prompt]$ ");
 		if (input_isnt_empty(sh.input))
 		{
 			add_history(sh.input);
-			sh.com = list_init(&sh);
-			if (built_in_check(sh.com) == -1)
-			{
-				if (fork() == 0)
-					sh.exit = is_real_command(sh.com);
-				else
-					wait(NULL);
-			}
-			ft_free_list(sh.com);
+			ret_val = is_real_command(&sh);
 		}
 		free(sh.input);
-	}
+  {
 	tcsetattr(STDIN_FILENO, TCSANOW, &save);
 	return (0);
 }
