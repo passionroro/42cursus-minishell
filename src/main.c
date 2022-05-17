@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:44:05 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/16 10:42:07 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:58:10 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	command_access(t_minishell *sh, t_node *com, int ret)
 {
-	int	i;
+    int	i;
 
-	i = -1;
-	if (com->args[0][0] != '/')
-	{
-		com->args[0] = add_backslash(com->args[0]);
+    i = -1;
+    if (com->args[0][0] != '/')
+    {
+        com->args[0] = add_backslash(com->args[0]);
 		if (!com->args[0])
 			return (ERR_MALLOC);
 		while (sh->path[++i] && ret == -1)
@@ -40,19 +40,54 @@ int	command_access(t_minishell *sh, t_node *com, int ret)
 	return (ret);
 }
 
-int	command_exec(t_node *com, t_minishell *sh)
+char	*get_path(char **env, char *str)
 {
-	if (ft_malloc_array(&sh->path, ':', sh->envp[12] + 5))
-		return (ERR_MALLOC);
-	if (ft_malloc_array(&com->args, ' ', com->content))
-		return (ERR_MALLOC);
-	if (command_access(sh, com, -1) == -1)
+	int	i;
+
+	i = -1;
+	while (env[++i])
+		if (!ft_strncmp(env[i], "PATH=", 5))
+            return (env[i] + 5);
+	ft_putstr_fd("bash: ", 1);
+	ft_putstr_fd(str, 1);
+	ft_putstr_fd(": No such file or directory", 1);
+	ft_putchar_fd('\n', 1);
+	return (NULL);
+}
+
+int	dollar_sign_access(char *str, char **env)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+		if (!ft_strncmp(str, env[i], ft_strlen(str)))
+			return (i);
+	return (0);
+}
+
+void	dollar_sign_check(t_node *com)
+{
+	int	pos;
+	int	i;
+	int	j;
+
+	i = -1;
+	while (com->args[++i])
 	{
-		printf("zsh: command not found: %s\n", com->args[0] + 1);
-		ft_free_array(com->args);
-		return (-1);
+		if (com->args[i][0] == '$')
+		{
+			pos = dollar_sign_access(com->args[i] + 1, com->sh->envp);
+			if (pos != 0)
+			{
+				j = -1;
+				while (com->sh->envp[pos][++j] != '=')
+					;
+				free(com->args[i]);
+				com->args[i] = ft_strdup(com->sh->envp[pos] + j + 1);
+			}
+		}
 	}
-	return (execve(com->path, &com->args[0], sh->envp));
 }
 
 void	redirect(t_minishell *sh, t_node *com, int last)
@@ -108,14 +143,43 @@ int	is_real_command(t_minishell *sh)
 //deal with quotes: single quotes prints the word itself (so 'PATH' prints < PATH >), double quotes make evrything inside them one string (so ECHO "bla bla" prints < bla bla >).
 //fix the signals
 
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
+	if (sig == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
+}
+
+void	ft_signals(struct termios *save)
+{
+	struct termios	new;
+
+	tcgetattr(STDIN_FILENO, save);
+	new = *save;
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
+	new.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &new);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	sh;
+	struct termios	save;
 
 	(void)argv;
 	(void)argc;
-	sh.envp = envp;
-
+	sh.envp = env_init(envp);
+	sh.exit = 0;
+	ft_signals(&save);
 	while (1)
 	{
 		sh.input = readline("[prompt]$ ");
@@ -125,6 +189,7 @@ int	main(int argc, char **argv, char **envp)
 			ret_val = is_real_command(&sh);
 		}
 		free(sh.input);
-	}
+  {
+	tcsetattr(STDIN_FILENO, TCSANOW, &save);
 	return (0);
 }

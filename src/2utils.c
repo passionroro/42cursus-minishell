@@ -6,13 +6,13 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:46:02 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/02 15:38:42 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:14:13 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	new_node(t_node *com, char *str)
+void	new_node(t_node *com, char *str, t_minishell *sh)
 {
 	t_node	*new;
 
@@ -23,6 +23,7 @@ void	new_node(t_node *com, char *str)
 		com = com->next;
 	new->last = com;
 	com->next = new;
+	com->sh = sh;
 }
 
 char	**ft_clean_space(char **str)
@@ -65,21 +66,22 @@ t_node	*list_init(t_minishell *sh)
 	com->content = sh->commands[0];
 	com->next = NULL;
 	com->last = NULL;
+	com->sh = sh;
 	i = 0;
 	while (sh->commands[++i])
-		new_node(com, sh->commands[i]);
+		new_node(com, sh->commands[i], sh);
 	return (com);
 }
 
-int	cnt_nodes(t_node *com)
+void ft_free_list(t_node *com)
 {
-	int	i;
+	t_node	*tmp;
 
-	i = 0;
+    ft_free_array(com->sh->commands);
 	while (com)
 	{
+		tmp = com;
 		com = com->next;
-		i++;
+		free(tmp);
 	}
-	return (i);
 }

@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/05/12 14:06:45 by henkaoua         ###   ########.fr        #
+#    Updated: 2022/05/12 13:23:32 by rohoarau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,15 @@ SRCS_DIR	=	src/
 SRCS		=	main.c		\
 				utils.c		\
 				2utils.c	\
-				temp.c
+				temp.c		\
+				built_in.c			\
+				utils_built_in.c	\
+				echo.c				\
+				env.c				\
+				export.c			\
+				unset.c				\
+				cd.c				\
+				pwd.c				\
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
@@ -37,12 +45,11 @@ $(OBJ_DIR)%.o : $(SRCS_DIR)%.c
 		$(CC) -c $(CFLAGS) $(DEBUGGING) $(LFLAGS) $< -o $@
 
 $(NAME): $(OBJS)
+		@echo "Compilation of $(OBJ_DIR):  \033[1;32mOK\033[m\n"
 		make -C $(LIB_DIR)
-		@echo "Compilation of $(LIB_DIR):  \033[1;32mOK\033[m"
-		@echo ""
-		$(CC) $(CFLAGS) -ggdb $(LREADLINE) $(OBJS) $(LFLAGS) $(LIB_DIR)$(LIBFT) -o $(NAME)
-		@echo "Compilation of $(NAME):  \033[1;32mOK\033[m"
-		@echo ""
+		@echo "Compilation of $(LIB_DIR):  \033[1;32mOK\033[m\n"
+		$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) $(LIB_DIR)$(LIBFT) -o $(NAME) -lreadline -L $(HOME)/.brew/opt/readline/lib -I $(HOME)/.brew/opt/readline/include
+		@echo "Compilation of $(NAME):  \033[1;32mOK\033[m\n"
 
 clean:
 		$(RM) $(OBJ_DIR)

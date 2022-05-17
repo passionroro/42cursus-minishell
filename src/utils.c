@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 16:03:14 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/04/19 19:11:31 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/05/17 09:57:50 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ int	input_isnt_empty(char *str)
 	int	i;
 
 	i = 0;
+	if (str == NULL)
+	{
+		ft_putstr_fd("exit", 1);
+		exit(1);
+	}
 	while (str[i] == 32 || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
 		|| str[i] == '\f' || str[i] == '\r')
 		i++;
@@ -60,12 +65,3 @@ int	input_isnt_empty(char *str)
 	else
 		return (0);
 }
-
-/*int	print_error_message(int err_num, char *str, int	ret)
-{
-	if (err_num == 1)
-		write(2, "Error: malloc\n", 14);
-	if (err_num == -1)
-		perror("zsh: command not found: %s\n", str);
-	return (ret);
-}*/
