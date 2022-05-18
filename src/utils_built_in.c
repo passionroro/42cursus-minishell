@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:38:50 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/17 14:52:51 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:01:48 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	free_list(t_node *com)
 		free(com);
 		com = com->next;
 	}
+}
+
+void	question_mark(char **str)
+{
+	free(*str);
+	*str = ft_itoa(ret_val);
 }
 
 char	**env_init(char **env)

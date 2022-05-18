@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:37:28 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/17 14:53:57 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/18 10:10:25 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*env_replace(t_node *com, int pos)
 {
 	char	*tmp;
 
-	(void)pos;
 	tmp = ft_strdup(com->args[1]);
 	free(com->sh->envp[pos]);
 	return (tmp);

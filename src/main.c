@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:44:05 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/17 14:58:10 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/18 20:55:49 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,45 +55,124 @@ char	*get_path(char **env, char *str)
 	return (NULL);
 }
 
-int	dollar_sign_access(char *str, char **env)
+int	command_exec(t_node *com, t_minishell *sh)
 {
-	int	i;
-
-	i = -1;
-	while (env[++i])
-		if (!ft_strncmp(str, env[i], ft_strlen(str)))
-			return (i);
-	return (0);
+	if (command_access(sh, com, -1) == -1)
+	{
+		if (com->args[0][0] == '/')
+		{
+			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd(com->args[0], 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+		}
+		else
+		{
+			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd(com->args[0] + 1, 2);
+			ft_putstr_fd(": command not found\n", 2);
+		}
+		return (-1);
+	}
+	return (execve(com->path, &com->args[0], sh->envp));
 }
 
-void	dollar_sign_check(t_node *com)
+void	redirect_delimiter(t_node *com, int *l, int *i)
 {
-	int	pos;
-	int	i;
-	int	j;
+}
 
+void	redirect_input(t_node *com, int *l, int *i)
+{
+	int	s_stdin;
+	int	fd;
+
+	saved_stdin = dup(STDIN_FILENO);
+	fd = open(com->args[*l - 1], ); 
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdin);
+}
+
+void	redirect_append(t_node *com, int *l, int *i)
+{
+}
+
+char	*write_file_name(char *str)
+{
+	int		i;
+	char	*new;
+
+	if (!str[0])
+		return (NULL);
+	i = 0;
+	while (str[i])
+		i++;
+	new = (char *)malloc(sizeof(char) * i + 1);
 	i = -1;
-	while (com->args[++i])
+	while (com[++i])
+		new[i] = com[i];
+	new[i] = '\0';
+	return (new);
+}
+
+void	redirect_output(t_node *com, int *l, int *i)
+{
+	int		s_stdout;
+	int		fd;
+	char	*file;
+
+	s_stdout = dup(STDOUT_FILENO);
+	if (com->args[*l][*i + 1] == NULL)
+		file = write_file_name(com->args[*l + 1][0]);
+	else
+		file = write_file_name(com->rgs[*l][*i + 1]);
+	fd = open(file, O_WRONLY | O_CREAT, 0777);
+	dup2(fd, STDOUT_FILENO);
+
+	if (is_built_in(com->args[0]) == 1)
+		built_in_check(com);
+	
+	dup2(s_stdout, STDOUT_FILENO);
+	close(s_stdout);
+	free(file);
+}
+
+void	redirect_check(t_node *com)
+{
+	int	i;
+	int	l;
+
+	l = -1;
+	while (com->args[++l])
 	{
-		if (com->args[i][0] == '$')
+		i = -1;
+		while (com->args[l][++i])
 		{
-			pos = dollar_sign_access(com->args[i] + 1, com->sh->envp);
-			if (pos != 0)
+			if (com->args[l][i] == '<')
 			{
-				j = -1;
-				while (com->sh->envp[pos][++j] != '=')
-					;
-				free(com->args[i]);
-				com->args[i] = ft_strdup(com->sh->envp[pos] + j + 1);
+				if (com->args[l][i + 1] == '<')
+					redirect_delimiter(com, &l, &i);
+				else
+					redirect_input(com, *l, *i);
+			}
+			else if (com->args[l][i] == '>')
+			{
+				if (com->args[l][i + 1] == '>')
+					redirect_append(com, *l, *i);
+				else
+					redirect_output(com, *l, *i);
 			}
 		}
 	}
 }
 
-void	redirect(t_minishell *sh, t_node *com, int last)
+int	pipes_it_up(t_minishell *sh, t_node *com, int last)
 {
 	int	fd[2];
 
+	if (var_init(sh, com) != 0)
+		return (ret_val);
+	redirect_check(com);
+	if (is_built_in(com->args[0]) == 1)
+		return (built_in_check(com));
 	pipe(fd);
 	com->id = fork();
 	if(com->id != 0)
@@ -110,6 +189,8 @@ void	redirect(t_minishell *sh, t_node *com, int last)
 		close(fd[1]);
 		command_exec(com, sh);
 	}
+	free_var_init(sh, com);
+	return (0);
 }
 
 int	is_real_command(t_minishell *sh)
@@ -124,9 +205,9 @@ int	is_real_command(t_minishell *sh)
 	while (com)
 	{
 		if (com->next == NULL)
-			redirect(sh, com, 1);
+			pipe_it_up(sh, com, 1);
 		else
-			redirect(sh, com, 0);
+			pipe_it_up(sh, com, 0);
 		com = com->next;
 	}
 	while (head)
@@ -139,37 +220,6 @@ int	is_real_command(t_minishell *sh)
 	return (0);
 }
 
-//check for $ sign and the following word
-//deal with quotes: single quotes prints the word itself (so 'PATH' prints < PATH >), double quotes make evrything inside them one string (so ECHO "bla bla" prints < bla bla >).
-//fix the signals
-
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-}
-
-void	ft_signals(struct termios *save)
-{
-	struct termios	new;
-
-	tcgetattr(STDIN_FILENO, save);
-	new = *save;
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
-	new.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &new);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	sh;
@@ -178,7 +228,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	sh.envp = env_init(envp);
-	sh.exit = 0;
 	ft_signals(&save);
 	while (1)
 	{
@@ -186,10 +235,11 @@ int	main(int argc, char **argv, char **envp)
 		if (input_isnt_empty(sh.input))
 		{
 			add_history(sh.input);
-			ret_val = is_real_command(&sh);
+			is_real_command(&sh);
 		}
 		free(sh.input);
-  {
+	}
+	ft_free_array(sh.envp);
 	tcsetattr(STDIN_FILENO, TCSANOW, &save);
 	return (0);
 }
