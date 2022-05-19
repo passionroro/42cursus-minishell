@@ -6,11 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2022/05/19 18:10:24 by rohoarau         ###   ########.fr        #
-=======
-#    Updated: 2022/05/18 11:24:10 by rohoarau         ###   ########.fr        #
->>>>>>> main_yossi
+#    Updated: 2022/05/19 18:47:31 by rohoarau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +29,8 @@ SRCS		=	main.c		\
 				pwd.c				\
 				signals.c			\
 				init.c				\
-<<<<<<< HEAD
 				exit.c				\
-				redirection.c		\
-=======
->>>>>>> main_yossi
+				pipes.c				\
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 

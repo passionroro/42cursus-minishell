@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:44:05 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/19 18:37:24 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:45:42 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,12 +164,11 @@ void	redirect_check(t_node *com)
 				else
 					redirect_output(com, *l, *i);
 			}
+		}
+	}
+}
 
-<<<<<<< HEAD
-int	redirect(t_minishell *sh, t_node *com, int last)
-=======
-int	pipes_it_up(t_minishell *sh, t_node *com, int last)
->>>>>>> main_yossi
+int	pipe_it_up(t_minishell *sh, t_node *com, int last)
 {
 	int	fd[2];
 
@@ -228,9 +227,9 @@ int	is_real_command(t_minishell *sh)
 	while (com)
 	{
 		if (com->next == NULL)
-			ret = redirect(sh, com, 1);
+			ret = pipe_it_up(sh, com, 1);
 		else
-			ret = redirect(sh, com, 0);
+			ret = pipe_it_up(sh, com, 0);
 		com = com->next;
 	}
 	while (head)
