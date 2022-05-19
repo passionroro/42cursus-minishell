@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:44:05 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/19 15:43:41 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:37:24 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,96 @@ int	command_exec(t_node *com, t_minishell *sh)
 	return (execve(com->path, &com->args[0], sh->envp));
 }
 
+void	redirect_delimiter(t_node *com, int *l, int *i)
+{
+}
+
+void	redirect_input(t_node *com, int *l, int *i)
+{
+	int	s_stdin;
+	int	fd;
+
+	saved_stdin = dup(STDIN_FILENO);
+	fd = open(com->args[*l - 1], ); 
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdin);
+}
+
+void	redirect_append(t_node *com, int *l, int *i)
+{
+}
+
+char	*write_file_name(char *str)
+{
+	int		i;
+	char	*new;
+
+	if (!str[0])
+		return (NULL);
+	i = 0;
+	while (str[i])
+		i++;
+	new = (char *)malloc(sizeof(char) * i + 1);
+	i = -1;
+	while (com[++i])
+		new[i] = com[i];
+	new[i] = '\0';
+	return (new);
+}
+
+void	redirect_output(t_node *com, int *l, int *i)
+{
+	int		s_stdout;
+	int		fd;
+	char	*file;
+
+	s_stdout = dup(STDOUT_FILENO);
+	if (com->args[*l][*i + 1] == NULL)
+		file = write_file_name(com->args[*l + 1][0]);
+	else
+		file = write_file_name(com->rgs[*l][*i + 1]);
+	fd = open(file, O_WRONLY | O_CREAT, 0777);
+	dup2(fd, STDOUT_FILENO);
+
+	if (is_built_in(com->args[0]) == 1)
+		built_in_check(com);
+	
+	dup2(s_stdout, STDOUT_FILENO);
+	close(s_stdout);
+	free(file);
+}
+
+void	redirect_check(t_node *com)
+{
+	int	i;
+	int	l;
+
+	l = -1;
+	while (com->args[++l])
+	{
+		i = -1;
+		while (com->args[l][++i])
+		{
+			if (com->args[l][i] == '<')
+			{
+				if (com->args[l][i + 1] == '<')
+					redirect_delimiter(com, &l, &i);
+				else
+					redirect_input(com, *l, *i);
+			}
+			else if (com->args[l][i] == '>')
+			{
+				if (com->args[l][i + 1] == '>')
+					redirect_append(com, *l, *i);
+				else
+					redirect_output(com, *l, *i);
+			}
+
+<<<<<<< HEAD
 int	redirect(t_minishell *sh, t_node *com, int last)
+=======
+int	pipes_it_up(t_minishell *sh, t_node *com, int last)
+>>>>>>> main_yossi
 {
 	int	fd[2];
 
@@ -88,6 +177,7 @@ int	redirect(t_minishell *sh, t_node *com, int last)
 		return (g_ret);
 	if (is_built_in(sh->envp, com->args[0]) == 1)
 		return (built_in_check(com));
+	redirect_check(com);
 	pipe(fd);
 	com->id = fork();
 	if(com->id != 0)
@@ -121,6 +211,8 @@ void	exit_code(int id)
 		if (g_ret != 131)
 			g_ret += 128;
 	}
+	free_var_init(sh, com);
+	return (0);
 }
 
 int	is_real_command(t_minishell *sh)

@@ -6,7 +6,11 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 09:13:39 by rohoarau          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/05/19 14:11:35 by rohoarau         ###   ########.fr       */
+=======
+/*   Updated: 2022/05/18 15:55:39 by rohoarau         ###   ########.fr       */
+>>>>>>> main_yossi
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +67,8 @@ char	*remove_quotes(char *str, int count, char c)
 	i = -1;
 	j = -1;
 	while (str[++i])
-	{
-		if (str[i] == '\\' && c == '"')
-			if (str[i + 1] == '\\' || str[i + 1] == '$' || str[i + 1] == '"')
-				tmp[++j] = str[++i];
-		if (str[i] != c && !(str[i] == '\\' && c == '"'))
+		if (str[i] != c)
 			tmp[++j] = str[i];
-	}
 	tmp[++j] = 0;
 	free(str);
 	return (tmp);
