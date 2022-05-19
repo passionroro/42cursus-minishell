@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 09:50:53 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/18 09:51:13 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:33:20 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_ret = 1;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);

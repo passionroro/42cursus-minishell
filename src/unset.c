@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:55:23 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/12 16:24:12 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:33:07 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int	run_unset(t_node *com)
 			break ;
 		}
 	}
+	g_ret = 0;
 	return (1);
 }

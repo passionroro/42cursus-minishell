@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 09:13:39 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/18 15:55:39 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:36:22 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	dollar_sign_check(t_node *com)
 	{
 		if (com->args[i][0] == '$')
 		{
-			if (com->args[i][1] == '?' && com->args[i][2] == '\0')
-				return (question_mark(&com->args[i]));
 			pos = dollar_sign_access(com->args[i], com->sh->envp);
 			if (pos != 0)
 			{
@@ -80,14 +78,15 @@ int	quotes_check(t_node *com, char c)
 	i = -1;
 	count = 0;
 	while (com->content[++i])
-		if (com->content[i] == c)
+		if (com->content[i] == c && com->content[i - 1] != '\\')
 			count++;
 	if (count == 0)
 		return (0);
-	if (count % 2 != 0)
+	if (count % 2 != 0)//deal with special case
 	{
 		ft_putstr_fd("Please close the quotes.\n", 2);
-		return (69);
+		g_ret = 0;
+		return (-1);
 	}
 	if (count % 2 == 0)
 	{
@@ -104,13 +103,20 @@ int	var_init(t_minishell *sh, t_node *com)
 {
 	if (ft_malloc_array(&com->args, ' ', com->content))
 		return (ERR_MALLOC);
-	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0])))
-		return (ERR_MALLOC);
-	ret_val = quotes_check(com, '"');
-	if (ret_val != 0)
-		return (-1);
-	ret_val = quotes_check(com, '\'');
-	if (ret_val != 0)
-		return (-1);
+	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0], com)))
+		if (is_built_in2(com->args[0], com) != 1)
+			return (ERR_MALLOC);
+	if (quotes_check(com, '"') != 0)
+		return (1);
+	if (quotes_check(com, '\'') != 0)
+		return (1);
+	if (com->args[1])
+	{
+		if (!ft_strncmp(com->args[1], "$?\0", 3))
+		{
+			free(com->args[1]);
+			com->args[1] = ft_itoa(g_ret);
+		}
+	}
 	return (0);
 }

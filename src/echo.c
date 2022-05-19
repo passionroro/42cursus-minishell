@@ -6,13 +6,13 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:06:27 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/18 12:55:05 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:40:26 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	run_echo(t_node *com)
+int	run_echo(t_node *com, int out)
 {
 	int	i;
 
@@ -20,7 +20,7 @@ int	run_echo(t_node *com)
 		return (1);
 	if (com->args[1] == NULL)
 	{
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', out);
 		return (1);
 	}
 	i = 0;
@@ -28,11 +28,12 @@ int	run_echo(t_node *com)
 		i++;
 	while (com->args[++i])
 	{
-		ft_putstr_fd(com->args[i], 1);
+		ft_putstr_fd(com->args[i], out);
 		if (com->args[i + 1] != NULL)
-			ft_putchar_fd(' ', 1);
+			ft_putchar_fd(' ', out);
 	}
 	if (ft_strncmp(com->args[1], "-n\0", 3))
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', out);
+	g_ret = 0;
 	return (1);
 }
