@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:52:24 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/19 21:00:43 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:36:21 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,53 @@ char	*get_path(char **env, char *str, t_node *com)
 	return (NULL);
 }
 
+int	ahhhhhhhh(t_node *com, char **env, int l, int i, int last)
+{
+	int		x;
+	char	**coucou;
+	
+	x = -1;
+	if (last == 1)
+	{
+		coucou = (char **)malloc(sizeof(char *) * (l + 1));
+		while (++x < l)
+			coucou[x] = ft_strdup(com->args[x]);
+		coucou[x] = NULL;
+	}
+	else
+	{
+		coucou = (char **)malloc(sizeof(char *) * (l + 2));
+		while (++x < l)
+			coucou[x] = ft_strdup(com->args[x]);
+		coucou[x] = ft_substr(com->args[x], 0, i);
+		coucou[x + 1] = NULL;	
+	}
+	return (execve(com->path, &coucou[0], env));
+}
+
+int	command_exec_redir(t_node *com, t_minishell *sh)
+{
+	int	i;
+	int	l;
+
+	l = -1;
+	while (com->args[++l])
+	{
+		i = -1;
+		while (com->args[l][++i])
+		{
+			if (com->args[l][i] == '<' || com->args[l][i] == '>')
+			{
+				if (com->args[l][i + 1] == '\0')
+					return (ahhhhhhhh(com, sh->envp, l, i, 1));
+				else
+					return (ahhhhhhhh(com, sh->envp, l, i, 0));
+			}
+		}
+	}
+	return (0);
+}
+
 int	command_exec(t_node *com, t_minishell *sh)
 {
 	if (command_access(sh, com, -1) == -1)
@@ -77,6 +124,8 @@ int	command_exec(t_node *com, t_minishell *sh)
 		//}
 		return (-1);
 	}
+	if (com->redir == '>' || com->redir == '<')
+		return (command_exec_redir(com, sh));
 	return (execve(com->path, &com->args[0], sh->envp));
 }
 

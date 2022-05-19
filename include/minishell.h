@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:50:37 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/19 21:00:13 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:36:39 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_node
 	char			*path;
 	int				fd[2];
 	bool			builtin;
+	char			redir;
+	bool			append;
 	int				id;
 	struct s_minishell	*sh;
 }	t_node;

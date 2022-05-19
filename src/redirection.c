@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:50:26 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/19 20:50:09 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 22:36:24 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@ void	redirect_input(t_node *com, int *l, int *i)
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdin);
 }
-
-void	redirect_append(t_node *com, int *l, int *i)
-{
-}
 */
+
 char	*write_file_name(char *str)
 {
 	int		i;
@@ -44,10 +41,32 @@ char	*write_file_name(char *str)
 		len++;
 	new = (char *)malloc(sizeof(char) * (len + 1));
 	i = -1;
-	while (str[++i] && str[i] <= len)
+	while (str[++i] && i <= len)
 		new[i] = str[i];
 	new[i] = '\0';
 	return (new);
+}
+
+void	redirect_append(t_node *com, int *l, int *i)
+{
+	int		s_stdout;
+	int		fd;
+	char	*file;
+
+	com->redir = '>';
+	com->append = true;
+	s_stdout = dup(STDOUT_FILENO);
+	if (com->args[*l][*i + 1] == '\0')
+		file = write_file_name(com->args[*l + 1]);
+	else
+		file = write_file_name(com->args[*l] + *i + 1);
+	fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
+	dup2(fd, STDOUT_FILENO);
+	if (com->builtin == true)
+		built_in_check(com);
+	dup2(s_stdout, fd);
+	close(s_stdout);
+	free(file);
 }
 
 void	redirect_output(t_node *com, int *l, int *i)
@@ -56,6 +75,7 @@ void	redirect_output(t_node *com, int *l, int *i)
 	int		fd;
 	char	*file;
 
+	com->redir = '>';
 	s_stdout = dup(STDOUT_FILENO);
 	if (com->args[*l][*i + 1] == '\0')
 		file = write_file_name(com->args[*l + 1]);
@@ -63,11 +83,9 @@ void	redirect_output(t_node *com, int *l, int *i)
 		file = write_file_name(com->args[*l] + *i + 1);
 	fd = open(file, O_WRONLY | O_CREAT, 0777);
 	dup2(fd, STDOUT_FILENO);
-
 	if (com->builtin == true)
 		built_in_check(com);
-
-	dup2(s_stdout, STDOUT_FILENO);
+	dup2(s_stdout, fd);
 	close(s_stdout);
 	free(file);
 }
@@ -93,7 +111,7 @@ void	redirect_check(t_node *com)
 			else if (com->args[l][i] == '>')
 			{
 				if (com->args[l][i + 1] == '>')
-					;//redirect_append(com, &l, &i);
+					redirect_append(com, &l, &i);
 				else
 					redirect_output(com, &l, &i);
 			}

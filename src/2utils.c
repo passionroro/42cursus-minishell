@@ -26,6 +26,8 @@ void	new_node(t_node *com, char *str, t_minishell *sh)
 	com->next = new;
 	com->sh = sh;
 	com->builtin = false;
+	com->append = false;
+	com->redir = '\0';
  	//com->fd[0] = 0;
 	// com->fd[1] = 1;
 }
@@ -72,6 +74,8 @@ t_node	*list_init(t_minishell *sh)
 	com->last = NULL;
 	com->sh = sh;
 	com->builtin = false;
+	com->append = false;
+	com->redir = '\0';
 	// com->fd[0] = 0;
 	// com->fd[1] = 1;
 	i = 0;
