@@ -1,4 +1,5 @@
 /* ************************************************************************** */
+
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   2utils.c                                           :+:      :+:    :+:   */
@@ -24,6 +25,8 @@ void	new_node(t_node *com, char *str, t_minishell *sh)
 	new->last = com;
 	com->next = new;
 	com->sh = sh;
+	// com->fd[0] = 0;
+	// com->fd[1] = 1;
 }
 
 char	**ft_clean_space(char **str)
@@ -67,6 +70,8 @@ t_node	*list_init(t_minishell *sh)
 	com->next = NULL;
 	com->last = NULL;
 	com->sh = sh;
+	// com->fd[0] = 0;
+	// com->fd[1] = 1;
 	i = 0;
 	while (sh->commands[++i])
 		new_node(com, sh->commands[i], sh);

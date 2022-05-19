@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:36:16 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/17 14:40:33 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:20:39 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * correct line if the command already exists
 */
 
-void	print_export(char **tab)
+void	print_export(char **tab, int out)
 {
 	int	i;
 	int	j;
@@ -28,13 +28,13 @@ void	print_export(char **tab)
 	i = -1;
 	while (tab[++i])
 	{
-		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd("declare -x ", out);
 		j = 0;
 		while (tab[i][j] != '=')
-			ft_putchar_fd(tab[i][j++], 1);
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(tab[i] + j + 1, 1);
-		ft_putstr_fd("\"\n", 1);
+			ft_putchar_fd(tab[i][j++], out);
+		ft_putstr_fd("=\"", out);
+		ft_putstr_fd(tab[i] + j + 1, out);
+		ft_putstr_fd("\"\n", out);
 	}
 }
 
@@ -55,7 +55,7 @@ char	**export_init(char **tab, char **tmp)
 	return (tmp);
 }
 
-int	export_no_args(char **tab)
+int	export_no_args(char **tab, int out)
 {
 	int		i;
 	int		j;
@@ -78,19 +78,19 @@ int	export_no_args(char **tab)
 			j--;
 		}
 	}
-	print_export(tmp);
+	print_export(tmp, out);
 	ft_free_array(tmp);
 	return (1);
 }
 
-int	run_export(t_node *com)
+int	run_export(t_node *com, int out)
 {
 	int		i;
 	int		len;
 	char	*cmd;
 
 	if (com->args[1] == NULL)
-		return(export_no_args(com->sh->envp));
+		return(export_no_args(com->sh->envp, out));
 	len = -1;
 	while (com->args[1][++len] != '=')
 		if (com->args[1][len] == '\0')
@@ -108,5 +108,6 @@ int	run_export(t_node *com)
 	if (com->sh->envp[i] == NULL)
 		com->sh->envp = env_create(com, i);
 	free(cmd);
+	g_ret = 0;
 	return (1);
 }

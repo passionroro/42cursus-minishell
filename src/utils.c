@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 16:03:14 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/17 09:57:50 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:48:49 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	ft_free_array(char **str)
 	while (str[++i])
 		free(str[i]);
 	free(str);
+}
+
+void	free_var_init(t_minishell *sh, t_node *com)
+{
+	ft_free_array(com->args);
+	ft_free_array(sh->path);
 }
 
 char	*add_backslash(char *str)

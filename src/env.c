@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:37:28 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/17 14:53:57 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:15:30 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*env_replace(t_node *com, int pos)
 {
 	char	*tmp;
 
-	(void)pos;
 	tmp = ft_strdup(com->args[1]);
 	free(com->sh->envp[pos]);
 	return (tmp);
@@ -40,15 +39,16 @@ char	**env_create(t_node *com, int size)
 	return (tmp);
 }
 
-int	run_env(t_node *com)
+int	run_env(t_node *com, int out)
 {
 	int	i;
 
 	i = -1;
 	while (com->sh->envp[++i])
 	{
-		ft_putstr_fd(com->sh->envp[i], 1);
-		ft_putchar_fd('\n', 1);
+		ft_putstr_fd(com->sh->envp[i], out);
+		ft_putchar_fd('\n', out);
 	}
+	g_ret = 0;
 	return (1);
 }
