@@ -6,11 +6,27 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:16:31 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/19 18:16:00 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 21:00:14 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+//void	exit_code(int id, t_minishell *sh, t_node *com)
+void	exit_code(int id)
+{
+	int	wstatus;
+
+	waitpid(id, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		g_ret = WEXITSTATUS(wstatus);
+	if (WIFSIGNALED(wstatus))
+	{
+		g_ret = WTERMSIG(wstatus);
+		if (g_ret != 131)
+			g_ret += 128;
+	}
+}
 
 int	run_exit(t_node *com, int out)
 {

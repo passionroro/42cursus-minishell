@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:50:37 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/19 18:42:16 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 21:00:13 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_node
 	char			**args;
 	char			*path;
 	int				fd[2];
+	bool			builtin;
 	int				id;
 	struct s_minishell	*sh;
 }	t_node;
@@ -97,9 +98,13 @@ int		get_pwd_pos(char **env);
 void	replace_pwd(t_node *com, char *dir);
 void	ft_signals(struct termios *save);
 int		var_init(t_minishell *sh, t_node *com);
-char	*get_path(char **env, char *str);
+char	*get_path(char **env, char *str, t_node *com);
 void	free_var_init(t_minishell *sh, t_node *com);
-int		is_built_in(char **env, char *str);
-int		is_built_in2(char *str);
+int		is_built_in(char **env, char *str, t_node *com);
+int		is_built_in2(char *str, t_node *com);
+void	exit_code(int id);
+//void	exit_code(int id, t_minishell *sh, t_node *com);
+int		is_real_command(t_minishell *sh);
+void	redirect_check(t_node *com);
 
 #endif

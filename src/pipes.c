@@ -6,7 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:47:47 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/19 18:47:50 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/05/19 20:43:07 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	pipe_init(t_node *com)
 {
 	while (com->next)
 	{
-		if (pipe(com->fd) == -1)
-			return ;
+		if (com->builtin == true)
+			if (pipe(com->fd) == -1)
+				return ;
 		com = com->next;
 	}
 }

@@ -6,11 +6,7 @@
 /*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 09:13:39 by rohoarau          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/05/19 14:11:35 by rohoarau         ###   ########.fr       */
-=======
-/*   Updated: 2022/05/18 15:55:39 by rohoarau         ###   ########.fr       */
->>>>>>> main_yossi
+/*   Updated: 2022/05/19 20:50:07 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +103,8 @@ int	var_init(t_minishell *sh, t_node *com)
 {
 	if (ft_malloc_array(&com->args, ' ', com->content))
 		return (ERR_MALLOC);
-	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0])))
-		if (is_built_in2(com->args[0]) != 1)
+	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0], com)))
+		if (is_built_in2(com->args[0], com) != 1)
 			return (ERR_MALLOC);
 	if (quotes_check(com, '"') != 0)
 		return (1);

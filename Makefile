@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/05/19 18:47:31 by rohoarau         ###   ########.fr        #
+#    Updated: 2022/05/19 19:54:29 by rohoarau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRCS		=	main.c		\
 				init.c				\
 				exit.c				\
 				pipes.c				\
+				redirection.c		\
+				minishell.c			\
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
