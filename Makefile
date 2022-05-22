@@ -15,10 +15,10 @@ LIBFT 		= 	libft.a
 LIB_DIR		=	libft/
 OBJ_DIR		=	obj/
 SRCS_DIR	=	src/
-SRCS		=	main.c		\
-				utils.c		\
-				2utils.c	\
-				temp.c		\
+SRCS		=	main.c				\
+				utils.c				\
+				2utils.c			\
+				temp.c				\
 				built_in.c			\
 				utils_built_in.c	\
 				echo.c				\
@@ -33,6 +33,7 @@ SRCS		=	main.c		\
 				pipes.c				\
 				redirection.c		\
 				minishell.c			\
+				cut_space.c
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 

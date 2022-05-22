@@ -108,5 +108,9 @@ void	exit_code(int id);
 //void	exit_code(int id, t_minishell *sh, t_node *com);
 int		is_real_command(t_minishell *sh);
 void	redirect_check(t_node *com);
-
+void	clean_command(t_node *com, int *l, int *i);
+void	cut_space_before(t_node *com, int *l, int *i);
+void	cut_space_around(t_node *com, int *l, int *i);
+void	cut_space_after(t_node *com, int *l, int *i);
+void	cut_no_space(t_node *com, int *l, int *i);
 #endif
