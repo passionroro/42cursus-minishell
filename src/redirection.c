@@ -75,9 +75,9 @@ void	cut_no_space(t_node *com, int *l, int *i)
 	char	*temp;
 	int		c;
 
-	new = (char *)malloc(sizeof(char) * i + 1);
+	new = (char *)malloc(sizeof(char) * (*i + 1));
 	c = -1;
-	while (++c < i)
+	while (++c < *i)
 		new[c] = com->args[*l][c];
 	new[c] = '\0';
 	temp = com->args[*l];
@@ -85,7 +85,33 @@ void	cut_no_space(t_node *com, int *l, int *i)
 	free(temp);
 }
 
- 
+void	cut_space_after(t_node *com, int *l, int *i)
+{
+	int	p;
+
+	cut_no_space(com, l, i);
+	free(com->args[*l + 1]);
+	p = 0;
+	while (com->args[*l + ++p + 1])
+		com->args[*l + p] = com->args[*l + p + 1];
+	free(com->args[*l + p]);
+	com->args[*l + p] = NULL;
+}
+
+void	cut_space_before(t_node *com, int *l, int *i)
+{
+	int	p;
+
+	free(com->args[*l]);
+	free(com->args[*l + 1]);
+	p = 0;
+	while (com->args[*l + ++p + 1])
+		com->args[*l + p - 1] = com->args[*l + p + 1];
+	free(com->args[*l + --p]);
+	com->args[*l + p] = NULL;
+	free(com->args[*l + ++p]);
+	com->args[*l + p] = NULL;
+}
 
 void	clean_command(t_node *com, int *l, int *i)
 {
@@ -94,14 +120,14 @@ void	clean_command(t_node *com, int *l, int *i)
 		if (com->args[*l][*i + 1] != '\0')
 			cut_no_space(com, l, i);
 		else
-			cut_space_after();
+			cut_space_after(com, l, i);
 	}
 	else
 	{
 		if (com->args[*l][*i + 1] == '\0')
 			cut_space_around();
 		else
-			cut_space_before();
+			cut_space_before(com, l, i);
 	}
 }
 
@@ -122,13 +148,13 @@ void	redirect_output(t_node *com, int *l, int *i)
 		;//do something
 	dup2(STDOUT_FILENO, fd);
 	clean_command(com, l, i);
-	if (is_built_in(com->sh->envp, ))
+	if (is_built_in2(com->args[*l], com))
 		built_in_check(com);
 	dup2(s_stdout, fd);
 	close(s_stdout);
 	free(file);
 }
-
+//setting the i and l after redicert functions!!
 void	redirect_check(t_node *com)
 {
 	int	i;
