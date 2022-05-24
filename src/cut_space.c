@@ -44,7 +44,7 @@ void	cut_space_after(t_node *com, int *l, int *i)
 void	cut_space_around(t_node *com, int *l, int *i)
 {
 	int	p;
-
+	(void)i;
 	free(com->args[*l]);
 	free(com->args[*l + 1]);
 	p = 0;
@@ -60,6 +60,7 @@ void	cut_space_before(t_node *com, int *l, int *i)
 {
 	int	p;
 
+	(void)i;
 	free(com->args[*l]);
 	p = 0;
 	while (com->args[*l + ++p])

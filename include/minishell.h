@@ -38,28 +38,25 @@ enum	e_rror
 
 typedef struct s_node
 {
-	struct s_node	*next;
-	struct s_node	*last;
-	char			*content;
-	char			**args;
-	char			*path;
-	int				fd[2];
-	bool			builtin;
-	char			redir;
-	bool			append;
-	int				id;
+	struct s_node		*next;
+	struct s_node		*last;
+	char				*content;
+	char				**args;
+	char				*path;
+	int					fd[2];
+	int					id;
 	struct s_minishell	*sh;
 }	t_node;
 
 typedef struct s_minishell
 {
-	int		exit;
 	int		id;
 	char	*input;
 	char	**commands;
 	char	**path;
 	char	**envp;
 	struct s_node	*com;
+	int		saved_fd[2];
 }	t_minishell;
 
 typedef struct s_clean_space
@@ -81,8 +78,8 @@ char	*malloc_len(char *s, int len);
 void	new_node(t_node *com, char *str, t_minishell *sh);
 t_node	*list_init(t_minishell *sh);
 void	ft_free_list(t_node *com);
-int		built_in_check(t_node *com);
-void	built_in_redirect(t_node *com);
+int		built_in_check(t_node *com, t_minishell *sh);
+void	built_in_redirect(t_node *com, t_minishell *sh);
 char	**env_init(char **env);
 char	*env_replace(t_node *com, int pos);
 char	**env_create(t_node *com, int size);
@@ -91,7 +88,7 @@ void	print_export(char **tab, int out);
 int		print_sort_env(char **tab);
 int		run_unset(t_node *com);
 int		run_export(t_node *com, int out);
-int		run_echo(t_node *com, int out);
+int		run_echo(t_node *com, t_minishell *sh, int out);
 int		run_env(t_node *com, int out);
 int		run_cd(t_node *com, int out);
 int		run_pwd(char **env, int out);
@@ -100,10 +97,10 @@ int		get_pwd_pos(char **env);
 void	replace_pwd(t_node *com, char *dir);
 void	ft_signals(struct termios *save);
 int		var_init(t_minishell *sh, t_node *com);
-char	*get_path(char **env, char *str, t_node *com);
+char	*get_path(char **env, char *str);
 void	free_var_init(t_minishell *sh, t_node *com);
-int		is_built_in(char **env, char *str, t_node *com);
-int		is_built_in2(char *str, t_node *com);
+int		is_built_in(char **env, char *str);
+int		is_built_in2(char *str);
 void	exit_code(int id);
 //void	exit_code(int id, t_minishell *sh, t_node *com);
 int		is_real_command(t_minishell *sh);

@@ -40,7 +40,7 @@ int	command_access(t_minishell *sh, t_node *com, int ret)
 	return (ret);
 }
 
-char	*get_path(char **env, char *str, t_node *com)
+char	*get_path(char **env, char *str)
 {
 	int	i;
 
@@ -48,7 +48,7 @@ char	*get_path(char **env, char *str, t_node *com)
 	while (env[++i])
 		if (!ft_strncmp(env[i], "PATH=", 5))
             return (env[i] + 5);
-	if (is_built_in2(str, com) == 1)
+	if (is_built_in2(str) == 1)
 		return (NULL);
 	ft_putstr_fd("bash: ", 1);
 	ft_putstr_fd(str, 1);
@@ -108,7 +108,7 @@ int	command_exec(t_node *com, t_minishell *sh)
 {
 	if (command_access(sh, com, -1) == -1)
 	{
-	/*	if (com->args[0][0] == '/')
+		if (com->args[0][0] == '/')
 		{
 			ft_putstr_fd("bash: ", 2);
 			ft_putstr_fd(com->args[0], 2);
@@ -116,16 +116,14 @@ int	command_exec(t_node *com, t_minishell *sh)
 			g_ret = 128;
 		}
 		else
-		{*/
+		{
 			ft_putstr_fd("bash: ", 2);
 			ft_putstr_fd(com->args[0] + 1, 2);
 			ft_putstr_fd(": command not found\n", 2);
 			g_ret = 127;
-		//}
+		}
 		return (-1);
 	}
-	if (com->redir == '>' || com->redir == '<')
-		return (command_exec_redir(com, sh));
 	return (execve(com->path, &com->args[0], sh->envp));
 }
 
@@ -135,9 +133,9 @@ int	pipe_it_up(t_minishell *sh, t_node *com, int last)
 
 	if (var_init(sh, com) != 0)
 		return (g_ret);
-	redirect_check(com);
-	if (is_built_in(sh->envp, com->args[0], com) == 1)
-		return (built_in_check(com));
+	//redirect_check(com);
+	if (is_built_in(sh->envp, com->args[0]) == 1)
+		return (built_in_check(com, sh));
 	pipe(fd);
 	com->id = fork();
 	if(com->id != 0)
@@ -162,10 +160,10 @@ int	is_real_command(t_minishell *sh)
 {
 	t_node	*com;
 	t_node	*head;
-	int		saved_fd;
 	int		ret;
 
-	saved_fd = dup(0);
+	sh->saved_fd[0] = dup(0);
+	sh->saved_fd[1] = dup(1);
 	com = list_init(sh);
 	head = com;
 	while (com)
@@ -182,7 +180,8 @@ int	is_real_command(t_minishell *sh)
 			exit_code(head->id);
 		head = head->next;
 	}
-	dup2(saved_fd, 0);
-	close(saved_fd);
+	dup2(sh->saved_fd[0], 0);
+	close(sh->saved_fd[0]);
+	close(sh->saved_fd[1]);
 	return (0);
 }

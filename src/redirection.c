@@ -53,8 +53,6 @@ void	redirect_append(t_node *com, int *l, int *i)
 	int		fd;
 	char	*file;
 
-	com->redir = '>';
-	com->append = true;
 	s_stdout = dup(STDOUT_FILENO);
 	if (com->args[*l][*i + 1] == '\0')
 		file = write_file_name(com->args[*l + 1]);
@@ -62,8 +60,6 @@ void	redirect_append(t_node *com, int *l, int *i)
 		file = write_file_name(com->args[*l] + *i + 1);
 	fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
 	dup2(fd, STDOUT_FILENO);
-	if (com->builtin == true)
-		built_in_check(com);
 	dup2(s_stdout, fd);
 	close(s_stdout);
 	free(file);
@@ -72,23 +68,23 @@ void	redirect_append(t_node *com, int *l, int *i)
 void	redirect_output(t_node *com, int *l, int *i)
 {
 	int		s_stdout;
-	int		fd;
 	char	*file;
 
-	com->redir = '>';
 	s_stdout = dup(STDOUT_FILENO);
 	if (com->args[*l][*i + 1] == '\0')
 		file = write_file_name(com->args[*l + 1]);
 	else
 		file = write_file_name(com->args[*l] + *i + 1);
-	fd = open(file, O_WRONLY | O_CREAT, 0777);
-	if (fd == -1)
+	com->fd[0] = open(file, O_WRONLY | O_CREAT, 0777);
+	if (com->fd[0] == -1)
 		;//do something
-	dup2(STDOUT_FILENO, fd);
+	dup2(STDOUT_FILENO, com->fd[0]);
 	clean_command(com, l, i);
-	if (is_built_in2(com->args[*l], com))
-		built_in_check(com);
-	dup2(s_stdout, fd);
+	 if (is_built_in2(com->args[*l]))
+	 	built_in_check(com);
+	 else
+	 ;
+	dup2(s_stdout, com->fd[0]);
 	close(s_stdout);
 	free(file);
 }

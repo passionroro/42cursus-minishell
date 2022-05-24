@@ -174,11 +174,11 @@ int	main()
 	int		i;
 	int		l;
 
-	l = 1;
-	i = 6;
-	darray = ft_split("echo blabla>file.txt >second command", ' ');
+	l = 2;
+	i = 0;
+	darray = ft_split("echo blabla >file.txt >second command", ' ');
 	ft_print(darray);
-	cut_no_space(darray, &l, &i);
+	cut_space_before(darray, &l, &i);
 	printf("------------------------\n");
 	ft_print(darray);
 	return (0);

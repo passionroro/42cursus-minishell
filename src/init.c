@@ -103,8 +103,8 @@ int	var_init(t_minishell *sh, t_node *com)
 {
 	if (ft_malloc_array(&com->args, ' ', com->content))
 		return (ERR_MALLOC);
-	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0], com)))
-		if (is_built_in2(com->args[0], com) != 1)
+	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0])))
+		if (is_built_in2(com->args[0]) != 1)
 			return (ERR_MALLOC);
 	if (quotes_check(com, '"') != 0)
 		return (1);
