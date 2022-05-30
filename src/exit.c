@@ -1,18 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 10:16:31 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/19 21:00:14 by rohoarau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
-//void	exit_code(int id, t_minishell *sh, t_node *com)
+/*check the return value of
+- unknown command 
+- ctrl+c alone + during pending process (ctrl+c during cat)
+- if success, g_ret = 0
+*/
+
 void	exit_code(int id)
 {
 	int	wstatus;
@@ -24,7 +17,7 @@ void	exit_code(int id)
 	{
 		g_ret = WTERMSIG(wstatus);
 		if (g_ret != 131)
-			g_ret += 128;
+			g_ret += 127;
 	}
 }
 

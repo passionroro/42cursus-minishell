@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/30 14:15:49 by rohoarau          #+#    #+#             */
-/*   Updated: 2021/11/01 11:42:23 by rohoarau         ###   ########.fr       */
+/*   Created: 2022/04/10 19:48:35 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/04/10 19:55:48 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 t_list	*ft_lstlast(t_list *lst)
 {
 	if (lst)
-	{
 		while (lst->next)
 			lst = lst->next;
-	}
 	return (lst);
 }

@@ -3,35 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/12 12:26:23 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/04/06 14:49:11 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/13 10:45:35 by henkaoua          #+#    #+#             */
+/*   Updated: 2021/10/26 13:16:00 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_size	ft_strlcat(char *dst, const char *src, t_size dstsize)
+static int	ft_cnt(const char *str)
 {
-	t_size	d;
-	t_size	s;
-	t_size	temp;
+	int	i;
 
-	d = 0;
-	s = 0;
-	while (dst[d] && dstsize > d)
-		d++;
-	temp = d;
-	if (dstsize == 0)
-		return (temp + ft_strlen(src));
-	while (src[s] && (dstsize - 1) > d)
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+t_size	ft_strlcat(char *dst, const char *src, t_size n)
+{
+	int		i;
+	t_size	d;
+	int		a;
+
+	i = 0;
+	d = ft_cnt(dst);
+	if (d > n)
+		a = ft_cnt(src) + n;
+	else
+		a = d + ft_cnt(src);
+	if (n > 0)
 	{
-		dst[d] = src[s];
-		s++;
-		d++;
-	}
-	if (temp < dstsize)
+		while (d < n - 1)
+		{
+			if (src[i])
+				dst[d] = src[i];
+			else
+				break ;
+			i++;
+			d++;
+		}
 		dst[d] = '\0';
-	return (temp + ft_strlen(src));
+	}
+	return (a);
 }

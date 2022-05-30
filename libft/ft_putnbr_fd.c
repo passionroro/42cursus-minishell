@@ -3,33 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 14:36:53 by rohoarau          #+#    #+#             */
-/*   Updated: 2021/10/22 14:27:30 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/20 17:43:27 by henkaoua          #+#    #+#             */
+/*   Updated: 2021/10/26 12:54:34 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+static void	ft_rec(int n, int fd)
 {
-	char	str;
+	char	c;
 
-	if (n == 0)
-		write (fd, "0", 1);
+	if (n == -2147483648)
+	{
+		ft_rec(n / 10, fd);
+		c = '8';
+		write (fd, &c, 1);
+		return ;
+	}
 	if (n < 0)
 	{
-		write (fd, "-", 1);
-		if (n == -2147483648)
-			write (fd, "2147483648", 10);
-		n *= -1;
+		c = '-';
+		write (fd, &c, 1);
+		ft_rec(n * -1, fd);
 	}
 	if (n > 0)
 	{
-		if (n > 9)
-			ft_putnbr_fd(n / 10, fd);
-		str = n % 10 + 48;
-		write (fd, &str, sizeof(str));
+		ft_rec(n / 10, fd);
+		c = (n % 10) + 48;
+		write (fd, &c, 1);
 	}
+	return ;
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	c;
+
+	c = '0';
+	if (n == 0)
+		write (fd, &c, 1);
+	else
+		ft_rec(n, fd);
 }

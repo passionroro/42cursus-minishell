@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/18 09:13:39 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/19 22:36:22 by rohoarau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 int	dollar_sign_access(char *str, char **env)
@@ -84,6 +72,7 @@ int	quotes_check(t_node *com, char c)
 		return (0);
 	if (count % 2 != 0)//deal with special case
 	{
+        //special_cases(com, c);
 		ft_putstr_fd("Please close the quotes.\n", 2);
 		g_ret = 0;
 		return (-1);
@@ -102,10 +91,10 @@ int	quotes_check(t_node *com, char c)
 int	var_init(t_minishell *sh, t_node *com)
 {
 	if (ft_malloc_array(&com->args, ' ', com->content))
-		return (ERR_MALLOC);
-	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0], com)))
-		if (is_built_in2(com->args[0], com) != 1)
-			return (ERR_MALLOC);
+		return (-1);
+	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp, com->args[0])))
+		if (is_built_in2(com->args[0]) != 1)
+			return (-1);
 	if (quotes_check(com, '"') != 0)
 		return (1);
 	if (quotes_check(com, '\'') != 0)

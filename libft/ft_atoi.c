@@ -3,35 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/13 10:53:12 by rohoarau          #+#    #+#             */
-/*   Updated: 2021/10/22 16:22:43 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/15 09:49:34 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/02/09 12:47:21 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_atoi(const char *str)
 {
-	int	nb;
+	int	num;
 	int	i;
-	int	sign;
+	int	g;
 
+	num = 0;
 	i = 0;
-	nb = 0;
-	sign = 1;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\r' \
-			|| str[i] == '\v' || str[i] == '\f')
+	g = 1;
+	while (str[i] == 32 || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r')
 		i++;
-	if (str[i] == '-' || str[i] == '+')
+	if (str[i] == 43 || str[i] == 45)
 	{
 		if (str[i] == '-')
-			sign = -1;
+			g = -1;
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (str[i] > 47 && str[i] < 58)
 	{
-		nb = nb * 10 + str[i] - '0';
+		num = num * 10 + (str[i] - 48);
 		i++;
 	}
-	return (nb * sign);
+	num = num * g;
+	return (num);
 }

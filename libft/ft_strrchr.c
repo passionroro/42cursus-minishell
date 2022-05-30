@@ -3,27 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/12 14:53:29 by rohoarau          #+#    #+#             */
-/*   Updated: 2021/10/22 16:23:17 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/13 19:24:13 by henkaoua          #+#    #+#             */
+/*   Updated: 2021/10/22 12:53:58 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int		i;
 	char	*str;
 
-	i = -1;
+	c = (unsigned char) c;
 	str = (char *)s;
-	while (s[++i])
-		;
-	while (i >= 0)
+	while (*str != '\0')
+		str++;
+	if (c == '\0')
+		return (str);
+	while (str != (s - 1))
 	{
-		if (str[i] == (unsigned char)c)
-			return (&str[i]);
-		i--;
+		if (c == *str)
+			return (str);
+		str--;
 	}
 	return (0);
 }

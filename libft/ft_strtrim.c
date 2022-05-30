@@ -3,88 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 14:39:28 by rohoarau          #+#    #+#             */
-/*   Updated: 2021/10/27 16:27:24 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/18 10:56:06 by henkaoua          #+#    #+#             */
+/*   Updated: 2021/10/26 11:52:52 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_endchr(char const *s1, char const *set)
+static int	ft_start(const char *s1, const char *s2)
 {
-	int	i;
-	int	j;
-	int	end;
+	int	i1;
+	int	i2;
 
-	i = ft_strlen(s1) - 1;
-	j = 0;
-	end = 0;
-	while (set[j])
+	i1 = 0;
+	i2 = 0;
+	while (s2[i2])
 	{
-		if (s1[i] == set[j])
+		if (s2[i2] == s1[i1])
 		{
-			end++;
-			i--;
-			j = -1;
+			i2 = -1;
+			i1++;
 		}
-		j++;
-		if (set[j] == '\0')
-			return (end);
+		i2++;
 	}
-	return (end);
+	return (i1);
 }
 
-static int	ft_startchr(char const *s1, char const *set)
+static int	ft_end(const char *s1, const char *s2)
 {
-	int	i;
-	int	j;
-	int	start;
+	int	i1;
+	int	i2;
 
-	i = 0;
-	j = 0;
-	start = 0;
-	while (set[j])
+	i1 = 0;
+	i2 = 0;
+	while (s1[i1])
+		i1++;
+	i1--;
+	while (s2[i2])
 	{
-		if (s1[i] == set[j])
+		if (s1[i1] == s2[i2])
 		{
-			start++;
-			i++;
-			j = -1;
+			i2 = -1;
+			i1--;
 		}
-		j++;
-		if (set[j] == '\0')
-			return (start);
+		i2++;
 	}
-	return (start);
+	return (i1);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(const char *s1, const char *set)
 {
-	int		setsize;
-	int		start;
-	int		end;
+	char	*str;
+	int		s;
+	int		e;
 	int		i;
-	char	*ptr;
 
-	if (!s1)
+	if (!s1 || !set)
 		return (NULL);
+	s = ft_start(s1, set);
+	e = ft_end(s1, set);
 	i = 0;
-	start = ft_startchr(s1, set);
-	end = ft_endchr(s1, set);
-	setsize = ft_strlen(s1) - (start + end);
-	if (setsize < 0)
-		setsize = 0;
-	ptr = malloc(sizeof(char) * (setsize + 1));
-	if (ptr == NULL)
-		return (NULL);
-	while (i < setsize)
+	if (s > e)
 	{
-		ptr[i] = s1[start];
-		start++;
-		i++;
+		e = 1;
+		s = 2;
 	}
-	ptr[i] = '\0';
-	return (ptr);
+	str = (char *)malloc((e - s + 2) * (sizeof(char)));
+	if (str == NULL)
+		return (0);
+	while (s <= e)
+		str[i++] = s1[s++];
+	str[i] = '\0';
+	return (str);
 }

@@ -1,28 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   built_in_utils.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/09 11:38:50 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/19 20:15:39 by rohoarau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
-/*
- * 'env_init' : initializes OUR environement that will be used for builtins.
- * 'env_remove' : used when 'unset' is typed. 
- * 'env_replace' : used for 'export' in the case where the user exports an
- * environement variable that already exists (cf : 'export PATH=coucou')
- * 'env_create' : used for 'export' if the command doesn't exists.
- * 'free_list' : if 'free_list' is not explicit enough please type ':(){:|:&};:'
-*/
 void	free_list(t_node *com)
 {
-    ft_free_array(com->sh->commands);
 	while (com)
 	{
 		free(com->content);
