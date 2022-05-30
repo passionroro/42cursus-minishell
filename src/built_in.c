@@ -14,7 +14,7 @@ int	is_built_in2(char *str)
 
 int	is_built_in(char **env, char *str)
 {
-	if (!ft_strncmp(str, "env\0", 4) && get_path(env, str) == NULL)
+	if (!ft_strncmp(str, "env\0", 4) && get_path(env) == NULL)
 	{
 		g_ret = 127;
 		return (0);
@@ -30,7 +30,7 @@ int	is_built_in(char **env, char *str)
 	return (0);
 }
 
-int	built_in_check(t_node *com, t_minishell *sh)
+int	built_in_check(t_node *com)
 {
 	if (!ft_strncmp(com->args[0], "export\0", 7))
 		run_export(com, com->fd[1]);
@@ -43,7 +43,7 @@ int	built_in_check(t_node *com, t_minishell *sh)
 	if (!ft_strncmp(com->args[0], "cd\0", 3))
 		run_cd(com, com->fd[1]);
 	if (!ft_strncmp(com->args[0], "echo\0", 5))
-		run_echo(com, sh, out);
+		run_echo(com, com->fd[1]);
 	if (!ft_strncmp(com->args[0], "pwd\0", 4))
 		run_pwd(com->sh->envp, com->fd[1]);
 	return (-2);

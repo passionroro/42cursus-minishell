@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-char	*get_path(char **env, char *str)
+char	*get_path(char **env)
 {
 	int	i;
 
@@ -23,10 +23,7 @@ int	is_real_command(t_minishell *sh)
 	head = com;
 	while (com)
 	{
-		if (com->next == NULL)
-			ret = pipe_it_up(sh, com);
-		else
-			ret = pipe_it_up(sh, com);
+		ret = pipe_it_up(sh, com);
 		com = com->next;
 	}
 	while (head)

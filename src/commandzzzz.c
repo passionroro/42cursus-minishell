@@ -28,7 +28,7 @@ int	command_access(t_minishell *sh, t_node *com, int ret)
 	return (ret);
 }
 
-int pipe_redirection(t_node *com, t_minishell *sh)
+void	pipe_redirection(t_node *com)
 {
     pipe(com->fd);
     com->id = fork();
@@ -75,7 +75,7 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 	if (var_init(sh, com) != 0)
 		return (g_ret);
 	//redirect_check(com);
-    pipe_redirection(com, sh);
+    pipe_redirection(com);
     if (com->id == 0)
     {
         if (is_built_in(sh->envp, com->args[0]) != 1)
@@ -85,7 +85,7 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
     if (is_built_in(sh->envp, com->args[0]) == 1)
     {
         dup2(com->fd[1], 1);
-        return (built_in_check(com, sh));
+        return (built_in_check(com));
     }
     free_var_init(sh, com);
 	return (0);

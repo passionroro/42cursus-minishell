@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-int	run_echo(t_node *com, t_minishell *sh, int out)
+int	run_echo(t_node *com, int out)
 {
 	int	i;
 

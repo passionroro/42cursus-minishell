@@ -67,7 +67,7 @@ t_node	*list_init(t_minishell *sh)
 	commands = ft_split(sh->input, '|'); //be  careful with free
 	commands = ft_clean_space(commands);
 	com = (t_node *)malloc(sizeof(t_node));
-	com->content = commands[0];
+	com->content = ft_strdup(commands[0]);
 	com->next = NULL;
 	com->last = NULL;
 	com->sh = sh;
