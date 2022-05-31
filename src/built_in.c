@@ -14,6 +14,7 @@ int	is_built_in2(char *str)
 
 int	is_built_in(char **env, char *str)
 {
+	//ft_putstr_fd("entering is_built_in\n", 1);
 	if (!ft_strncmp(str, "env\0", 4) && get_path(env) == NULL)
 	{
 		g_ret = 127;

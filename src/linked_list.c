@@ -54,8 +54,8 @@ void	new_node(t_node *com, char *str, t_minishell *sh)
 	new->last = com;
 	com->next = new;
 	com->sh = sh;
- 	com->fd[0] = -1;
-	com->fd[1] = -1;
+ 	com->fd[0] = STDIN_FILENO;
+	com->fd[1] = STDOUT_FILENO;
 }
 
 t_node	*list_init(t_minishell *sh)
@@ -71,8 +71,8 @@ t_node	*list_init(t_minishell *sh)
 	com->next = NULL;
 	com->last = NULL;
 	com->sh = sh;
-    com->fd[0] = -1;
-	com->fd[1] = -1;
+    com->fd[0] = STDIN_FILENO;
+	com->fd[1] = STDOUT_FILENO;
 	i = 0;
 	while (commands[++i])
 		new_node(com, commands[i], sh);
