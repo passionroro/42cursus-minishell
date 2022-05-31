@@ -69,7 +69,7 @@ void	pipe_redirection(t_node *com)
 		if (com->next != NULL)
 			dup2(com->fd[1], 1);
 		else
-			dup2(sh->saved_fd[1], 1);
+			dup2(com->sh->saved_fd[1], 1);
 		close(com->fd[1]);
 	}
 }
@@ -80,7 +80,6 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 		return (g_ret);
 	//redirect_check(com);
     pipe_redirection(com);
-	printf("command : <%s>\n", com->args[0]);
     if (com->id == 0)
     {
         if (is_built_in(sh->envp, com->args[0]) != 1)
