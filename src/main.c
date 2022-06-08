@@ -11,25 +11,36 @@ char	*get_path(char **env)
 	return (NULL);
 }
 
+void	set_fd(t_minishell *sh, t_node *com)
+{
+	sh->nodes = 0;
+	while (com)
+	{
+		sh->nodes++;
+		if (com->next != NULL)
+			pipe(com->fd);
+		com = com->next;
+	}
+}
+
 int	is_real_command(t_minishell *sh)
 {
 	t_node	*com;
 	t_node	*head;
-	int		ret;
 
 	sh->saved_fd[0] = dup(0);
 	sh->saved_fd[1] = dup(1);
 	com = list_init(sh);
+	set_fd(sh, com);
 	head = com;
 	while (com)
 	{
-		ret = pipe_it_up(sh, com);
+		pipe_it_up(sh, com);
 		com = com->next;
 	}
 	while (head)
 	{
-		if (ret > -1)
-			exit_code(head->id);
+		exit_code(head->id);
 		head = head->next;
 	}
 	dup2(sh->saved_fd[0], 0);

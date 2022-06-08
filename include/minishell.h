@@ -32,10 +32,11 @@ typedef struct s_node
 
 typedef struct s_minishell
 {
-	char        	*input;
-	char        	**path;
-	char	        **envp;
-	int		        saved_fd[2];
+	char	*input;
+	char	**path;
+	char	**envp;
+	int		nodes;
+	int		saved_fd[2];
 }	t_minishell;
 
 typedef struct s_clean_space
@@ -74,7 +75,6 @@ char	*get_path(char **env);
 char	**env_create(t_node *com, int size);
 char	*env_replace(t_node *com, int pos);
 void	replace_pwd(t_node *com, char *dir);
-void	replace_old_pwd(t_node *com);
 void	ft_free_list(t_node *com);
 void	clean_command(t_node *com, int *l, int *i);
 
