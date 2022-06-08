@@ -27,3 +27,5 @@ export .c :
 
 redirection cut function : 
 fixing the direction to delete (after ‘<‘);
+
+replace out in builtins with printf
