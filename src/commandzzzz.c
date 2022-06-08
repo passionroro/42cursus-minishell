@@ -46,7 +46,8 @@ int	command_exec(t_node *com, t_minishell *sh)
 			ft_putstr_fd(": command not found\n", 2);
 			g_ret = 127;
 		}
-		return (-1);
+		exit(g_ret);
+		return(-1);
 	}
 	return (execve(com->path, &com->args[0], sh->envp));
 }

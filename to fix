@@ -1,4 +1,3 @@
-
 quotes : (init.c)
 //deal with special cases “ ‘ \\ “ 
 
@@ -8,4 +7,13 @@ redirection.c :
 redirection cut function : 
 fixing the direction to delete (after ‘<‘);
 
-replace out in builtins with printf
+IN PROGESS replace out in builtins with printf
+
+in some cases we don't exit properly the forks :/
+for example : unknow command + ctrl_c prints twice probably because two processes come to the sighandler :
+--------------
+[prompt]$ coucou
+bash: /coucou: No such file or directory
+[prompt]$
+[prompt]$
+--------------

@@ -15,8 +15,8 @@
 # include <termios.h>
 # include <string.h>
 
-int g_ret;
-void rl_replace_line (const char *text, int clear_undo);
+int		g_ret;
+void	rl_replace_line (const char *text, int clear_undo);
 
 typedef struct s_node
 {
