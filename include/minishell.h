@@ -75,6 +75,7 @@ char	*get_path(char **env);
 char	**env_create(t_node *com, int size);
 char	*env_replace(t_node *com, int pos);
 void	replace_pwd(t_node *com, char *dir);
+void	replace_old_pwd(t_node *com);
 void	ft_free_list(t_node *com);
 void	clean_command(t_node *com, int *l, int *i);
 
