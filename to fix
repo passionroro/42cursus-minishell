@@ -1,29 +1,9 @@
-//fix SIGQUIT
-
-/*check the return value of
-- unknown command 
-- ctrl+c alone + during pending process (ctrl+c during cat)
-- if success, g_ret = 0
-*/
 
 quotes : (init.c)
 //deal with special cases “ ‘ \\ “ 
 
 redirection.c : 
 //setting <i> and <l> after redicert functions!!
-
-in mishell.c
-    if (com->id == 0 && is_built_in(sh->envp, com->args[0]) != 1)
-—> args[0] might not be the command (file < ls)
-
-export .c : 
-/*
- * export with no arguments prints the env sorted in alphabetic order with 
- * double quotes between the variable
- * export doesn't work if the command doesn't have '='
- * export will create a new env if it's a new command, and will replace the
- * correct line if the command already exists
-*/
 
 redirection cut function : 
 fixing the direction to delete (after ‘<‘);
