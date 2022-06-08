@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/05/30 17:05:30 by rohoarau         ###   ########.fr        #
+#    Updated: 2022/06/08 15:41:04 by rohoarau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ clean:
 fclean: clean
 		$(RM) $(NAME)
 		make -C $(LIB_DIR) fclean
-		@echo "\033[1;31m$(NAME) && $(LIB_DIR) removed\033[m"
+		@echo "\033[1;31mminishell and libft cleaned\033[m"
 
 re: fclean all
 

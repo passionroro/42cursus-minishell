@@ -17,34 +17,34 @@ void	exit_code(int id)
 		g_ret = WTERMSIG(wstatus);
 }
 
-int	exit_extent(t_node *com, int code, int quote, int out)
+int	exit_extent(t_node *com, int code, int quote)
 {
 	free_var_init(com->sh, com);
 	ft_free_list(com);
 	if (quote == 0)
-		ft_putstr_fd("bash: exit: too many arguments\n", out);
+		printf("bash: exit: too many arguments\n");
 	if (quote == 1)
-		ft_putstr_fd("bash: exit: numeric argument required\n", out);
+		printf("bash: exit: numeric argument required\n");
 	exit(code);
 }
 
-int	run_exit(t_node *com, int out)
+int	run_exit(t_node *com)
 {
 	int	i;
 	int	code;
 
-	ft_putstr_fd("exit\n", out);
+	printf("exit\n");
 	if (com->args[1] == NULL)
 		exit(0);
 	if (com->args[1] != NULL && com->args[2] != NULL)
-		exit_extent(com, 128, 0, out);
+		exit_extent(com, 128, 0);
 	i = -1;
 	if (com->args[1] != NULL && com->args[2] == NULL)
 	{
 		while (ft_isdigit(com->args[1][++i]) == 1)
 			;
 		if (com->args[1][i] != '\0')
-			exit_extent(com, 128, 1, out);
+			exit_extent(com, 128, 1);
 	}
 	code = ft_atoi(com->args[1]);
 	if (code >= 0 && code <= 255)

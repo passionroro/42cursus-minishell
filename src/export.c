@@ -8,7 +8,7 @@
  * correct line if the command already exists
 */
 
-void	print_export(char **tab, int out)
+void	print_export(char **tab)
 {
 	int	i;
 	int	j;
@@ -16,13 +16,11 @@ void	print_export(char **tab, int out)
 	i = -1;
 	while (tab[++i])
 	{
-		ft_putstr_fd("declare -x ", out);
+		printf("declare -x ");
 		j = 0;
 		while (tab[i][j] != '=')
-			ft_putchar_fd(tab[i][j++], out);
-		ft_putstr_fd("=\"", out);
-		ft_putstr_fd(tab[i] + j + 1, out);
-		ft_putstr_fd("\"\n", out);
+			printf("%c", tab[i][j++]);
+		printf("=\"%s\"\n", tab[i] + j + 1);
 	}
 }
 
@@ -43,7 +41,7 @@ char	**export_init(char **tab, char **tmp)
 	return (tmp);
 }
 
-int	export_no_args(char **tab, int out)
+int	export_no_args(char **tab)
 {
 	int		i;
 	int		j;
@@ -66,19 +64,19 @@ int	export_no_args(char **tab, int out)
 			j--;
 		}
 	}
-	print_export(tmp, out);
+	print_export(tmp);
 	ft_free_array(tmp);
 	return (1);
 }
 
-int	run_export(t_node *com, int out)
+int	run_export(t_node *com)
 {
 	int		i;
 	int		len;
 	char	*cmd;
 
 	if (com->args[1] == NULL)
-		return(export_no_args(com->sh->envp, out));
+		return (export_no_args(com->sh->envp));
 	len = -1;
 	while (com->args[1][++len] != '=')
 		if (com->args[1][len] == '\0')
