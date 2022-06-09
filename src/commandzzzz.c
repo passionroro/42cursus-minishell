@@ -46,40 +46,34 @@ int	command_exec(t_node *com, t_minishell *sh)
 			ft_putstr_fd(": command not found\n", 2);
 			g_ret = 127;
 		}
-		return (-1);
+		if (!com->path)
+			free(com->path);
+		exit(g_ret);
+		return(-1);
 	}
 	return (execve(com->path, &com->args[0], sh->envp));
 }
 
-void	pipe_redirection(t_node *com)
+void	pipe_redirection(t_node *com, t_minishell *sh)
 { 
-	com->id = fork();
 	if (com->last == NULL && com->next == NULL)	
 		return ;
-    pipe(com->fd);
-	if(com->id != 0)
+	if(com->next != NULL)
 	{
+		dup2(com->fd[1], 1);
 		close(com->fd[1]);
-		dup2(com->fd[0], STDIN_FILENO);
-		close(com->fd[0]);
 	}
 	else
-	{
-		close(com->fd[0]);
-		if (com->next != NULL)
-			dup2(com->fd[1], 1);
-		// else
-		// 	dup2(sh->saved_fd[1], 1);
-		close(com->fd[1]);
-	}
+		dup2(sh->saved_fd[1], 1);
 }
 
 int	pipe_it_up(t_minishell *sh, t_node *com)
 {
 	if (var_init(sh, com) != 0)
 		return (g_ret);
-	//redirect_check(com);
-    pipe_redirection(com);
+    pipe_redirection(com, sh);
+	redirect_check(com);
+	com->id = fork();
     if (com->id == 0)
     {
         if (is_built_in(sh->envp, com->args[0]) != 1)
@@ -87,7 +81,9 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
         exit (1);
     }
     if (is_built_in(sh->envp, com->args[0]) == 1)
-        return (built_in_check(com));
-    free_var_init(sh, com);
+        built_in_check(com);
+	dup2(com->fd[0], 0);
+	close(com->fd[0]);
+	free_var_init(sh, com);
 	return (0);
 }

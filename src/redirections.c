@@ -1,22 +1,5 @@
 #include "../include/minishell.h"
 
-/*
-void	redirect_delimiter(t_node *com, int *l, int *i)
-{
-}
-
-void	redirect_input(t_node *com, int *l, int *i)
-{
-	int	s_stdin;
-	int	fd;
-
-	saved_stdin = dup(STDIN_FILENO);
-	fd = open(com->args[*l - 1], );
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-}
-*/
-
 char	*write_file_name(char *str)
 {
 	int		i;
@@ -36,6 +19,48 @@ char	*write_file_name(char *str)
 	return (new);
 }
 
+void	redirect_heredoc(t_node *com, int *l, int *i)
+{
+	int		s_stdin;
+	int		fd;
+	char	*input;
+	char	*file;
+
+	s_stdin = dup(STDIN_FILENO);
+	if (com->args[*l][*i + 2] == '\0')
+		file = write_file_name(com->args[*l + 1]);
+	else
+		file = write_file_name(com->args[*l] + *i + 2);
+	fd = open(file, O_RDWR | O_CREAT, 0777);
+	if (!fd)
+		return ;
+	while (1)
+	{
+		input = readline("> ");
+		if (input_isnt_empty(input, NULL))
+			if (!ft_strncmp(input, file, ft_strlen(file)))
+				break ;
+		free(input);
+	}
+	free(input);
+	dup2(s_stdin, STDIN_FILENO);
+	close(s_stdin);
+	close(fd);
+	free(file);
+}
+/*
+void	redirect_input(t_node *com, int *l, int *i)
+{
+	int	s_stdin;
+	int	fd;
+
+	saved_stdin = dup(STDIN_FILENO);
+	fd = open(com->args[*l - 1], );
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdin);
+}
+*/
+
 void	redirect_append(t_node *com, int *l, int *i)
 {
 	int		s_stdout;
@@ -48,9 +73,12 @@ void	redirect_append(t_node *com, int *l, int *i)
 	else
 		file = write_file_name(com->args[*l] + *i + 1);
 	fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
+	if (!fd)
+		return ;
 	dup2(fd, STDOUT_FILENO);
 	dup2(s_stdout, fd);
 	close(s_stdout);
+	close(fd);
 	free(file);
 }
 
@@ -71,6 +99,7 @@ void	redirect_output(t_node *com, int *l, int *i)
 	clean_command(com, l, i);
 	dup2(s_stdout, com->fd[0]);
 	close(s_stdout);
+	close(com->fd[0]);
 	free(file);
 }
 //setting <i> and <l> after redicert functions!!
@@ -80,8 +109,6 @@ void	redirect_check(t_node *com)
 	int	l;
 
 	l = -1;
-    //have a function that counts the anout of redirections
-    //redirect the output to the last redirection
 	while (com->args[++l])
 	{
 		i = -1;
@@ -90,7 +117,7 @@ void	redirect_check(t_node *com)
 			if (com->args[l][i] == '<')
 			{
 				if (com->args[l][i + 1] == '<')
-					;//redirect_delimiter(com, &l, &i);
+					redirect_heredoc(com, &l, &i);
 				else
 					;//redirect_input(com, &l, &i);
 			}

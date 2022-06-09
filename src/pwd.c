@@ -49,20 +49,14 @@ void	replace_old_pwd(t_node *com)
 	free(dir);
 }
 
-int	run_pwd(char **env, int out)
+int	run_pwd(char **env)
 {
 	int	i;
 
 	i = -1;
 	while (env[++i])
-	{
 		if (!ft_strncmp(env[i], "PWD=", 4))
-		{
-			ft_putstr_fd(env[i] + 4, out);
-			ft_putchar_fd('\n', out);
-            return (1);
-		}
-	}
+			return (printf("%s\n", env[i] + 4));
 	g_ret = 0;
 	return (-1);
 }

@@ -37,6 +37,7 @@ void ft_free_list(t_node *com)
 	while (com)
 	{
 		tmp = com;
+		free(com->content);
 		com = com->next;
 		free(tmp);
 	}
@@ -47,12 +48,14 @@ void	new_node(t_node *com, char *str, t_minishell *sh)
 	t_node	*new;
 
 	new = (t_node *)malloc(sizeof(t_node));
-	new->content = str;
+	new->content = ft_strdup(str);
 	new->next = NULL;
 	while (com->next != NULL)
 		com = com->next;
 	new->last = com;
 	com->next = new;
+	com->path = NULL;
+	com->args = NULL;
 	com->sh = sh;
  	com->fd[0] = STDIN_FILENO;
 	com->fd[1] = STDOUT_FILENO;
@@ -64,12 +67,14 @@ t_node	*list_init(t_minishell *sh)
 	char	**commands;
 	int		i;
 
-	commands = ft_split(sh->input, '|'); //be  careful with free
+	commands = ft_split(sh->input, '|');
 	commands = ft_clean_space(commands);
 	com = (t_node *)malloc(sizeof(t_node));
 	com->content = ft_strdup(commands[0]);
 	com->next = NULL;
 	com->last = NULL;
+	com->path = NULL;
+	com->args = NULL;
 	com->sh = sh;
     com->fd[0] = STDIN_FILENO;
 	com->fd[1] = STDOUT_FILENO;
