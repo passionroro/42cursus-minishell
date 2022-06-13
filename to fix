@@ -3,19 +3,5 @@ quotes : (init.c)
 
 when replacing $VAR, don't forger to replace $? with g_ret
 
-redirection.c : 
-i had to freeze the "clean_command" function because of too many free.
-why not using 'ft_strtrim(file, " \t\n\v\f\r");' ?
-
-
-
-
-//setting <i> and <l> after redicert functions!!
-
-redirection cut function : 
-fixing the direction to delete (after ‘<‘);
-
-working with redirections, don't forget to protect the FD and to close the file at the end of the function
-
-when path is unset, don't forger to print "bash: env: No such file or directory" with error code 127, even when the function is unknown
+when path is unset, don't forget to print "bash: env: No such file or directory" with error code 127, even when the function is unknown
 when command is unknown and the path is set, "bash: cocou: command not found" error code 127
