@@ -73,28 +73,6 @@ char	*write_file_name(char *str)
 	return (new);
 }
 
-int	redirect_input(t_node *com, int i)
-{
-	int		fd;
-	char	*file;
-
-	while (ft_is_space(com->content[++i]))
-		;
-	file = write_file_name(com->content + i);
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("\nbash: %s: No such file or directory\n", file);
-		free(file);
-		return (-1);
-	}
-	dup2(fd, 0);
-	close(fd);
-	remove_file(com, '<');
-	free(file);
-	return (0);
-}
-
 int	redirect_heredoc(t_node *com, int i)
 {
 	int		fd;
@@ -131,12 +109,34 @@ int	redirect_append(t_node *com, int i)
 	return (0);
 }
 
+int	redirect_input(t_node *com, int i)
+{
+	int		fd;
+	char	*file;
+
+	while (ft_is_space(com->content[++i]))
+		;
+	file = write_file_name(com->content + i);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		printf("bash: %s: No such file or directory\n", file);
+		free(file);
+		return (-1);
+	}
+	dup2(fd, 0);
+	close(fd);
+	remove_file(com, '<');
+	free(file);
+	return (0);
+}
+
 int	redirect_output(t_node *com, int i)
 {
 	char	*file;
 	int		fd;
 
-	while (ft_is_space(com->content[i]))
+	while (ft_is_space(com->content[++i]))
 		;
 	file = write_file_name(com->content + i);
 	if (file == NULL)
