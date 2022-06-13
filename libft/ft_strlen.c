@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/11 12:27:26 by rohoarau          #+#    #+#             */
-/*   Updated: 2021/10/14 12:12:42 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/11 14:01:48 by henkaoua          #+#    #+#             */
+/*   Updated: 2021/10/26 13:17:03 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 t_size	ft_strlen(const char *str)
 {
-	int	i;
+	t_size	num;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	num = 0;
+	while (str[num])
+		num++;
+	return (num);
 }

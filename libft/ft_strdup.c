@@ -3,28 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/14 15:45:37 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/02 13:34:23 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/18 09:04:08 by henkaoua          #+#    #+#             */
+/*   Updated: 2021/10/25 11:28:05 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *cpy)
 {
-	char	*ptr;
-	t_size	i;
-	t_size	len;
+	char	*pst;
+	int		i;
 
-	i = -1;
-	len = ft_strlen(s1);
-	ptr = malloc(sizeof(char) * (len + 1));
-	if (ptr == NULL)
+	i = 0;
+	while (cpy[i])
+		i++;
+	pst = (char *)malloc((i + 1) * sizeof(const char));
+	if (pst == NULL)
 		return (0);
-	while (++i < len)
-		ptr[i] = s1[i];
-	ptr[i] = '\0';
-	return (ptr);
+	i = 0;
+	while (cpy[i])
+	{
+		pst[i] = cpy[i];
+		i++;
+	}
+	pst[i] = '\0';
+	return ((char *)pst);
 }

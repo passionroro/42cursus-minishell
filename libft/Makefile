@@ -1,75 +1,85 @@
-SRC_DIR		=	./
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/26 17:24:34 by henkaoua          #+#    #+#              #
+#    Updated: 2022/04/10 22:35:51 by henkaoua         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRCS		=	ft_atoi.c		\
-				ft_itoa.c		\
-				ft_bzero.c         \
-				ft_isdigit.c     \
-				ft_memmove.c     \
-				ft_strlcpy.c     \
-				ft_isalnum.c     \
-				ft_memset.c     \
-				ft_strlen.c     \
-				ft_isalpha.c     \
-				ft_strchr.c     \
-				ft_isascii.c     \
-				ft_memcpy.c     \
-				ft_strlcat.c     \
-				ft_strrchr.c    \
-				ft_memchr.c		\
-				ft_strncmp.c	\
-				ft_memcmp.c		\
-				ft_strnstr.c	\
-				ft_toupper.c	\
-				ft_tolower.c	\
-				ft_isprint.c	\
-				ft_calloc.c		\
-				ft_strdup.c		\
-				ft_substr.c		\
-				ft_strjoin.c	\
-				ft_strmapi.c	\
-				ft_striteri.c	\
-				ft_putchar_fd.c	\
-				ft_putstr_fd.c	\
-				ft_putendl_fd.c	\
-				ft_putnbr_fd.c	\
-				ft_strtrim.c	\
-				ft_split.c		\
+SRCS	=	ft_isascii.c	\
+			ft_memcpy.c		\
+			ft_putstr_fd.c	\
+			ft_strlcat.c	\
+			ft_strrchr.c	\
+			ft_atoi.c		\
+			ft_isdigit.c	\
+			ft_memmove.c	\
+			ft_split.c		\
+			ft_strlcpy.c	\
+			ft_strtrim.c	\
+			ft_bzero.c		\
+			ft_isprint.c	\
+			ft_memset.c		\
+			ft_strchr.c		\
+			ft_strlen.c		\
+			ft_substr.c		\
+			ft_calloc.c		\
+			ft_itoa.c		\
+			ft_putchar_fd.c	\
+			ft_strdup.c		\
+			ft_strmapi.c	\
+			ft_tolower.c	\
+			ft_isalnum.c	\
+			ft_memchr.c		\
+			ft_putendl_fd.c	\
+			ft_striteri.c	\
+			ft_strncmp.c	\
+			ft_toupper.c	\
+			ft_isalpha.c	\
+			ft_memcmp.c		\
+			ft_putnbr_fd.c	\
+			ft_strjoin.c	\
+			ft_strnstr.c	
 
-BONUS_SRC	=	ft_lstnew.c		\
-				ft_lstadd_front.c	\
-				ft_lstadd_back.c	\
-				ft_lstlast.c	\
-				ft_lstsize.c	\
+BNS_SRCS =	ft_lstnew.c			\
+			ft_lstadd_front.c	\
+			ft_lstsize.c		\
+			ft_lstlast.c		\
+			ft_lstadd_back.c	\
+			ft_lstdelone.c
 
-OBJS        = ${SRCS:.c=.o}
+NAME	= libft.a
+FLGS	= -Wall -Wextra -Werror
+OBJS	= ${SRCS:.c=.o}
+B_OBJS	= ${BNS_SRCS:.c=.o}
+GCC		= gcc
+RM		= rm -f
+AR		= ar rc
+RAN		= ranlib
 
-BONUS_OBJS	=	${BONUS_SRC:.c=.o}
-
-NAME        = libft.a
-
-CC            = gcc
-
-CFLAGS        = -Wall -Wextra -Werror
-
-AR_RCS        = ar rcs
-
-all:            ${NAME}
+all:		${NAME}
 
 .c.o:
-				@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+			${GCC} ${FLGS} -c $< -o ${<:.c=.o}
 
-${NAME}:        ${OBJS}
-				@${AR_RCS} ${NAME} ${OBJS}
+${NAME}:	${OBJS}
+			${AR} ${NAME} ${OBJS}
+			${RAN} ${NAME}
 
-bonus:			${BONUS_OBJS}
-				@${AR_RCS} ${NAME} ${BONUS_OBJS}
+bonus:		${OBJS} ${B_OBJS}
+			${AR} ${NAME} ${OBJS} ${B_OBJS}
+			${RAN} ${NAME}
 
 clean:
-				@rm -f ${OBJS} ${BONUS_OBJS}
+			${RM} ${OBJS} ${B_OBJS}
 
-fclean:			clean
-				@rm -f ${NAME}
+fclean:		clean
+			${RM} ${NAME}
 
-re:                fclean all
+re:			fclean all
 
-.PHONY:            all clean fclean re bonus
+.PHONY:		all fclean clean re

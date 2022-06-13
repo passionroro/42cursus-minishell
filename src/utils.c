@@ -1,22 +1,16 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 16:03:14 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/05/19 20:50:08 by rohoarau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
+
+void	free_var_init(t_minishell *sh, t_node *com)
+{
+	ft_free_array(com->args);
+	ft_free_array(sh->path);
+}
 
 int	ft_malloc_array(char ***str, char sep, char *line)
 {
 	*str = ft_split(line, sep);
 	if (!*str)
-		return (ERR_MALLOC);
+		return (1);
 	return (0);
 }
 
@@ -28,12 +22,6 @@ void	ft_free_array(char **str)
 	while (str[++i])
 		free(str[i]);
 	free(str);
-}
-
-void	free_var_init(t_minishell *sh, t_node *com)
-{
-	ft_free_array(com->args);
-	ft_free_array(sh->path);
 }
 
 char	*add_backslash(char *str)
@@ -53,20 +41,22 @@ char	*add_backslash(char *str)
 	return (ptr);
 }
 
-int	input_isnt_empty(char *str)
+int	input_isnt_empty(t_minishell *sh)
 {
 	int	i;
 
 	i = 0;
-	if (str == NULL)
+	if (sh->input == NULL)
 	{
 		ft_putstr_fd("exit", 1);
+        ft_free_array(sh->envp);
 		exit(1);
 	}
-	while (str[i] == 32 || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
-		|| str[i] == '\f' || str[i] == '\r')
+	while (sh->input[i] == 32 || sh->input[i] == '\t' || sh->input[i] == '\n'
+        || sh->input[i] == '\v' || sh->input[i] == '\f'
+        || sh->input[i] == '\r')
 		i++;
-	if (str[i])
+	if (sh->input[i])
 		return (1);
 	else
 		return (0);

@@ -1,18 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 14:50:37 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/05/19 22:36:39 by rohoarau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
@@ -28,13 +15,8 @@
 # include <termios.h>
 # include <string.h>
 
-int	g_ret;
+int g_ret;
 void rl_replace_line (const char *text, int clear_undo);
-
-enum	e_rror
-{
-	ERR_MALLOC = 1,
-};
 
 typedef struct s_node
 {
@@ -50,12 +32,10 @@ typedef struct s_node
 
 typedef struct s_minishell
 {
-	int		id;
 	char	*input;
-	char	**commands;
 	char	**path;
 	char	**envp;
-	struct s_node	*com;
+	int		nodes;
 	int		saved_fd[2];
 }	t_minishell;
 
@@ -68,46 +48,34 @@ typedef struct s_clean_space
 	char	*temp;
 }	t_clean_space;
 
-void	print_list(t_node *list);
-void	ft_free_array(char **str);
-int		ft_malloc_array(char ***str, char sep, char *line);
-char	*add_backslash(char *str);
-int		input_isnt_empty(char *str);
-int		print_error_message(int err_num);
-char	*malloc_len(char *s, int len);
-void	new_node(t_node *com, char *str, t_minishell *sh);
 t_node	*list_init(t_minishell *sh);
-void	ft_free_list(t_node *com);
-int		built_in_check(t_node *com, t_minishell *sh);
-void	built_in_redirect(t_node *com, t_minishell *sh);
+void	ft_signals(struct termios *save);
+int	    input_isnt_empty(t_minishell *sh);
+void	ft_free_array(char **str);
+void	exit_code(int id);
+int	    pipe_it_up(t_minishell *sh, t_node *com);
+int	    var_init(t_minishell *sh, t_node *com);
+int	    ft_malloc_array(char ***str, char sep, char *line);
+void	redirect_check(t_node *com);
+int	    pipe_it_up(t_minishell *sh, t_node *com);
 char	**env_init(char **env);
-char	*env_replace(t_node *com, int pos);
-char	**env_create(t_node *com, int size);
-char	**env_remove(char **str, int pos);
-void	print_export(char **tab, int out);
-int		print_sort_env(char **tab);
+char	*add_backslash(char *str);
+int		is_built_in(char **env, char *str);
+int		is_built_in2(char *str);
+int		built_in_check(t_node *com);
+void	free_var_init(t_minishell *sh, t_node *com);
 int		run_unset(t_node *com);
 int		run_export(t_node *com, int out);
-int		run_echo(t_node *com, t_minishell *sh, int out);
+int		run_echo(t_node *com, int out);
 int		run_env(t_node *com, int out);
 int		run_cd(t_node *com, int out);
 int		run_pwd(char **env, int out);
 int		run_exit(t_node *com, int out);
-int		get_pwd_pos(char **env);
+char	*get_path(char **env);
+char	**env_create(t_node *com, int size);
+char	*env_replace(t_node *com, int pos);
 void	replace_pwd(t_node *com, char *dir);
-void	ft_signals(struct termios *save);
-int		var_init(t_minishell *sh, t_node *com);
-char	*get_path(char **env, char *str);
-void	free_var_init(t_minishell *sh, t_node *com);
-int		is_built_in(char **env, char *str);
-int		is_built_in2(char *str);
-void	exit_code(int id);
-//void	exit_code(int id, t_minishell *sh, t_node *com);
-int		is_real_command(t_minishell *sh);
-void	redirect_check(t_node *com);
+void	ft_free_list(t_node *com);
 void	clean_command(t_node *com, int *l, int *i);
-void	cut_space_before(t_node *com, int *l, int *i);
-void	cut_space_around(t_node *com, int *l, int *i);
-void	cut_space_after(t_node *com, int *l, int *i);
-void	cut_no_space(t_node *com, int *l, int *i);
+
 #endif

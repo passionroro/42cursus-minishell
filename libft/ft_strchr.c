@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/28 12:57:13 by rohoarau          #+#    #+#             */
-/*   Updated: 2021/10/28 12:57:18 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/13 18:08:27 by henkaoua          #+#    #+#             */
+/*   Updated: 2021/10/22 12:56:55 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *str, int c)
 {
-	int		i;
-	char	*str;
+	char	*p;
 
-	i = -1;
-	str = (char *)s;
-	while (str[++i])
+	c = (unsigned char) c;
+	p = (char *)str;
+	while (*p)
 	{
-		if (str[i] == (unsigned char)c)
-			return (&str[i]);
+		if (*p == c)
+			return (p);
+		p++;
 	}
-	if (c == 0)
-		return (&str[i]);
+	if (c == '\0')
+		return (p);
 	return (0);
 }

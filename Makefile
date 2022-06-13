@@ -6,7 +6,7 @@
 #    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/05/19 19:54:29 by rohoarau         ###   ########.fr        #
+#    Updated: 2022/05/30 17:05:30 by rohoarau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,8 @@ LIB_DIR		=	libft/
 OBJ_DIR		=	obj/
 SRCS_DIR	=	src/
 SRCS		=	main.c				\
+				commandzzzz.c		\
 				utils.c				\
-				2utils.c			\
-				temp.c				\
 				built_in.c			\
 				utils_built_in.c	\
 				echo.c				\
@@ -30,10 +29,9 @@ SRCS		=	main.c				\
 				signals.c			\
 				init.c				\
 				exit.c				\
-				pipes.c				\
-				redirection.c		\
-				minishell.c			\
-				cut_space.c
+				redirections.c		\
+				cut_space.c			\
+				linked_list.c		\
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 

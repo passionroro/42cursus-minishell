@@ -3,59 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/18 13:12:59 by rohoarau          #+#    #+#             */
-/*   Updated: 2022/02/14 17:57:46 by rohoarau         ###   ########.fr       */
+/*   Created: 2021/10/20 13:42:44 by henkaoua          #+#    #+#             */
+/*   Updated: 2021/10/20 14:23:34 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	len(int nb)
+static char	*ft_mallocit(char *s)
 {
-	int	len;
+	int		i;
+	char	*mal;
 
-	len = 0;
-	if (nb == -2147483648)
-		return (11);
-	if (nb <= 0)
+	i = 0;
+	while (s[i])
+		i++;
+	mal = (char *)malloc((i + 1) * sizeof(char));
+	if (mal == NULL)
+		return (0);
+	i = 0;
+	while (s[i])
 	{
-		len++;
-		nb *= -1;
+		mal[i] = s[i];
+		i++;
 	}
-	while (nb > 0)
+	mal[i] = '\0';
+	return (mal);
+}
+
+static void	ft_switch(char *s, int i)
+{
+	char	t[13];
+	int		p;
+
+	p = 0;
+	while (i >= 0)
 	{
-		nb /= 10;
-		len++;
+		t[p] = s[i];
+		i--;
+		p++;
 	}
-	return (len);
+	t[p] = '\0';
+	i++;
+	while (t[i])
+	{
+		s[i] = t[i];
+		i++;
+	}
+	s[i] = '\0';
+}
+
+static int	ft_ifneg(int *number)
+{
+	int	g;
+
+	g = 0;
+	if (*number < 0)
+	{
+		g++;
+		if (*number == -2147483648)
+		{
+			g++;
+			(*number)++;
+		}
+		*number = (*number) * -1;
+	}
+	return (g);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*ptr;
+	char	str[12];
+	char	*mal;
 	int		i;
-	long	nb;
+	int		g;
 
-	nb = n;
-	i = len(nb);
-	ptr = malloc(sizeof(char) * (len(nb) + 1));
-	if (!ptr)
-		return (0);
-	if (nb == 0)
-		ptr[0] = '0';
-	if (nb < 0)
+	i = 0;
+	g = ft_ifneg(&n);
+	while (n > 9)
 	{
-		ptr[0] = '-';
-		nb *= -1;
+		str[i] = n % 10 + 48;
+		n = n / 10;
+		i++;
 	}
-	ptr[i] = '\0';
-	while (nb > 0)
-	{
-		i--;
-		ptr[i] = nb % 10 + 48;
-		nb /= 10;
-	}
-	return (ptr);
+	if (g == 2)
+		str[0] = '8';
+	str[i] = n + 48;
+	if (g > 0)
+		str[++i] = '-';
+	ft_switch(str, i);
+	mal = ft_mallocit(str);
+	return (mal);
 }
