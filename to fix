@@ -3,5 +3,5 @@ quotes : (init.c)
 
 when replacing $VAR, don't forger to replace $? with g_ret
 
-when path is unset, don't forget to print "bash: env: No such file or directory" with error code 127, even when the function is unknown
+when path is unset, don't forger to print "bash: env: No such file or directory" with error code 127, even when the function is unknown
 when command is unknown and the path is set, "bash: cocou: command not found" error code 127

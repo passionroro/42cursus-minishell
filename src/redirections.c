@@ -104,8 +104,28 @@ int	redirect_heredoc(t_node *com, int i)
 
 int	redirect_append(t_node *com, int i)
 {
-	(void)com;
-	(void)i;
+	char	*file;
+	int		fd;
+
+	i += 1;
+	while (ft_is_space(com->content[++i]))
+		;
+	file = write_file_name(com->content + i);
+	if (file == NULL)
+	{
+		printf("bash: syntax error near unexpected token `newline'\n");
+		return (-1);
+	}
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd == -1)
+	{
+		printf("Error : can't open file < %s >\n", file);
+		return (-1);
+	}
+	dup2(fd, 1);
+	close(fd);
+	remove_file(com, '>');
+	free(file);
 	return (0);
 }
 
@@ -172,6 +192,7 @@ int	redirect_check(t_node *com)
 				exit = redirect_heredoc(com, i);
 			else
 				exit = redirect_input(com, i);
+			i -= 1;
 		}
 		else if (com->content[i] == '>')
 		{
@@ -179,6 +200,7 @@ int	redirect_check(t_node *com)
 				exit = redirect_append(com, i);
 			else
 				exit = redirect_output(com, i);
+			i -= 1;
 		}
 	}
 	return (exit);
