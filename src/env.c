@@ -33,10 +33,7 @@ int	run_env(t_node *com, int out)
 
 	i = -1;
 	while (com->sh->envp[++i])
-	{
-		ft_putstr_fd(com->sh->envp[i], out);
-		ft_putchar_fd('\n', out);
-	}
+		printf("%s\n", com->sh->envp[i]);
 	g_ret = 0;
 	return (1);
 }

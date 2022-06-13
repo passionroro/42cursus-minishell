@@ -3,7 +3,12 @@
 void	free_var_init(t_minishell *sh, t_node *com)
 {
 	ft_free_array(com->args);
+<<<<<<< HEAD
 	ft_free_array(sh->path);
+=======
+	if (sh->path != NULL)
+		ft_free_array(sh->path);
+>>>>>>> master
 }
 
 int	ft_malloc_array(char ***str, char sep, char *line)
@@ -41,22 +46,21 @@ char	*add_backslash(char *str)
 	return (ptr);
 }
 
-int	input_isnt_empty(t_minishell *sh)
+int	input_isnt_empty(char *str, char **env)
 {
 	int	i;
 
 	i = 0;
-	if (sh->input == NULL)
+	if (!str)
 	{
-		ft_putstr_fd("exit", 1);
-        ft_free_array(sh->envp);
-		exit(1);
+		if (env) 
+        	ft_free_array(env);
+		exit(printf("exit\n"));
 	}
-	while (sh->input[i] == 32 || sh->input[i] == '\t' || sh->input[i] == '\n'
-        || sh->input[i] == '\v' || sh->input[i] == '\f'
-        || sh->input[i] == '\r')
+	while (str[i] == 32 || str[i] == '\t' || str[i] == '\n'
+        || str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
 		i++;
-	if (sh->input[i])
+	if (str[i])
 		return (1);
 	else
 		return (0);

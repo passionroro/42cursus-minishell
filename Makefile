@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: rohoarau <marvin@42lausanne.ch>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/02/14 16:59:53 by rohoarau          #+#    #+#              #
-#    Updated: 2022/05/30 17:05:30 by rohoarau         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME 		=	minishell
 LIBFT 		= 	libft.a
 LIB_DIR		=	libft/
@@ -37,7 +25,7 @@ OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
 LFLAGS = -I include/
 CFLAGS = -Wall -Wextra -Werror
-DEBUGGING = -ggdb
+DEBUGGING = -g -O0
 LREADLINE = -lreadline
 CC = gcc
 RM = rm -rf
@@ -67,7 +55,7 @@ clean:
 fclean: clean
 		$(RM) $(NAME)
 		make -C $(LIB_DIR) fclean
-		@echo "\033[1;31m$(NAME) && $(LIB_DIR) removed\033[m"
+		@echo "\033[1;31mminishell and libft cleaned\033[m"
 
 re: fclean all
 
