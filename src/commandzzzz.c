@@ -72,7 +72,8 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 	if (var_init(sh, com) != 0)
 		return (g_ret);
     pipe_redirection(com, sh);
-	redirect_check(com);
+	if (redirect_check(com) != 0)
+		return (-1);
 	com->id = fork();
     if (com->id == 0)
     {

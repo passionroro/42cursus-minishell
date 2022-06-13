@@ -46,6 +46,7 @@ int	is_real_command(t_minishell *sh)
 		head = head->next;
 	}
 	dup2(sh->saved_fd[0], 0);
+	dup2(sh->saved_fd[1], 1);
 	close(sh->saved_fd[0]);
 	close(sh->saved_fd[1]);
 	ft_free_list(tmp);
