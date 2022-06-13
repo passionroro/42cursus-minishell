@@ -1,9 +1,9 @@
 #include "../include/minishell.h"
 
-int	run_echo(t_node *com)
+int	run_echo(t_node *com, int out)
 {
 	int	i;
-
+(void)out;
 	if (com->args[2] == NULL && !ft_strncmp(com->args[1], "-n\0", 3))
 		return (1);
 	if (com->args[1] == NULL)

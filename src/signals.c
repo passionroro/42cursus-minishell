@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+//fix SIGQUIT
+
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)

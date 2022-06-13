@@ -1,5 +1,6 @@
 #include "../include/minishell.h"
 
+
 int	ft_is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v')
@@ -7,13 +8,15 @@ int	ft_is_space(char c)
 	return (0);
 }
 
+ls > txt>coucou
+
 char	*write_file_name(char *str)
 {
 	int		i;
 	int		len;
 	char	*new;
 
-	if (!str[0])
+	if (!str)
 		return (NULL);
 	len = 0;
 	while (str[len] && !(str[len] == '>' || str[len] == '<'))
@@ -24,6 +27,28 @@ char	*write_file_name(char *str)
 		new[i] = str[i];
 	new[i] = '\0';
 	return (new);
+}
+
+void	redirect_input(t_node *com, int *l, int *i)
+{
+	int		fd;
+	char	*file;
+
+	if (com->args[*l][*i + 1] == '\0')
+		file = write_file_name(com->args[*l + 1]);
+	else
+		file = write_file_name(com->args[*l] + *i + 1);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		printf("\nbash: %s: No such file or directory\n", file);
+		free(file);
+		return ;
+	}
+	dup2(fd, 0);
+	clean_command(com, l, i);
+	close(fd);
+	free(file);
 }
 
 void	redirect_heredoc(t_node *com, int *l, int *i)
@@ -43,30 +68,18 @@ void	redirect_heredoc(t_node *com, int *l, int *i)
 		return ;
 	while (1)
 	{
-		input = readline("> ");
+		input = readline("> "); 
 		if (input_isnt_empty(input, NULL))
 			if (!ft_strncmp(input, file, ft_strlen(file)))
 				break ;
 		free(input);
 	}
 	free(input);
-	dup2(s_stdin, STDIN_FILENO);
+	dup2(s_stdin, 0);
 	close(s_stdin);
 	close(fd);
 	free(file);
 }
-/*
-void	redirect_input(t_node *com, int *l, int *i)
-{
-	int	s_stdin;
-	int	fd;
-
-	saved_stdin = dup(STDIN_FILENO);
-	fd = open(com->args[*l - 1], );
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-}
-*/
 
 void	redirect_append(t_node *com, int *l, int *i)
 {
@@ -139,28 +152,31 @@ void	remove_file(t_node *com, char c)
 
 void	redirect_output(t_node *com, int *l, int *i)
 {
-//	int		s_stdout;
 	char	*file;
 	int		fd;
 
-//	s_stdout = dup(STDOUT_FILENO);
 	if (com->args[*l][*i + 1] == '\0')
 		file = write_file_name(com->args[*l + 1]);
 	else
 		file = write_file_name(com->args[*l] + *i + 1);
+
+	if (file == NULL)
+	{
+		printf("bash: syntax error near unexpected token `newline'\n");
+		return ;
+	}
 	fd = open(file, O_RDWR | O_CREAT, 0777);
 	if (fd == -1)
+	{
+		printf("Error : can't open file < %s >\n", file);
 		return ;
+	}
 	dup2(fd, 1);
 	remove_file(com, '>');
 	close(fd);
-	fprintf(stderr, "content	%s\n", com->content);
-	int	k = -1;
-	while (com->args[++k])
-		fprintf(stderr, "args	%s\n", com->args[k]);
 	free(file);
 }
-//setting <i> and <l> after redicert functions!!
+//may want to use com->content instead of com->args
 void	redirect_check(t_node *com)
 {
 	int	i;
@@ -177,7 +193,7 @@ void	redirect_check(t_node *com)
 				if (com->args[l][i + 1] == '<')
 					redirect_heredoc(com, &l, &i);
 				else
-					;//redirect_input(com, &l, &i);
+					redirect_input(com, &l, &i);
 			}
 			else if (com->args[l][i] == '>')
 			{

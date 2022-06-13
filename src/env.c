@@ -27,7 +27,7 @@ char	**env_create(t_node *com, int size)
 	return (tmp);
 }
 
-int	run_env(t_node *com)
+int	run_env(t_node *com, int out)
 {
 	int	i;
 
