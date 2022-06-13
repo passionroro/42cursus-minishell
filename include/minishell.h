@@ -56,7 +56,7 @@ void	exit_code(int id);
 int	    pipe_it_up(t_minishell *sh, t_node *com);
 int	    var_init(t_minishell *sh, t_node *com);
 int	    ft_malloc_array(char ***str, char sep, char *line);
-void	redirect_check(t_node *com);
+int		redirect_check(t_node *com);
 int	    pipe_it_up(t_minishell *sh, t_node *com);
 char	**env_init(char **env);
 char	*add_backslash(char *str);
