@@ -49,7 +49,7 @@ void	replace_old_pwd(t_node *com)
 	free(dir);
 }
 
-int	run_pwd(char **env, int out)
+int	run_pwd(char **env)
 {
 	int	i;
 

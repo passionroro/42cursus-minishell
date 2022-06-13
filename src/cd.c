@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-char	*get_home(char **env, int out)
+char	*get_home(char **env)
 {
 	int	i;
 
@@ -12,7 +12,7 @@ char	*get_home(char **env, int out)
 	return (NULL);
 }
 
-int	old_pwd(char **env, t_node *com, int out)
+int	old_pwd(char **env, t_node *com)
 {
 	int		i;
 	char	*tmp;
@@ -36,7 +36,7 @@ int	old_pwd(char **env, t_node *com, int out)
 	return (1);
 }
 
-int	run_cd(t_node *com, int out)
+int	run_cd(t_node *com)
 {
 	if (com->args[1] == NULL || !ft_strncmp(com->args[1], "~\0", 2))
 	{

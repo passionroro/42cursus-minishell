@@ -3,12 +3,8 @@
 void	free_var_init(t_minishell *sh, t_node *com)
 {
 	ft_free_array(com->args);
-<<<<<<< HEAD
-	ft_free_array(sh->path);
-=======
 	if (sh->path != NULL)
 		ft_free_array(sh->path);
->>>>>>> master
 }
 
 int	ft_malloc_array(char ***str, char sep, char *line)

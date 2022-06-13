@@ -8,7 +8,7 @@
  * correct line if the command already exists
 */
 
-void	print_export(char **tab, int out)
+void	print_export(char **tab)
 {
 	int	i;
 	int	j;
@@ -41,7 +41,7 @@ char	**export_init(char **tab, char **tmp)
 	return (tmp);
 }
 
-int	export_no_args(char **tab, int out)
+int	export_no_args(char **tab)
 {
 	int		i;
 	int		j;
@@ -64,12 +64,12 @@ int	export_no_args(char **tab, int out)
 			j--;
 		}
 	}
-	print_export(tmp, out);
+	print_export(tmp);
 	ft_free_array(tmp);
 	return (1);
 }
 
-int	run_export(t_node *com, int out)
+int	run_export(t_node *com)
 {
 	int		i;
 	int		len;

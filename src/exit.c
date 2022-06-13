@@ -1,10 +1,5 @@
 #include "../include/minishell.h"
 
-/*check the return value of
-- unknown command 
-- ctrl+c alone + during pending process (ctrl+c during cat)
-- if success, g_ret = 0
-=======
 /*
  * Useful doc on exit codes and waitpid() macros :
  * https://tldp.org/LDP/abs/html/exitcodes.html
