@@ -27,12 +27,14 @@ int	is_real_command(t_minishell *sh)
 {
 	t_node	*com;
 	t_node	*head;
+	t_node	*tmp;
 
 	sh->saved_fd[0] = dup(0);
 	sh->saved_fd[1] = dup(1);
 	com = list_init(sh);
 	set_fd(sh, com);
 	head = com;
+	tmp = com;
 	while (com)
 	{
 		pipe_it_up(sh, com);
@@ -46,6 +48,7 @@ int	is_real_command(t_minishell *sh)
 	dup2(sh->saved_fd[0], 0);
 	close(sh->saved_fd[0]);
 	close(sh->saved_fd[1]);
+	ft_free_list(tmp);
 	return (0);
 }
 
@@ -62,7 +65,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		sh.input = readline("[prompt]$ ");
-		if (input_isnt_empty(&sh))
+		if (input_isnt_empty(sh.input, sh.envp))
 		{
 			add_history(sh.input);
 			is_real_command(&sh);

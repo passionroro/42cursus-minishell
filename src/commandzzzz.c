@@ -46,6 +46,8 @@ int	command_exec(t_node *com, t_minishell *sh)
 			ft_putstr_fd(": command not found\n", 2);
 			g_ret = 127;
 		}
+		if (!com->path)
+			free(com->path);
 		exit(g_ret);
 		return(-1);
 	}
@@ -70,7 +72,7 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 	if (var_init(sh, com) != 0)
 		return (g_ret);
     pipe_redirection(com, sh);
-	//redirect_check(com);
+	redirect_check(com);
 	com->id = fork();
     if (com->id == 0)
     {

@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 10:36:16 by henkaoua          #+#    #+#             */
-/*   Updated: 2021/10/26 11:53:53 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/11 11:13:21 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	while (s2[++i])
 		str[k++] = s2[i];
 	str[k] = '\0';
+	free((void *)s1);
 	return (str);
 }

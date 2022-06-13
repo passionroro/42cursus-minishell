@@ -50,7 +50,7 @@ typedef struct s_clean_space
 
 t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
-int	    input_isnt_empty(t_minishell *sh);
+int	    input_isnt_empty(char *str, char **env);
 void	ft_free_array(char **str);
 void	exit_code(int id);
 int	    pipe_it_up(t_minishell *sh, t_node *com);
