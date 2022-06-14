@@ -1,7 +1,36 @@
-quotes : (init.c)
-//deal with special cases “ ‘ \\ “ 
+QUOTES:
+> echo $HOME
+/Users/rohoarau
+> echo "$HOME"
+/Users/rohoarau
+> echo '$HOME'
+$HOME
+> echo '$HO'ME
+$HOME
+> echo "$HO"ME
+ME
+> unset HOME
+> echo $HOME
 
-when replacing $VAR, don't forger to replace $? with g_ret
+> echo "'"
+'
+> echo "'""'"
+''
+> echo """
+Please close the quotes
+> echo "\"\\"
+"\
+
+TODO:
+stop using ft_putstr_fd!!!
+function that counts the number of single quotes and double quotes
+function that give their position (to determine wether the quote is inside or not)
+we don't want to run dollar_sign_check when the string is inside single quotes (echo '$HOME')
+idea : whenever we encounter a dollar, we check if the string attached to the dollar sign exists in the env (echo $PATH). if it's in a double quote, we check until the closing double quote (echo "$P"ATH should check if $P exists. if not, remove $P and the quotes). if it's inside a single quote, don't run the replacing algo (echo '$HOME' only removes the quotes)
+don't forger to add $? in the dollar_sign_check
+
+
+
 
 when path is unset, don't forger to print "bash: env: No such file or directory" with error code 127, even when the function is unknown
 when command is unknown and the path is set, "bash: cocou: command not found" error code 127
