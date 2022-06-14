@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+int	redirect_check(t_node *com);
+
 void	ft_cut_file(t_node *com, int start, int end, int len)
 {
 	char	*tmp;
@@ -73,73 +75,6 @@ char	*write_file_name(char *str)
 	return (new);
 }
 
-//we may wanna save the input of heredoc somewhere so
-//	'cat <<END'
-//	> sentence writen
-//	> with heredoc
-//	> END
-//	becomes
-int	redirect_heredoc(t_node *com, int i)
-{
-	int		fd;
-	char	*input;
-	char	*file;
-
-	i += 1;
-	while (ft_is_space(com->content[++i]))
-		;
-	file = write_file_name(com->content + i);
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (!fd)
-	{
-		free(file);
-		return (-1);
-	}
-	while (1)
-	{
-		input = readline("> "); 
-		if (input_isnt_empty(input, NULL))
-			if (!ft_strncmp(input, file, ft_strlen(file)))
-				break ;
-		write(fd, input, ft_strlen(input));
-		write(fd, "\n", 1);
-		free(input);
-	}
-	free(input);
-	dup2(fd, 0);
-	close(fd);
-	remove_file(com, '<');
-	free(file);
-	return (0);
-}
-
-int	redirect_append(t_node *com, int i)
-{
-	char	*file;
-	int		fd;
-
-	i += 1;
-	while (ft_is_space(com->content[++i]))
-		;
-	file = write_file_name(com->content + i);
-	if (file == NULL)
-	{
-		printf("bash: syntax error near unexpected token `newline'\n");
-		return (-1);
-	}
-	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (fd == -1)
-	{
-		printf("Error : can't open file < %s >\n", file);
-		return (-1);
-	}
-	dup2(fd, 1);
-	close(fd);
-	remove_file(com, '>');
-	free(file);
-	return (0);
-}
-
 int	redirect_input(t_node *com, int i)
 {
 	int		fd;
@@ -176,6 +111,63 @@ int	redirect_output(t_node *com, int i)
 		return (-1);
 	}
 	fd = open(file, O_RDWR | O_CREAT, 0777);
+	if (fd == -1)
+	{
+		printf("Error : can't open file < %s >\n", file);
+		return (-1);
+	}
+	dup2(fd, 1);
+	close(fd);
+	remove_file(com, '>');
+	free(file);
+	return (0);
+}
+
+int	redirect_heredoc(t_node *com, int i)
+{
+	char	*input;
+	char	*container;
+	char	*delimiter;
+
+	i += 1;
+	while (ft_is_space(com->content[++i]))
+		;
+	delimiter = write_file_name(com->content + i);
+	container = ft_strdup("");
+	while (1)
+	{
+		input = readline("> "); 
+		if (input_isnt_empty(input, NULL))
+			if (!ft_strncmp(input, delimiter, ft_strlen(delimiter)))
+				break ;
+		container = ft_strjoin(container, input);
+		container = ft_strjoin(container, "\n\0");
+		free(input);
+	}
+	free(input);
+	free(delimiter);
+	remove_file(com, '<');
+	redirect_check(com);
+	printf("%s", container);
+	free(container);
+	return (-2);
+}
+
+int	redirect_append(t_node *com, int i)
+{
+	char	*file;
+	int		fd;
+
+	i += 1;
+	while (ft_is_space(com->content[++i]))
+		;
+	file = write_file_name(com->content + i);
+	if (file == NULL)
+	{
+		printf("bash: syntax error near unexpected token `newline'\n");
+		return (-1);
+	}
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 	{
 		printf("Error : can't open file < %s >\n", file);
