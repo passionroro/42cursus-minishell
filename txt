@@ -1,12 +1,0 @@
-Makefile
-include
-libft
-minishell
-obj
-src
-to fix
-txt
-[?2004h[prompt]$ kjjsfdhkjsdhfsf
-[?2004l[?2004h[prompt]$ sfdkjsfdsdf
-[?2004l[?2004h[prompt]$ [?2004l
-exit

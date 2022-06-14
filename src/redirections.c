@@ -73,16 +73,23 @@ char	*write_file_name(char *str)
 	return (new);
 }
 
+//we may wanna save the input of heredoc somewhere so
+//	'cat <<END'
+//	> sentence writen
+//	> with heredoc
+//	> END
+//	becomes
 int	redirect_heredoc(t_node *com, int i)
 {
 	int		fd;
 	char	*input;
 	char	*file;
 
+	i += 1;
 	while (ft_is_space(com->content[++i]))
 		;
 	file = write_file_name(com->content + i);
-	fd = open(file, O_RDWR | O_CREAT, 0777);
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (!fd)
 	{
 		free(file);
@@ -94,10 +101,14 @@ int	redirect_heredoc(t_node *com, int i)
 		if (input_isnt_empty(input, NULL))
 			if (!ft_strncmp(input, file, ft_strlen(file)))
 				break ;
+		write(fd, input, ft_strlen(input));
+		write(fd, "\n", 1);
 		free(input);
 	}
 	free(input);
+	dup2(fd, 0);
 	close(fd);
+	remove_file(com, '<');
 	free(file);
 	return (0);
 }
