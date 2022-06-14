@@ -34,3 +34,21 @@ don't forger to add $? in the dollar_sign_check
 
 when path is unset, don't forger to print "bash: env: No such file or directory" with error code 127, even when the function is unknown
 when command is unknown and the path is set, "bash: cocou: command not found" error code 127
+
+
+yossi : 
+
+1. to take care in case of : cat << 
+it should print "bash: syntax error near unexpected token `newline'" and have the prompt back. i wrote a code that supposed to do it but i dont have time to see why it doesnt work now
+
+2. function < redirect_heredoc > is too long.
+
+3. to send all the error messages in the program to the stderr(2).
+there's a function called write_error in utils_built_in.c that takes 4 parameters:
+the first 3 are strings to print in stderr, and the 4th is the int the fuction returns.
+
+the fuction always frees the 2nd string sent to it so if you want to print 2 strings without freeing any you send like this : write_error(str1, NULL, str2, ret_int)
+
+there's no other way to do it if we dont want leaks, I can explain why
+
+kings in the castle :R

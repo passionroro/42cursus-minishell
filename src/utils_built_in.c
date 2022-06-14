@@ -1,14 +1,16 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_built_in.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:14:11 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 19:14:12 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	free_list(t_node *com)
-{
-	while (com)
-	{
-		free(com->content);
-		free(com);
-		com = com->next;
-	}
-}
+#include "../include/minishell.h"
 
 char	**env_init(char **env)
 {
@@ -30,4 +32,17 @@ char	**env_init(char **env)
 	}
 	tmp[i] = 0;
 	return (tmp);
+}
+
+int	write_error(char *s1, char *s2, char *s3, int ret)
+{
+	ft_putstr_fd(s1, 2);
+	if (s2)
+	{
+		ft_putstr_fd(s2, 2);
+		free(s2);
+	}
+	if (s3)
+		ft_putstr_fd(s3, 2);
+	return (ret);
 }

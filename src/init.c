@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:01:51 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 19:01:58 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	dollar_sign_access(char *str, char **env)
@@ -70,9 +82,8 @@ int	quotes_check(t_node *com, char c)
 			count++;
 	if (count == 0)
 		return (0);
-	if (count % 2 != 0)//deal with special case
+	if (count % 2 != 0)
 	{
-        //special_cases(com, c);
 		ft_putstr_fd("Please close the quotes.\n", 2);
 		g_ret = 0;
 		return (-1);

@@ -1,4 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   linked_list.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:03:43 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 19:05:03 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
+
+void	one_line_less(t_clean_space *cs, char **str)
+{
+	cs->temp = ft_strdup(str[cs->i]);
+	free(str[cs->i]);
+}
 
 char	**ft_clean_space(char **str)
 {
@@ -15,8 +33,7 @@ char	**ft_clean_space(char **str)
 			cs.e++;
 		while (str[cs.i][--cs.e] == ' ')
 			;
-        cs.temp = ft_strdup(str[cs.i]);
-        free(str[cs.i]);
+		one_line_less(&cs, str);
 		str[cs.i] = (char *)malloc(sizeof(char) * (cs.e - cs.b) + 2);
 		cs.l = -1;
 		while (cs.b <= cs.e)
@@ -30,7 +47,7 @@ char	**ft_clean_space(char **str)
 	return (str);
 }
 
-void ft_free_list(t_node *com)
+void	ft_free_list(t_node *com)
 {
 	t_node	*tmp;
 
@@ -57,7 +74,7 @@ void	new_node(t_node *com, char *str, t_minishell *sh)
 	com->path = NULL;
 	com->args = NULL;
 	com->sh = sh;
- 	com->fd[0] = STDIN_FILENO;
+	com->fd[0] = STDIN_FILENO;
 	com->fd[1] = STDOUT_FILENO;
 }
 
@@ -76,7 +93,7 @@ t_node	*list_init(t_minishell *sh)
 	com->path = NULL;
 	com->args = NULL;
 	com->sh = sh;
-    com->fd[0] = STDIN_FILENO;
+	com->fd[0] = STDIN_FILENO;
 	com->fd[1] = STDOUT_FILENO;
 	i = 0;
 	while (commands[++i])

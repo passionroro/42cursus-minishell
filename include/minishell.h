@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 18:44:54 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"
@@ -16,7 +28,7 @@
 # include <string.h>
 
 int		g_ret;
-void	rl_replace_line (const char *text, int clear_undo);
+void	rl_replace_line(const char *text, int clear_undo);
 
 typedef struct s_node
 {
@@ -50,14 +62,14 @@ typedef struct s_clean_space
 
 t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
-int	    input_isnt_empty(char *str, char **env);
+int		input_isnt_empty(char *str, char **env);
 void	ft_free_array(char **str);
 void	exit_code(int id);
-int	    pipe_it_up(t_minishell *sh, t_node *com);
-int	    var_init(t_minishell *sh, t_node *com);
-int	    ft_malloc_array(char ***str, char sep, char *line);
+int		pipe_it_up(t_minishell *sh, t_node *com);
+int		var_init(t_minishell *sh, t_node *com);
+int		ft_malloc_array(char ***str, char sep, char *line);
 int		redirect_check(t_node *com);
-int	    pipe_it_up(t_minishell *sh, t_node *com);
+int		pipe_it_up(t_minishell *sh, t_node *com);
 char	**env_init(char **env);
 char	*add_backslash(char *str);
 int		is_built_in(char **env, char *str);
@@ -77,6 +89,10 @@ char	*env_replace(t_node *com, int pos);
 void	replace_pwd(t_node *com, char *dir);
 void	replace_old_pwd(t_node *com);
 void	ft_free_list(t_node *com);
-void	clean_command(t_node *com, int *l, int *i);
+void	remove_file(t_node *com, char c);
+int		ft_is_space(char c);
+char	*write_file_name(char *str);
+int		ft_strcmp(char *s1, char *s2);
+int		write_error(char *s1, char *s2, char *s3, int ret);
 
 #endif
