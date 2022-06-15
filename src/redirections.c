@@ -24,8 +24,8 @@ int	redirect_input(t_node *com, int i)
 	file = write_file_name(com->content + i);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (write_error("bash: ", file, ": No such file or directory\n",
-				-1));
+		return (write_error("bash: ", file,
+				": No such file or directory\n", -1));
 	dup2(fd, 0);
 	close(fd);
 	remove_file(com, '<');
@@ -43,7 +43,7 @@ int	redirect_output(t_node *com, int i)
 	file = write_file_name(com->content + i);
 	if (file == NULL)
 		return (write_error("bash: syntax error near unexpected \
-		token `newline'\n", NULL, NULL, -1));
+token `newline'\n", NULL, NULL, -1));
 	fd = open(file, O_RDWR | O_CREAT, 0777);
 	if (fd == -1)
 		return (write_error("Error : can't open file < ",
@@ -57,34 +57,27 @@ int	redirect_output(t_node *com, int i)
 
 int	redirect_heredoc(t_node *com, int i)
 {
-	char	*input;
-	char	*container;
-	char	*delimiter;
+	t_heredoc	her;
 
 	i += 1;
 	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
 		;
-	delimiter = write_file_name(com->content + i);
-	if (delimiter == NULL)
-		return (write_error("bash: syntax error near unexpected \
-		token `newline'\n", NULL, NULL, -1));
-	container = ft_strdup("");
+	her.delimiter = write_file_name(com->content + i);
+	if (her.delimiter == NULL)
+		return (write_error("bash: syntax error near unexpected\
+token `newline'\n", NULL, NULL, -1));
+	her.container = ft_strdup("");
 	while (1)
 	{
-		input = readline("> ");
-		if (input_isnt_empty(input, NULL))
-			if (!ft_strcmp(input, delimiter))
+		her.input = readline("> ");
+		if (input_isnt_empty(her.input, NULL))
+			if (!ft_strcmp(her.input, her.delimiter))
 				break ;
-		container = ft_strjoin(container, input);
-		container = ft_strjoin(container, "\n\0");
-		free(input);
+		her.container = ft_strjoin(her.container, her.input);
+		her.container = ft_strjoin(her.container, "\n\0");
+		free(her.input);
 	}
-	free(input);
-	free(delimiter);
-	remove_file(com, '<');
-	redirect_check(com);
-	printf("%s", container);
-	free(container);
+	heredoc_part2(&her, com);
 	return (-2);
 }
 
@@ -99,7 +92,7 @@ int	redirect_append(t_node *com, int i)
 	file = write_file_name(com->content + i);
 	if (file == NULL)
 		return (write_error("bash: syntax error near unexpected \
-		token `newline'\n", NULL, NULL, -1));
+token `newline'\n", NULL, NULL, -1));
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 		return (write_error("Error : can't open file < ", file, " >\n", -1));

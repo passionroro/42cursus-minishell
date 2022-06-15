@@ -73,7 +73,7 @@ char	*write_file_name(char *str)
 	int		i;
 	char	*new;
 
-	if (!str)
+	if (!str || *str == '\0')
 		return (NULL);
 	i = 0;
 	while (str[i] && str[i] != '>' && str[i] != '<' && !ft_is_space(str[i]))

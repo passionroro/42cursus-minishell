@@ -38,12 +38,11 @@ when command is unknown and the path is set, "bash: cocou: command not found" er
 
 yossi : 
 
-1. to take care in case of : cat << 
-it should print "bash: syntax error near unexpected token `newline'" and have the prompt back. i wrote a code that supposed to do it but i dont have time to see why it doesnt work now
+norminette OK ! redirections OK !
 
-2. function < redirect_heredoc > is too long.
+1. leaks everywhere. every command we type. even ls 
 
-3. to send all the error messages in the program to the stderr(2).
+2. to send all the error messages in the program to the stderr(2).
 there's a function called write_error in utils_built_in.c that takes 4 parameters:
 the first 3 are strings to print in stderr, and the 4th is the int the fuction returns.
 

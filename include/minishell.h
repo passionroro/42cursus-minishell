@@ -60,6 +60,13 @@ typedef struct s_clean_space
 	char	*temp;
 }	t_clean_space;
 
+typedef struct s_heredoc
+{
+	char	*input;
+	char	*container;
+	char	*delimiter;
+}	t_heredoc;
+
 t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
 int		input_isnt_empty(char *str, char **env);

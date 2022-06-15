@@ -46,3 +46,13 @@ int	write_error(char *s1, char *s2, char *s3, int ret)
 		ft_putstr_fd(s3, 2);
 	return (ret);
 }
+
+void	heredoc_part2(t_heredoc *her, t_node *com)
+{
+	free(her->input);
+	free(her->delimiter);
+	remove_file(com, '<');
+	redirect_check(com);
+	printf("%s", her->container);
+	free(her->container);
+}
