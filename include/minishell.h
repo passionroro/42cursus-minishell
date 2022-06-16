@@ -49,6 +49,7 @@ typedef struct s_minishell
 	char	**envp;
 	int		nodes;
 	int		saved_fd[2];
+	bool	even;
 }	t_minishell;
 
 typedef struct s_clean_space
@@ -66,6 +67,17 @@ typedef struct s_heredoc
 	char	*container;
 	char	*delimiter;
 }	t_heredoc;
+
+typedef struct s_split
+{
+	int		i;
+	int		r;
+	int		k;
+	char	tmp[1000];
+    bool    even;
+    char    q;
+}	t_split;
+
 
 t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
@@ -102,5 +114,7 @@ char	*write_file_name(char *str);
 int		ft_strcmp(char *s1, char *s2);
 int		write_error(char *s1, char *s2, char *s3, int ret);
 void	heredoc_part2(t_heredoc *her, t_node *com);
+int		quote_is_closed(t_minishell *sh);
+char	**ft_split_for_quotes(char const *s, char c);
 
 #endif

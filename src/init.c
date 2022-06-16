@@ -12,6 +12,7 @@
 
 #include "../include/minishell.h"
 
+//deal with $?
 int	dollar_sign_access(char *str, char **env)
 {
 	int	i;
@@ -69,17 +70,10 @@ char	*remove_quotes(char *str, int count, char c)
 	free(str);
 	return (tmp);
 }
-
-int	quotes_check(t_node *com, char c)
+//34 = double quotes, 39 = single quotes
+/*int	quotes_check(t_node *com)
 {
-	int	count;
-	int	i;
-
-	i = -1;
-	count = 0;
-	while (com->content[++i])
-		if (com->content[i] == c && com->content[i - 1] != '\\')
-			count++;
+	
 	if (count == 0)
 		return (0);
 	if (count % 2 != 0)
@@ -97,26 +91,18 @@ int	quotes_check(t_node *com, char c)
 	if (c == '"')
 		dollar_sign_check(com);
 	return (0);
-}
+}*/
 
 int	var_init(t_minishell *sh, t_node *com)
 {
-	if (ft_malloc_array(&com->args, ' ', com->content))
+	//$
+	com->args = ft_split_for_quotes(com->content, ' ');
+	if (!com->args)
 		return (-1);
 	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp)))
 		if (is_built_in2(com->args[0]) != 1)
 			return (-1);
-	if (quotes_check(com, '"') != 0)
-		return (1);
-	if (quotes_check(com, '\'') != 0)
-		return (1);
-	if (com->args[1])
-	{
-		if (!ft_strncmp(com->args[1], "$?\0", 3))
-		{
-			free(com->args[1]);
-			com->args[1] = ft_itoa(g_ret);
-		}
-	}
+	/*if (quotes_check(com) != 0)
+		return (1);*/
 	return (0);
 }

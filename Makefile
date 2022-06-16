@@ -19,7 +19,9 @@ SRCS		=	main.c				\
 				exit.c				\
 				redirections.c		\
 				linked_list.c		\
-				red_fncs.c
+				red_fncs.c			\
+				quotes.c			\
+				split_modified.c
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
