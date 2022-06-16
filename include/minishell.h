@@ -101,5 +101,6 @@ int		ft_is_space(char c);
 char	*write_file_name(char *str);
 int		ft_strcmp(char *s1, char *s2);
 int		write_error(char *s1, char *s2, char *s3, int ret);
+void	heredoc_part2(t_heredoc *her, t_node *com);
 
 #endif
