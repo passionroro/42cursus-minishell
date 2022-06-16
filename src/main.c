@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 19:06:27 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:44:01 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	is_real_command(t_minishell *sh)
 		head = head->next;
 	}
 	reset_saved_fd(sh);
+	ft_free_list(tmp);
 	return (0);
 }
 
