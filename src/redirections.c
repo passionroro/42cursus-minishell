@@ -1,133 +1,133 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:36:40 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/17 16:30:17 by rohoarau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-char	*write_file_name(char *str)
-{
-	int		i;
-	int		len;
-	char	*new;
+int	redirect_check(t_node *com);
 
-	if (!str[0])
-		return (NULL);
-	len = 0;
-	while (str[len] && !(str[len] == '>' || str[len] == '<'))
-		len++;
-	new = (char *)malloc(sizeof(char) * (len + 1));
-	i = -1;
-	while (str[++i] && i <= len)
-		new[i] = str[i];
-	new[i] = '\0';
-	return (new);
-}
-
-void	redirect_heredoc(t_node *com, int *l, int *i)
+int	redirect_input(t_node *com, int i)
 {
-	int		s_stdin;
 	int		fd;
-	char	*input;
 	char	*file;
 
-	s_stdin = dup(STDIN_FILENO);
-	if (com->args[*l][*i + 2] == '\0')
-		file = write_file_name(com->args[*l + 1]);
-	else
-		file = write_file_name(com->args[*l] + *i + 2);
+	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
+		;
+	file = write_file_name(com->content + i);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (write_error("bash: ", file,
+				": No such file or directory\n", -1));
+	dup2(fd, 0);
+	close(fd);
+	remove_file(com, '<');
+	free(file);
+	return (0);
+}
+
+int	redirect_output(t_node *com, int i)
+{
+	char	*file;
+	int		fd;
+
+	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
+		;
+	file = write_file_name(com->content + i);
+	if (file == NULL)
+		return (write_error("bash: syntax error near unexpected \
+token `newline'\n", NULL, NULL, -1));
 	fd = open(file, O_RDWR | O_CREAT, 0777);
-	if (!fd)
-		return ;
+	if (fd == -1)
+		return (write_error("Error : can't open file < ",
+				file, " >\n", -1));
+	dup2(fd, 1);
+	close(fd);
+	remove_file(com, '>');
+	free(file);
+	return (0);
+}
+
+int	redirect_heredoc(t_node *com, int i)
+{
+	t_heredoc	her;
+
+	i += 1;
+	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
+		;
+	her.delimiter = write_file_name(com->content + i);
+	if (her.delimiter == NULL)
+		return (write_error("bash: syntax error near unexpected\
+token `newline'\n", NULL, NULL, -1));
+	her.container = ft_strdup("");
 	while (1)
 	{
-		input = readline("> ");
-		if (input_isnt_empty(input, NULL))
-			if (!ft_strncmp(input, file, ft_strlen(file)))
+		her.input = readline("> ");
+		if (input_isnt_empty(her.input, NULL))
+			if (!ft_strcmp(her.input, her.delimiter))
 				break ;
-		free(input);
+		her.container = ft_strjoin(her.container, her.input);
+		her.container = ft_strjoin(her.container, "\n\0");
+		free(her.input);
 	}
-	free(input);
-	dup2(s_stdin, STDIN_FILENO);
-	close(s_stdin);
-	close(fd);
-	free(file);
+	heredoc_part2(&her, com);
+	return (-2);
 }
-/*
-void	redirect_input(t_node *com, int *l, int *i)
-{
-	int	s_stdin;
-	int	fd;
 
-	saved_stdin = dup(STDIN_FILENO);
-	fd = open(com->args[*l - 1], );
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-}
-*/
-
-void	redirect_append(t_node *com, int *l, int *i)
+int	redirect_append(t_node *com, int i)
 {
-	int		s_stdout;
+	char	*file;
 	int		fd;
-	char	*file;
 
-	s_stdout = dup(STDOUT_FILENO);
-	if (com->args[*l][*i + 1] == '\0')
-		file = write_file_name(com->args[*l + 1]);
-	else
-		file = write_file_name(com->args[*l] + *i + 1);
-	fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
-	if (!fd)
-		return ;
-	dup2(fd, STDOUT_FILENO);
-	dup2(s_stdout, fd);
-	close(s_stdout);
+	i += 1;
+	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
+		;
+	file = write_file_name(com->content + i);
+	if (file == NULL)
+		return (write_error("bash: syntax error near unexpected \
+token `newline'\n", NULL, NULL, -1));
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd == -1)
+		return (write_error("Error : can't open file < ", file, " >\n", -1));
+	dup2(fd, 1);
 	close(fd);
+	remove_file(com, '>');
 	free(file);
+	return (0);
 }
 
-void	redirect_output(t_node *com, int *l, int *i)
-{
-	int		s_stdout;
-	char	*file;
-
-	s_stdout = dup(STDOUT_FILENO);
-	if (com->args[*l][*i + 1] == '\0')
-		file = write_file_name(com->args[*l + 1]);
-	else
-		file = write_file_name(com->args[*l] + *i + 1);
-	com->fd[0] = open(file, O_WRONLY | O_CREAT, 0777);
-	if (com->fd[0] == -1)
-		;//no pipe : do something
-	dup2(STDOUT_FILENO, com->fd[0]);
-	clean_command(com, l, i);
-	dup2(s_stdout, com->fd[0]);
-	close(s_stdout);
-	close(com->fd[0]);
-	free(file);
-}
-//setting <i> and <l> after redicert functions!!
-void	redirect_check(t_node *com)
+int	redirect_check(t_node *com)
 {
 	int	i;
-	int	l;
+	int	exit;
 
-	l = -1;
-	while (com->args[++l])
+	i = -1;
+	exit = 0;
+	while (com->content[++i] && !exit)
 	{
-		i = -1;
-		while (com->args[l][++i])
+		if (com->content[i] == '<')
 		{
-			if (com->args[l][i] == '<')
-			{
-				if (com->args[l][i + 1] == '<')
-					redirect_heredoc(com, &l, &i);
-				else
-					;//redirect_input(com, &l, &i);
-			}
-			else if (com->args[l][i] == '>')
-			{
-				if (com->args[l][i + 1] == '>')
-					redirect_append(com, &l, &i);
-				else
-					redirect_output(com, &l, &i);
-			}
+			if (com->content[i + 1] == '<')
+				exit = redirect_heredoc(com, i);
+			else
+				exit = redirect_input(com, i);
+			i -= 1;
+		}
+		else if (com->content[i] == '>')
+		{
+			if (com->content[i + 1] == '>')
+				exit = redirect_append(com, i);
+			else
+				exit = redirect_output(com, i);
+			i -= 1;
 		}
 	}
+	return (exit);
 }

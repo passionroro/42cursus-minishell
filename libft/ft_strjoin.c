@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/18 10:36:16 by henkaoua          #+#    #+#             */
-/*   Updated: 2021/10/26 11:53:53 by henkaoua         ###   ########.fr       */
+/*   Created: 2022/06/14 18:45:35 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 18:45:37 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	while (s2[++i])
 		str[k++] = s2[i];
 	str[k] = '\0';
+	free((void *)s1);
 	return (str);
 }

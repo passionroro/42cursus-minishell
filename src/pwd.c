@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:06:38 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/17 16:42:51 by rohoarau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	get_pwd_pos(char **env)
@@ -11,7 +23,7 @@ int	get_pwd_pos(char **env)
 	return (-1);
 }
 
-void	replace_pwd(t_node *com, char *dir)
+void	replace_pwd(t_node *com, char *dir, int code)
 {
 	int		pos;
 
@@ -19,6 +31,8 @@ void	replace_pwd(t_node *com, char *dir)
 	free(com->sh->envp[pos]);
 	com->sh->envp[pos] = ft_strjoin(ft_strdup("PWD="), dir);
 	if (!dir)
+		free(dir);
+	if (code == 1)
 		free(dir);
 }
 

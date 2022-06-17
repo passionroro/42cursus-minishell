@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:14:02 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 19:14:04 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	free_var_init(t_minishell *sh, t_node *com)
@@ -47,14 +59,14 @@ int	input_isnt_empty(char *str, char **env)
 	int	i;
 
 	i = 0;
-	if (str == NULL)
+	if (!str)
 	{
-		if (env) 
-        	ft_free_array(env);
+		if (env)
+			ft_free_array(env);
 		exit(printf("exit\n"));
 	}
 	while (str[i] == 32 || str[i] == '\t' || str[i] == '\n'
-        || str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
 		i++;
 	if (str[i])
 		return (1);

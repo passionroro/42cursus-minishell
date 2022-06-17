@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:11:28 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 19:11:32 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 char	**env_remove(char **str, int pos)
@@ -37,7 +49,8 @@ int	run_unset(t_node *com)
 	i = -1;
 	while (com->sh->envp[++i])
 	{
-		if (!ft_strncmp(com->sh->envp[i], com->args[1], ft_strlen(com->args[1])))
+		if (!ft_strncmp(com->sh->envp[i],
+				com->args[1], ft_strlen(com->args[1])))
 		{
 			com->sh->envp = env_remove(com->sh->envp, i);
 			break ;

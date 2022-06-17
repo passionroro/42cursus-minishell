@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 10:56:06 by henkaoua          #+#    #+#             */
-/*   Updated: 2021/10/26 11:52:52 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/11 11:12:25 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ char	*ft_strtrim(const char *s1, const char *set)
 	while (s <= e)
 		str[i++] = s1[s++];
 	str[i] = '\0';
+	free((void *)s1);
 	return (str);
 }

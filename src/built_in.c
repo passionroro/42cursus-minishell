@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_in.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 18:46:20 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/17 17:00:00 by rohoarau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	is_built_in2(char *str)
@@ -37,7 +49,7 @@ int	built_in_check(t_node *com)
 	if (!ft_strncmp(com->args[0], "unset\0", 6))
 		run_unset(com);
 	if (!ft_strncmp(com->args[0], "env\0", 4))
-        run_env(com);
+		run_env(com);
 	if (!ft_strncmp(com->args[0], "exit\0", 5))
 		run_exit(com);
 	if (!ft_strncmp(com->args[0], "cd\0", 3))
