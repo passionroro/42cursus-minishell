@@ -32,44 +32,43 @@ static char	*ft_lastgdf(char *tmp, char *arr)
 	return (arr);
 }
 
-void    check_if_even(t_split *f, char c)
+void	check_if_even(t_split *f, char c, int i, char *s)
 {
-    if (f->q == '0')
-    {
-        if (c == 34 || c == 39)
-        {
-            f->even = !f->even;
-            f->q = c;
-        }
-    }
-    else
-    {
-        if (c == f->q)
-        {
-            f->even = !f->even;
-            f->q = '0';
-        }
-    }
+	if (i == 1)
+		f->tmp[f->k++] = s[f->i++];
+	if (f->q == '0')
+	{
+		if (c == 34 || c == 39)
+		{
+			f->even = !f->even;
+			f->q = c;
+		}
+	}
+	else
+	{
+		if (c == f->q)
+		{
+			f->even = !f->even;
+			f->q = '0';
+		}
+	}
 }
 
-static char	**ft_setarr(char **arr, const char *s, char c)
+static char	**ft_setarr(char **arr, char *s, char c)
 {
-	t_split f;
+	t_split	f;
 
 	f.i = 0;
 	f.r = 0;
 	while (s[f.i] == c)
 		f.i++;
-    f.even = true;
+	f.even = true;
 	while (s[f.i])
 	{
 		f.k = 0;
-        f.q = '0';
+		f.q = '0';
 		while (!(s[f.i] == c && f.even) && s[f.i])
-        {
-            f.tmp[f.k++] = s[f.i++];
-            check_if_even(&f, s[f.i]);
-        }
+			check_if_even(&f, s[f.i], 1, s);
 		f.tmp[f.k] = '\0';
 		if (f.k > 0)
 		{
@@ -83,9 +82,9 @@ static char	**ft_setarr(char **arr, const char *s, char c)
 	return (arr);
 }
 
-static int	ft_cnt(const char *s, char c)
+static int	ft_cnt(char *s, char c)
 {
-	t_split f;
+	t_split	f;
 
 	f.i = -1;
 	f.k = 0;
@@ -98,11 +97,11 @@ static int	ft_cnt(const char *s, char c)
 		}
 	}
 	f.i = 0;
-    f.q = '0';
-    f.even = true;
+	f.q = '0';
+	f.even = true;
 	while (s[f.i])
 	{
-        check_if_even(&f, s[f.i]);
+		check_if_even(&f, s[f.i], 0, s);
 		if (s[f.i] == c)
 			if (f.i > 0 && s[f.i + 1] != '\0' && s[f.i + 1] != c && f.even)
 				f.k++;
@@ -111,7 +110,7 @@ static int	ft_cnt(const char *s, char c)
 	return (f.k);
 }
 
-char	**ft_split_for_quotes(char const *s, char c)
+char	**ft_split_for_quotes(char *s, char c)
 {
 	int		a;
 	char	**arr;

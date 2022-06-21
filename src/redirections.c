@@ -64,7 +64,7 @@ int	redirect_heredoc(t_node *com, int i)
 		;
 	her.delimiter = write_file_name(com->content + i);
 	if (her.delimiter == NULL)
-		return (write_error("bash: syntax error near unexpected\
+		return (write_error("bash: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
 	her.container = ft_strdup("");
 	while (1)

@@ -74,10 +74,17 @@ typedef struct s_split
 	int		r;
 	int		k;
 	char	tmp[1000];
-    bool    even;
-    char    q;
+	bool	even;
+	char	q;
 }	t_split;
 
+typedef struct s_dollar
+{
+	int	i;
+	int	j;
+	int	t;
+	int	pos;
+}	t_dollar;
 
 t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
@@ -115,6 +122,7 @@ int		ft_strcmp(char *s1, char *s2);
 int		write_error(char *s1, char *s2, char *s3, int ret);
 void	heredoc_part2(t_heredoc *her, t_node *com);
 int		quote_is_closed(t_minishell *sh);
-char	**ft_split_for_quotes(char const *s, char c);
+char	**ft_split_for_quotes(char *s, char c);
+void	dollar_sign_check(t_node *com, t_minishell *sh);
 
 #endif
