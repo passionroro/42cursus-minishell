@@ -36,6 +36,20 @@ int	quote_is_closed(t_minishell *sh)
 	return (sh->even);
 }
 
+void	change_content(t_node *com)
+{
+	char	*tmp;
+	int		i;
+
+	i = -1;
+	tmp = ft_strdup("");
+	while (com->args[++i])
+		tmp = ft_strjoin(ft_strjoin(tmp, " "), com->args[i]);
+	free(com->content);
+	com->content = ft_strdup(tmp);
+	free(tmp);
+}
+
 void	remove_it_for_real(t_node *c, int j, int i)
 {
 	char	*tmp1;
@@ -52,6 +66,7 @@ void	remove_it_for_real(t_node *c, int j, int i)
 	c->args[j] = ft_substr(tmp1, 0, i);
 	tmp2 = ft_substr(tmp1 + (i + 1), 0, ft_strlen(tmp1 + (i + 1)));
 	c->args[j] = ft_strjoin(c->args[j], tmp2);
+	change_content(c);
 	free(tmp1);
 	free(tmp2);
 }

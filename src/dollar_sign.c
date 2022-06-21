@@ -12,6 +12,18 @@
 
 #include "../include/minishell.h"
 
+void	remove_dollar_txt(t_node *c, t_dollar *d, int j)
+{
+	char	*tmp;
+
+	printf("before : %s\n", c->content);
+	tmp = ft_substr(c->content, 0, d->i);
+	tmp = ft_strjoin(tmp, c->content + (d->i + j));
+	free(c->content);
+	c->content = tmp;
+	printf("after : %s\n", c->content);
+}
+
 int	if_quotes(t_node *c, t_dollar *d)
 {
 	int		i;
@@ -38,22 +50,30 @@ int	dollar_sign_access(t_node *c, t_dollar *d, char **en)
 	char	*tmp;
 
 	j = 0;
-	while (c->content[d->i + 1 + j] != 32 && c->content[d->i + 1 + j] != '\0'
-		&& !(c->content[d->i + 1 + j] == 34 && c->content[d->i + 2 + j] == '\0'))
+	while (c->content[d->i + 1 + j] != 32 && c->content[d->i + 1 + j] != '\0')
 		j++;
+	if (c->content[d->i + j] == 34 && (c->content[d->i + j + 1] == '\0'
+		|| c->content[d->i + j + 1] == 32))
+		j--;
 	i = -1;
 	while (en[++i])
 	{
-		if (!ft_strncmp(c->content + (d->i + 1), en[i], j) && if_quotes(c, d))
+		d->j = -1;
+		while (en[i][++d->j] != '=')
+			;
+		if (!ft_strncmp(c->content + (d->i + 1), en[i], d->j) && if_quotes(c, d)
+			&& !ft_strncmp(c->content + (d->i + 1), en[i], j) && if_quotes(c, d))
 		{
-			d->j = -1;
-			while (en[i][++d->j] != '=')
-				;
 			tmp = ft_strjoin(ft_substr(c->content, 0, d->i), en[i] + d->j + 1);
 			tmp = ft_strjoin(tmp, c->content + (d->i + j + 1));
 			free(c->content);
 			c->content = tmp;
+			ft_free_array(c->args);
+			c->args = ft_split_for_quotes(c->content, ' ');
+			break ;
 		}
+		/*else if (en[i + 1] == NULL)
+			remove_dollar_txt(c, d, j);*/
 	}
 	return (-1);
 }
