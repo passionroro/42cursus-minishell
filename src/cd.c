@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 18:47:35 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 18:48:10 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 char	*get_home(char **env)
@@ -7,7 +19,7 @@ char	*get_home(char **env)
 	i = -1;
 	while (env[++i])
 		if (!ft_strncmp(env[i], "HOME=", 5))
-            return (env[i] + 5);
+			return (env[i] + 5);
 	printf("bash: cd: HOME not set\n");
 	return (NULL);
 }
@@ -29,7 +41,7 @@ int	old_pwd(char **env, t_node *com)
 			free(com->sh->envp[i]);
 			com->sh->envp[i] = ft_strjoin(ft_strdup("OLDPWD="), tmp);
 			free(tmp);
-            return (1);
+			return (1);
 		}
 	}
 	printf("bash: cd: OLDPWD not set\n");
