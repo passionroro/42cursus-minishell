@@ -1,13 +1,13 @@
 QUOTES:
-> echo $HOME
+OK> echo $HOME
 /Users/rohoarau
-> echo "$HOME"
+OK> echo "$HOME"
 /Users/rohoarau
-> echo '$HOME'
+OK> echo '$HOME'
 $HOME
-> echo '$HO'ME
+OK> echo '$HO'ME
 $HOME
-> echo "$HO"ME
+NOT OK> echo "$HO"ME
 ME
 > unset HOME
 > echo $HOME
@@ -21,12 +21,9 @@ Please close the quotes
 > echo "\"\\"
 "\
 > echo " $HO err"
-
+  err
 > echo salut$HOME'kkk'l coucouHOME
 salut/Users/anaiskkkl coucouHOME
-
-when path is unset, don't forger to print "bash: env: No such file or directory" with error code 127, even when the function is unknown
-when command is unknown and the path is set, "bash: cocou: command not found" error code 127
 
 ---
 to send all the error messages in the program to the stderr(2).
@@ -36,5 +33,10 @@ the first 3 are strings to print in stderr, and the 4th is the int the fuction r
 the fuction always frees the 2nd string sent to it so if you want to print 2 strings without freeing any you send like this : write_error(str1, NULL, str2, ret_int)
 
 there's no other way to do it if we dont want leaks, I can explain why
-
+---
 kings in the castle :R
+
+
+1. delete $txt if not found
+2. dealing echo "'""'"
+3. echo -n vrwvc>txt doesn't redirect
