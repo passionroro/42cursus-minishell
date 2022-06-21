@@ -21,6 +21,13 @@ Please close the quotes
 > echo "\"\\"
 "\
 
+> echo salut$HOME'kkk'l coucouHOME
+salut/Users/anaiskkkl coucouHOME
+
+--> when we want to replace the dollar sign, we check the size of what's next until a space or a quote
+
+
+
 TODO:
 stop using ft_putstr_fd!!!
 we don't want to run dollar_sign_check when the string is inside single quotes (echo '$HOME')
