@@ -40,3 +40,4 @@ kings in the castle :R
 1. delete $txt if not found
 2. dealing echo "'""'"
 3. echo -n vrwvc>txt doesn't redirect
+4. echo 'efvcr' > txt should redirect. check if the args have been modified
