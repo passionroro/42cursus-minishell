@@ -41,4 +41,5 @@ kings in the castle :R
 2. same for CTRL \
 2. dealing echo "'""'"
 3. echo -n vrwvc>txt doesn't redirect
+4. echo "'$HOME'" / '"$HOME"'
 
