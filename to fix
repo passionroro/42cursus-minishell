@@ -1,3 +1,12 @@
+1. merging
+2. CTRL C inside cat doesnd exit properly fork
+3. same for CTRL \
+4. dealing echo "'""'"
+5. echo -n vrwvc>txt doesn't redirect
+6. echo "'$HOME'" / '"$HOME"'
+
+----
+
 QUOTES:
 OK> echo $HOME
 /Users/rohoarau
@@ -34,12 +43,8 @@ the fuction always frees the 2nd string sent to it so if you want to print 2 str
 
 there's no other way to do it if we dont want leaks, I can explain why
 ---
+
 kings in the castle :R
 
 
-1. CTRL C inside cat doesnd exit properly fork
-2. same for CTRL \
-2. dealing echo "'""'"
-3. echo -n vrwvc>txt doesn't redirect
-4. echo "'$HOME'" / '"$HOME"'
 
