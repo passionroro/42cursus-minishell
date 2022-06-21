@@ -37,7 +37,7 @@ there's no other way to do it if we dont want leaks, I can explain why
 kings in the castle :R
 
 
-1. delete $txt if not found
+1. CTRL C inside cat doesnd exit properly fork
 2. dealing echo "'""'"
 3. echo -n vrwvc>txt doesn't redirect
 
