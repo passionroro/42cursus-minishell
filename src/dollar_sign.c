@@ -68,6 +68,8 @@ int	dollar_sign_access(t_node *c, t_dollar *d, char **en)
 			tmp = ft_strjoin(tmp, c->content + (d->i + j + 1));
 			free(c->content);
 			c->content = tmp;
+			ft_free_array(c->args);
+			c->args = ft_split_for_quotes(c->content, ' ');
 			break ;
 		}
 		/*else if (en[i + 1] == NULL)
