@@ -16,12 +16,14 @@ void	remove_dollar_txt(t_node *c, t_dollar *d, int j)
 {
 	char	*tmp;
 
-	printf("before : %s\n", c->content);
+	j = 0;
+	while (c->content[d->i + j] != 32 && c->content[d->i + j] != '\0'
+		&& c->content[d->i + j] != 34 && c->content[d->i + j] != 39)
+		j++;
 	tmp = ft_substr(c->content, 0, d->i);
 	tmp = ft_strjoin(tmp, c->content + (d->i + j));
 	free(c->content);
 	c->content = tmp;
-	printf("after : %s\n", c->content);
 }
 
 int	if_quotes(t_node *c, t_dollar *d)
@@ -72,8 +74,8 @@ int	dollar_sign_access(t_node *c, t_dollar *d, char **en)
 			c->args = ft_split_for_quotes(c->content, ' ');
 			break ;
 		}
-		/*else if (en[i + 1] == NULL)
-			remove_dollar_txt(c, d, j);*/
+		else if (en[i + 1] == NULL)
+			remove_dollar_txt(c, d, j);
 	}
 	return (-1);
 }
