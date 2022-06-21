@@ -12,19 +12,66 @@
 
 #include "../include/minishell.h"
 
-void	remove_quotes(t_node *com)
+int	quote_is_closed(t_minishell *sh)
 {
 	int		i;
-	char	*tmp;
+	char	c;
 
 	i = -1;
-	while (com->args[++i])
+	sh->even = true;
+	while (sh->input[++i])
 	{
-		if (com->args[i][0] == 34 || com->args[i][0] == 39)
+		if (sh->input[i] == 34 || sh->input[i] == 39)
 		{
-			tmp = ft_substr(com->args[i], 1, ft_strlen(com->args[i]) - 2);
-			free(com->args[i]);
-			com->args[i] = tmp;
+			c = sh->input[i];
+			sh->even = !sh->even;
+			while (sh->input[++i] && sh->input[i] != c)
+				;
+			if (sh->input[i] == c)
+				sh->even = !sh->even;
+		}
+	}
+	if (!sh->even)
+		write_error("Error : open quotes\n", NULL, NULL, -1);
+	return (sh->even);
+}
+
+void	remove_it_for_real(t_node *c, int j, int i)
+{
+	char	*tmp1;
+	char	*tmp2;
+
+	tmp1 = ft_substr(c->args[j], 0, i);
+	tmp2 = ft_substr(c->args[j] + (i + 1), 0, ft_strlen(c->args[j] + (i + 1)));
+	tmp1 = ft_strjoin(tmp1, tmp2);
+	free(tmp2);
+	i = ft_strlen(tmp1);
+	while (tmp1[--i] != 34 && tmp1[i] != 39)
+		;
+	free(c->args[j]);
+	c->args[j] = ft_substr(tmp1, 0, i);
+	tmp2 = ft_substr(tmp1 + (i + 1), 0, ft_strlen(tmp1 + (i + 1)));
+	c->args[j] = ft_strjoin(c->args[j], tmp2);
+	free(tmp1);
+	free(tmp2);
+}
+
+void	remove_quotes(t_node *com)
+{
+	int		j;
+	int		i;
+
+	j = -1;
+	while (com->args[++j])
+	{
+		i = -1;
+		while (com->args[j][++i])
+		{
+			if (com->args[j][i] == 34 || com->args[j][i] == 39)
+			{
+				remove_it_for_real(com, j , i);
+				break ;
+			}
 		}
 	}
 }

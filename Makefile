@@ -20,7 +20,6 @@ SRCS		=	main.c				\
 				redirections.c		\
 				linked_list.c		\
 				red_fncs.c			\
-				quotes.c			\
 				split_modified.c	\
 				dollar_sign.c
 

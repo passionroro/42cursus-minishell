@@ -39,7 +39,7 @@ int	dollar_sign_access(t_node *c, t_dollar *d, char **en)
 
 	j = 0;
 	while (c->content[d->i + 1 + j] != 32 && c->content[d->i + 1 + j] != '\0'
-		&& c->content[d->i + 1 + j] != 34)
+		&& !(c->content[d->i + 1 + j] == 34 && c->content[d->i + 2 + j] == '\0'))
 		j++;
 	i = -1;
 	while (en[++i])
