@@ -1,5 +1,4 @@
-1. merging
-2. CTRL C inside cat doesnd exit properly fork
+1. CTRL C inside cat doesnd exit properly fork
 3. same for CTRL \
 4. echo -n vrwvc>txt doesn't redirect
 
