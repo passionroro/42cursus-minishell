@@ -5,8 +5,8 @@ void	exit_code(int id)
 {
 	int	wstatus;
 
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, signal_process);
+	signal(SIGQUIT, signal_process);
 	waitpid(id, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		g_ret = WEXITSTATUS(wstatus);

@@ -115,5 +115,6 @@ int		quote_is_closed(t_minishell *sh);
 char	**ft_split_for_quotes(char *s, char c);
 void	dollar_sign_check(t_node *com, t_minishell *sh);
 void	signal_handler(int sig);
+void	signal_process(int sig);
 
 #endif
