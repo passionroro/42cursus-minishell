@@ -1,6 +1,7 @@
 1. CTRL C inside cat doesnd exit properly
 2. same for CTRL \
 3. echo gwr  "gtwt "" " gwrgw'wtgg rwgt'
+4. cat | cat | ls
 ---
 
 all cases work except echo "'""'"
