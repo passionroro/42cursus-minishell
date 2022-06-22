@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/17 16:48:53 by rohoarau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -49,6 +38,7 @@ typedef struct s_minishell
 	char	**envp;
 	int		nodes;
 	int		saved_fd[2];
+	bool	even;
 }	t_minishell;
 
 typedef struct s_clean_space
@@ -66,6 +56,25 @@ typedef struct s_heredoc
 	char	*container;
 	char	*delimiter;
 }	t_heredoc;
+
+typedef struct s_split
+{
+	int		i;
+	int		r;
+	int		k;
+	char	tmp[1000];
+	bool	even;
+	char	q;
+}	t_split;
+
+typedef struct s_dollar
+{
+	int		i;
+	int		j;
+	int		q;
+	int		n;
+	char	*t;
+}	t_dollar;
 
 t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
@@ -102,5 +111,8 @@ char	*write_file_name(char *str);
 int		ft_strcmp(char *s1, char *s2);
 int		write_error(char *s1, char *s2, char *s3, int ret);
 void	heredoc_part2(t_heredoc *her, t_node *com);
+int		quote_is_closed(t_minishell *sh);
+char	**ft_split_for_quotes(char *s, char c);
+void	dollar_sign_check(t_node *com, t_minishell *sh);
 
 #endif

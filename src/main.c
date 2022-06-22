@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/17 16:59:57 by rohoarau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -35,15 +24,16 @@ void	set_fd(t_minishell *sh, t_node *com)
 	}
 }
 
-void	reset_saved_fd(t_minishell *sh)
+void	reset_saved_fd(t_minishell *sh, t_node *tmp)
 {
 	dup2(sh->saved_fd[0], 0);
 	dup2(sh->saved_fd[1], 1);
 	close(sh->saved_fd[0]);
 	close(sh->saved_fd[1]);
+	ft_free_list(tmp);
 }
 
-int	is_real_command(t_minishell *sh)
+void	is_real_command(t_minishell *sh)
 {
 	t_node	*com;
 	t_node	*head;
@@ -51,6 +41,8 @@ int	is_real_command(t_minishell *sh)
 
 	sh->saved_fd[0] = dup(0);
 	sh->saved_fd[1] = dup(1);
+	if (!quote_is_closed(sh))
+		return ;
 	com = list_init(sh);
 	set_fd(sh, com);
 	head = com;
@@ -68,9 +60,8 @@ int	is_real_command(t_minishell *sh)
 			exit_code(head->id);
 		head = head->next;
 	}
-	reset_saved_fd(sh);
-	ft_free_list(tmp);
-	return (0);
+	reset_saved_fd(sh, tmp);
+	return ;
 }
 
 int	main(int argc, char **argv, char **envp)

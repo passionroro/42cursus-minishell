@@ -77,8 +77,6 @@ static int	ft_cnt(const char *s, char c)
 		}
 	}
 	i = 0;
-	while (s[i] == c)
-		i++;
 	while (s[i])
 	{
 		if (s[i] == c)

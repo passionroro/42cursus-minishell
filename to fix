@@ -1,0 +1,52 @@
+1. merging
+2. CTRL C inside cat doesnd exit properly fork
+3. same for CTRL \
+4. echo -n vrwvc>txt doesn't redirect
+
+----
+
+ export with no arguments prints the env sorted in alphabetic order with 
+ double quotes between the variable
+ export doesn't work if the command doesn't have '='
+ export will create a new env if it's a new command, and will replace the
+ correct line if the command already exists
+
+
+---
+to send all the error messages in the program to the stderr(2).
+there's a function called write_error in utils_built_in.c that takes 4 parameters:
+the first 3 are strings to print in stderr, and the 4th is the int the fuction returns.
+
+the fuction always frees the 2nd string sent to it so if you want to print 2 strings without freeing any you send like this : write_error(str1, NULL, str2, ret_int)
+
+there's no other way to do it if we dont want leaks, I can explain why
+---
+
+all cases work except echo "'""'"
+
+QUOTES:
+OK> echo $HOME
+/Users/rohoarau
+OK> echo "$HOME"
+/Users/rohoarau
+OK> echo '$HOME'
+$HOME
+OK> echo '$HO'ME
+$HOME
+OK> echo "$HO"ME
+ME
+OK > unset HOME
+OK > echo $HOME
+
+OK > echo "'"
+'
+WE DONT CARE > echo "'""'"
+''
+OK > echo """
+Please close the quotes
+
+OK > echo " $HO err"
+  err
+OK > echo salut$HOME'kkk'l coucouHOME
+salut/Users/anaiskkkl coucouHOME
+
