@@ -12,14 +12,6 @@
 
 #include "../include/minishell.h"
 
-/*
- * export with no arguments prints the env sorted in alphabetic order with 
- * double quotes between the variable
- * export doesn't work if the command doesn't have '='
- * export will create a new env if it's a new command, and will replace the
- * correct line if the command already exists
-*/
-
 void	print_export(char **tab)
 {
 	int	i;
