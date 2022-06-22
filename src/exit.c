@@ -6,18 +6,26 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/22 20:38:24 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/22 20:45:06 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void	signal_process(int sig)
+{
+	if (sig == SIGINT)
+		write (1, "^C\n", 3);
+	if (sig == SIGQUIT)
+		write (1, "^\\Quit: 3\n", 10);
+}
+
 void	exit_code(int id)
 {
 	int	wstatus;
 
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, signal_process);
+	signal(SIGQUIT, signal_process);
 	waitpid(id, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		g_ret = WEXITSTATUS(wstatus);
