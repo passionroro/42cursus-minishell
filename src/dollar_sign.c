@@ -47,8 +47,20 @@ void	remove_dollar_txt(t_node *c, t_dollar d)
 	}
 }
 
-int	dollar_sign_access(t_node *c, t_dollar d, char **en)
+void	replace_dq(t_node *com, t_dollar d)
 {
+	char	*tmp;
+	
+	tmp = ft_itoa(g_ret);
+	free(com->content);
+	com->content = ft_strjoin(ft_substr(com->content, 0, d.i), tmp);
+	free(tmp);
+}
+
+void	dollar_sign_access(t_node *c, t_dollar d, char **en)
+{
+	if (!ft_strncmp(c->content + d.i, "$?\0", 3))
+		return (replace_dq(c, d));
 	d.q = 0;
 	while (c->content[d.i + 1 + d.q] != 32 && c->content[d.i + 1 + d.q] != '\0'
 		&& c->content[d.i + 1 + d.q] != 34 && c->content[d.i + 1 + d.q] != 39)
@@ -71,7 +83,6 @@ int	dollar_sign_access(t_node *c, t_dollar d, char **en)
 		else if (en[d.n + 1] == NULL)
 			remove_dollar_txt(c, d);
 	}
-	return (-1);
 }
 
 void	dollar_sign_check(t_node *c, t_minishell *sh)
