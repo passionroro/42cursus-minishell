@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 19:06:27 by henkaoua         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -84,6 +73,8 @@ int	main(int argc, char **argv, char **envp)
 	ft_signals(&save);
 	while (1)
 	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
 		sh.input = readline("[prompt]$ ");
 		if (input_isnt_empty(sh.input, sh.envp))
 		{

@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 18:58:38 by henkaoua         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -16,6 +5,8 @@ void	exit_code(int id)
 {
 	int	wstatus;
 
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	waitpid(id, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		g_ret = WEXITSTATUS(wstatus);
