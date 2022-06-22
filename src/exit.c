@@ -28,9 +28,9 @@ int	exit_extent(t_node *com, int code, int quote)
 	free_var_init(com->sh, com);
 	ft_free_list(com);
 	if (quote == 0)
-		printf("bash: exit: too many arguments\n");
+		write_error("bash: exit: too many arguments\n", NULL, NULL, 0);
 	if (quote == 1)
-		printf("bash: exit: numeric argument required\n");
+		write_error("bash: exit: numeric argument required\n", NULL, NULL, 0);
 	exit(code);
 }
 

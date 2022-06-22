@@ -20,7 +20,7 @@ char	*get_home(char **env)
 	while (env[++i])
 		if (!ft_strncmp(env[i], "HOME=", 5))
 			return (env[i] + 5);
-	printf("bash: cd: HOME not set\n");
+	write_error("bash: cd: HOME not set\n", NULL, NULL, 0);
 	return (NULL);
 }
 
@@ -44,8 +44,7 @@ int	old_pwd(char **env, t_node *com)
 			return (1);
 		}
 	}
-	printf("bash: cd: OLDPWD not set\n");
-	return (1);
+	return (write_error("bash: cd: OLDPWD not set\n", NULL, NULL, 1));
 }
 
 int	run_cd(t_node *com)
