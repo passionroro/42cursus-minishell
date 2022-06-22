@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 19:06:27 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -54,10 +65,7 @@ void	is_real_command(t_minishell *sh)
 	}
 	while (head)
 	{
-		if (is_built_in2(head->args[0]) != 1)
-			waitpid(head->id, NULL, 0);
-		else
-			exit_code(head->id);
+		exit_code(head->id);
 		head = head->next;
 	}
 	reset_saved_fd(sh, tmp);
