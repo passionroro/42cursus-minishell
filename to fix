@@ -11,6 +11,9 @@
  export will create a new env if it's a new command, and will replace the
  correct line if the command already exists
 
+---
+
+for the return value, it might be possible that exit.c changes the return value that was assigned manualy (for example g_ret = 127 might be overwrite by the g_ret = WEXITSTATUS(wstatus))
 
 ---
 to send all the error messages in the program to the stderr(2).
