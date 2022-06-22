@@ -33,6 +33,15 @@ OK > echo salut$HOME'kkk'l coucouHOME
 salut/Users/anaiskkkl coucouHOME
 
 ---
+
+ export with no arguments prints the env sorted in alphabetic order with 
+ double quotes between the variable
+ export doesn't work if the command doesn't have '='
+ export will create a new env if it's a new command, and will replace the
+ correct line if the command already exists
+
+
+---
 to send all the error messages in the program to the stderr(2).
 there's a function called write_error in utils_built_in.c that takes 4 parameters:
 the first 3 are strings to print in stderr, and the 4th is the int the fuction returns.
