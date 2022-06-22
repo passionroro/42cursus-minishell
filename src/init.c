@@ -84,7 +84,7 @@ void	remove_quotes(t_node *com)
 		{
 			if (com->args[j][i] == 34 || com->args[j][i] == 39)
 			{
-				remove_it_for_real(com, j , i);
+				remove_it_for_real(com, j, i);
 				break ;
 			}
 		}

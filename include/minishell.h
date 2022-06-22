@@ -80,10 +80,11 @@ typedef struct s_split
 
 typedef struct s_dollar
 {
-	int	i;
-	int	j;
-	int	t;
-	int	pos;
+	int		i;
+	int		j;
+	int		q;
+	int		n;
+	char	*t;
 }	t_dollar;
 
 t_node	*list_init(t_minishell *sh);
