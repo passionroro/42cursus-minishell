@@ -1,7 +1,7 @@
 1. merging
 2. CTRL C inside cat doesnd exit properly fork
 3. same for CTRL \
-4. dealing echo "'""'"
+4. dealing echo "'""'" WE DONT CAREEEEEEEEE :P
 5. echo -n vrwvc>txt doesn't redirect
 6. echo "'$HOME'" / '"$HOME"'
 
