@@ -27,8 +27,7 @@ ME
 ''
 > echo """
 Please close the quotes
-> echo "\"\\"
-"\
+
 > echo " $HO err"
   err
 > echo salut$HOME'kkk'l coucouHOME
