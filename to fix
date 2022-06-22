@@ -1,6 +1,5 @@
-1. CTRL C inside cat doesnd exit properly fork
-3. same for CTRL \
-4. echo -n vrwvc>txt doesn't redirect
+1. CTRL C inside cat doesnd exit properly
+2. same for CTRL \
 
 ---
 to send all the error messages in the program to the stderr(2).
