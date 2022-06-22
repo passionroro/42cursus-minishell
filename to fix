@@ -1,38 +1,9 @@
 1. merging
 2. CTRL C inside cat doesnd exit properly fork
 3. same for CTRL \
-4. dealing echo "'""'" WE DONT CAREEEEEEEEE :P
-5. echo -n vrwvc>txt doesn't redirect
+4. echo -n vrwvc>txt doesn't redirect
 
 ----
-
-QUOTES:
-OK> echo $HOME
-/Users/rohoarau
-OK> echo "$HOME"
-/Users/rohoarau
-OK> echo '$HOME'
-$HOME
-OK> echo '$HO'ME
-$HOME
-OK> echo "$HO"ME
-ME
-> unset HOME
-> echo $HOME
-
-OK > echo "'"
-'
-WE DONT CARE > echo "'""'"
-''
-OK > echo """
-Please close the quotes
-
-OK > echo " $HO err"
-  err
-OK > echo salut$HOME'kkk'l coucouHOME
-salut/Users/anaiskkkl coucouHOME
-
----
 
  export with no arguments prints the env sorted in alphabetic order with 
  double quotes between the variable
@@ -51,7 +22,31 @@ the fuction always frees the 2nd string sent to it so if you want to print 2 str
 there's no other way to do it if we dont want leaks, I can explain why
 ---
 
-kings in the castle :R
+all cases work except echo "'""'"
 
+QUOTES:
+OK> echo $HOME
+/Users/rohoarau
+OK> echo "$HOME"
+/Users/rohoarau
+OK> echo '$HOME'
+$HOME
+OK> echo '$HO'ME
+$HOME
+OK> echo "$HO"ME
+ME
+OK > unset HOME
+OK > echo $HOME
 
+OK > echo "'"
+'
+WE DONT CARE > echo "'""'"
+''
+OK > echo """
+Please close the quotes
+
+OK > echo " $HO err"
+  err
+OK > echo salut$HOME'kkk'l coucouHOME
+salut/Users/anaiskkkl coucouHOME
 
