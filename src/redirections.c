@@ -44,7 +44,7 @@ int	redirect_output(t_node *com, int i)
 	if (file == NULL)
 		return (write_error("bash: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
-	fd = open(file, O_RDWR | O_CREAT, 0777);
+	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (write_error("Error : can't open file < ",
 				file, " >\n", -1));
