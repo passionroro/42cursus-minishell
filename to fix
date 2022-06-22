@@ -1,14 +1,6 @@
 1. CTRL C inside cat doesnd exit properly
 2. same for CTRL \
-
----
-to send all the error messages in the program to the stderr(2).
-there's a function called write_error in utils_built_in.c that takes 4 parameters:
-the first 3 are strings to print in stderr, and the 4th is the int the fuction returns.
-
-the fuction always frees the 2nd string sent to it so if you want to print 2 strings without freeing any you send like this : write_error(str1, NULL, str2, ret_int)
-
-there's no other way to do it if we dont want leaks, I can explain why
+3. echo gwr  "gtwt "" " gwrgw'wtgg rwgt'
 ---
 
 all cases work except echo "'""'"
