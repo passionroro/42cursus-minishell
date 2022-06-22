@@ -3,7 +3,6 @@
 3. same for CTRL \
 4. dealing echo "'""'" WE DONT CAREEEEEEEEE :P
 5. echo -n vrwvc>txt doesn't redirect
-6. echo "'$HOME'" / '"$HOME"'
 
 ----
 
@@ -16,21 +15,21 @@ OK> echo '$HOME'
 $HOME
 OK> echo '$HO'ME
 $HOME
-NOT OK> echo "$HO"ME
+OK> echo "$HO"ME
 ME
 > unset HOME
 > echo $HOME
 
-> echo "'"
+OK > echo "'"
 '
-> echo "'""'"
+WE DONT CARE > echo "'""'"
 ''
-> echo """
+OK > echo """
 Please close the quotes
 
-> echo " $HO err"
+OK > echo " $HO err"
   err
-> echo salut$HOME'kkk'l coucouHOME
+OK > echo salut$HOME'kkk'l coucouHOME
 salut/Users/anaiskkkl coucouHOME
 
 ---
