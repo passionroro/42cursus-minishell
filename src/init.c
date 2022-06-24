@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:01:51 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 19:01:58 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/24 17:35:24 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,17 @@ int	quote_is_closed(t_minishell *sh)
 {
 	int		i;
 	char	c;
+	char	*tmp;
 
 	i = -1;
 	sh->even = true;
+	if ((sh->input[0] == '"' && sh->input[ft_strlen(sh->input) - 1] == '"') || (sh->input[0] == '\'' && sh->input[ft_strlen(sh->input) - 1] == '\''))
+	{
+		tmp = ft_substr(sh->input, 1, ft_strlen(sh->input) - 2);
+		free(sh->input);
+		sh->input = ft_strdup(tmp);
+		free(tmp);
+	}
 	while (sh->input[++i])
 	{
 		if (sh->input[i] == 34 || sh->input[i] == 39)
@@ -97,7 +105,7 @@ int	var_init(t_minishell *sh, t_node *com)
 	com->args = ft_split_for_quotes(com->content, ' ');
 	if (!com->args)
 		return (-1);
-	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp)))
+	if (ft_malloc_array(&sh->path, ":", get_path(sh->envp)))
 		if (is_built_in2(com->args[0]) != 1)
 			return (-1);
 	remove_quotes(com);

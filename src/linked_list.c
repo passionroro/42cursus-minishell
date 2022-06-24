@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   linked_list.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 19:03:43 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 19:05:03 by henkaoua         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 void	one_line_less(t_clean_space *cs, char **str)
@@ -84,7 +72,8 @@ t_node	*list_init(t_minishell *sh)
 	char	**commands;
 	int		i;
 
-	commands = ft_split_for_quotes(sh->input, '|');
+	commands = my_split(sh->input, "\"|");
+//	commands = ft_split_for_quotes(sh->input, '|');
 	commands = ft_clean_space(commands);
 	com = (t_node *)malloc(sizeof(t_node));
 	com->content = ft_strdup(commands[0]);

@@ -49,6 +49,7 @@ void	pipe_redirection(t_node *com, t_minishell *sh)
 		return ;
 	if (com->next != NULL)
 	{
+		close(com->fd[0]);
 		dup2(com->fd[1], 1);
 		close(com->fd[1]);
 	}

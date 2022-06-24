@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/22 20:39:26 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/24 17:16:23 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_free_array(char **str);
 void	exit_code(int id);
 int		pipe_it_up(t_minishell *sh, t_node *com);
 int		var_init(t_minishell *sh, t_node *com);
-int		ft_malloc_array(char ***str, char sep, char *line);
+int		ft_malloc_array(char ***str, char *sep, char *line);
 int		redirect_check(t_node *com);
 int		pipe_it_up(t_minishell *sh, t_node *com);
 char	**env_init(char **env);
@@ -124,6 +124,7 @@ int		write_error(char *s1, char *s2, char *s3, int ret);
 void	heredoc_part2(t_heredoc *her, t_node *com);
 int		quote_is_closed(t_minishell *sh);
 char	**ft_split_for_quotes(char *s, char c);
+char	**my_split(char *s, char *c);
 void	dollar_sign_check(t_node *com, t_minishell *sh);
 void	signal_handler(int sig);
 
