@@ -1,6 +1,5 @@
 1. echo gwr  "gtwt "" " gwrgw'wtgg rwgt'
-2. cat | cat | ls
-3. $? exit value 0 in succsses
+2. $? exit value 0 in succsses
 ---
 
 all cases work except echo "'""'"
