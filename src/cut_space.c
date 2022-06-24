@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cut_space.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/24 20:37:13 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/24 20:37:39 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	cut_no_space(t_node *com, int *l, int *i)
@@ -34,21 +46,12 @@ void	cut_space_after(t_node *com, int *l, int *i)
 void	cut_space_around(t_node *com, int *l)
 {
 	int	p;
+
 	free(com->args[*l]);
 	free(com->args[*l + 1]);
 	p = 0;
 	while (com->args[*l + ++p + 1])
 		com->args[*l + p - 1] = com->args[*l + p + 1];
-	// if (com->args[*l + --p] != NULL)
-	// {
-	// 	free(com->args[*l + p]);
-	// 	com->args[*l + p] = NULL;
-	// }
-	// if (com->args[*l + ++p] != NULL)
-	// {
-	// 	free(com->args[*l + p]);
-	// 	com->args[*l + p] = NULL;
-	// }
 }
 
 void	cut_space_before(t_node *com, int *l)

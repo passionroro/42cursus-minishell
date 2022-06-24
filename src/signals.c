@@ -6,19 +6,11 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:08:39 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/22 21:37:08 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:08:40 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	signal_process(int sig)
-{
-	if (sig == SIGINT)
-		write(1, "^C\n", 3);
-	if (sig == SIGQUIT)
-		write(1, "^\\Quit: 3\n", 10);
-}
 
 void	signal_handler(int sig)
 {
