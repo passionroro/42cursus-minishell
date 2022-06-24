@@ -50,42 +50,40 @@ void	change_content(t_node *com)
 	free(tmp);
 }
 
-void	remove_it_for_real(t_node *c, int j, int i)
+void	erease_quote(t_node *com, int j, int i)
 {
-	char	*tmp1;
-	char	*tmp2;
+	char	*tmp;
 
-	tmp1 = ft_substr(c->args[j], 0, i);
-	tmp2 = ft_substr(c->args[j] + (i + 1), 0, ft_strlen(c->args[j] + (i + 1)));
-	tmp1 = ft_strjoin(tmp1, tmp2);
-	free(tmp2);
-	i = ft_strlen(tmp1);
-	while (tmp1[--i] != 34 && tmp1[i] != 39)
-		;
-	free(c->args[j]);
-	c->args[j] = ft_substr(tmp1, 0, i);
-	tmp2 = ft_substr(tmp1 + (i + 1), 0, ft_strlen(tmp1 + (i + 1)));
-	c->args[j] = ft_strjoin(c->args[j], tmp2);
-	change_content(c);
-	free(tmp1);
-	free(tmp2);
+	tmp = ft_substr(com->args[j], 0, i);
+	tmp = ft_strjoin(tmp, com->args[j] + (i + 1));
+	free(com->args[j]);
+	com->args[j] = tmp;
 }
 
 void	remove_quotes(t_node *com)
 {
 	int		j;
 	int		i;
+	bool	sq;
+	bool	dq;
 
 	j = -1;
+	sq = true;
+	dq = true;
 	while (com->args[++j])
 	{
 		i = -1;
 		while (com->args[j][++i])
 		{
-			if (com->args[j][i] == 34 || com->args[j][i] == 39)
+			if (com->args[j][i] == 34 && sq)
 			{
-				remove_it_for_real(com, j, i);
-				break ;
+				dq = !dq;
+				erease_quote(com, j, i);
+			}
+			if (com->args[j][i] == 39 && dq)
+			{
+				sq = !sq;
+				erease_quote(com, j, i);
 			}
 		}
 	}

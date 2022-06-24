@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 10:30:17 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/18 10:30:19 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/24 21:18:30 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	remove_dollar_txt(t_node *c, t_dollar d)
 {
 	char	*tmp;
 
-	if (if_quotes(c, d))
+	if (if_quotes(c, d) && c->content[d.i] == '$')
 	{
 		tmp = ft_substr(c->content, 0, d.i);
 		if (c->content[d.i + d.q + 1] != '\0')
@@ -77,11 +77,24 @@ int	dollar_sign_access(t_node *c, t_dollar d, char **en)
 void	dollar_sign_check(t_node *c, t_minishell *sh)
 {
 	t_dollar	d;
+	char		*itoa;
 
 	d.i = -1;
 	while (c->content[++d.i])
 	{
 		if (c->content[d.i] == '$')
+		{
+			if (c->content[d.i + 1] == '?' && if_quotes(c, d))
+			{
+				itoa = ft_itoa(g_ret);
+				d.t = ft_strjoin(ft_strjoin(ft_substr(c->content, 0, d.i), \
+				itoa), c->content + d.i + 2);
+				free(itoa);
+				free(c->content);
+				c->content = ft_strdup(d.t);
+				free(d.t);
+			}
 			dollar_sign_access(c, d, sh->envp);
+		}
 	}
 }
