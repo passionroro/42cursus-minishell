@@ -6,26 +6,16 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/22 20:45:06 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/14 18:58:38 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	signal_process(int sig)
-{
-	if (sig == SIGINT)
-		write (1, "^C\n", 3);
-	if (sig == SIGQUIT)
-		write (1, "^\\Quit: 3\n", 10);
-}
-
 void	exit_code(int id)
 {
 	int	wstatus;
 
-	signal(SIGINT, signal_process);
-	signal(SIGQUIT, signal_process);
 	waitpid(id, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		g_ret = WEXITSTATUS(wstatus);
@@ -38,9 +28,9 @@ int	exit_extent(t_node *com, int code, int quote)
 	free_var_init(com->sh, com);
 	ft_free_list(com);
 	if (quote == 0)
-		printf("bash: exit: too many arguments\n");
+		write_error("bash: exit: too many arguments\n", NULL, NULL, 0);
 	if (quote == 1)
-		printf("bash: exit: numeric argument required\n");
+		write_error("bash: exit: numeric argument required\n", NULL, NULL, 0);
 	exit(code);
 }
 

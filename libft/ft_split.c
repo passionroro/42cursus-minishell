@@ -6,22 +6,11 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 13:34:24 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/24 17:24:58 by rohoarau         ###   ########.fr       */
+/*   Updated: 2021/10/26 12:01:07 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	char_check(char c, char *s)
-{
-	int	i;
-
-	i = -1;
-	while (s[++i])
-		if (s[i] == c)
-			return (1);
-	return (0);
-}
 
 static char	*ft_lastgdf(char *tmp, char *arr)
 {
@@ -43,7 +32,7 @@ static char	*ft_lastgdf(char *tmp, char *arr)
 	return (arr);
 }
 
-static char	**ft_setarr(char **arr, const char *s, char *c)
+static char	**ft_setarr(char **arr, const char *s, char c)
 {
 	int		i;
 	int		r;
@@ -52,12 +41,12 @@ static char	**ft_setarr(char **arr, const char *s, char *c)
 
 	i = 0;
 	r = 0;
-	while (char_check(s[i], c) == 1)
+	while (s[i] == c)
 		i++;
 	while (s[i])
 	{
 		k = 0;
-		while (char_check(s[i], c) == 0 && s[i])
+		while (s[i] != c && s[i])
 			tmp[k++] = s[i++];
 		tmp[k] = '\0';
 		if (k > 0)
@@ -72,7 +61,7 @@ static char	**ft_setarr(char **arr, const char *s, char *c)
 	return (arr);
 }
 
-static int	ft_cnt(const char *s, char *c)
+static int	ft_cnt(const char *s, char c)
 {
 	int	i;
 	int	k;
@@ -81,7 +70,7 @@ static int	ft_cnt(const char *s, char *c)
 	k = 0;
 	while (s[++i])
 	{
-		if (char_check(s[i], c) == 0)
+		if (s[i] != c)
 		{
 			k++;
 			break ;
@@ -90,15 +79,15 @@ static int	ft_cnt(const char *s, char *c)
 	i = 0;
 	while (s[i])
 	{
-		if (char_check(s[i], c) == 1)
-			if (i > 0 && s[i + 1] != '\0' && char_check(s[i + 1], c) == 0)
+		if (s[i] == c)
+			if (i > 0 && s[i + 1] != '\0' && s[i + 1] != c)
 				k++;
 		i++;
 	}
 	return (k);
 }
 
-char	**ft_split(char const *s, char *c)
+char	**ft_split(char const *s, char c)
 {
 	int		a;
 	char	**arr;
@@ -118,11 +107,3 @@ char	**ft_split(char const *s, char *c)
 	arr = ft_setarr(arr, s, c);
 	return (arr);
 }
-/*
-int	main()
-{
-	char	**str = ft_split("\"cat | ls\"", " |");
-	int	i = -1;
-	while (str[++i])
-		printf("{%s}\n", str[i]);
-}*/

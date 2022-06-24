@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:14:02 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/24 17:16:16 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:14:04 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_var_init(t_minishell *sh, t_node *com)
 		ft_free_array(sh->path);
 }
 
-int	ft_malloc_array(char ***str, char *sep, char *line)
+int	ft_malloc_array(char ***str, char sep, char *line)
 {
 	*str = ft_split(line, sep);
 	if (!*str)

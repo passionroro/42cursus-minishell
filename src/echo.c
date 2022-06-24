@@ -12,6 +12,7 @@
 
 #include "../include/minishell.h"
 
+//echo salut es amis 
 int	run_echo(t_node *com)
 {
 	int	i;
@@ -25,9 +26,9 @@ int	run_echo(t_node *com)
 		i++;
 	while (com->args[++i])
 	{
-		printf("%s", com->args[i]);
+		write (1, com->args[i], ft_strlen(com->args[i]));
 		if (com->args[i + 1] != NULL)
-			printf(" ");
+			write (1, " ", 1);
 	}
 	if (ft_strncmp(com->args[1], "-n\0", 3)
 		&& ft_strncmp(com->args[1], "\n\0", 2))

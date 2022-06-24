@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 18:47:35 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/14 18:48:10 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -33,7 +44,8 @@ int	command_exec(t_node *com, t_minishell *sh)
 {
 	if (command_access(sh, com, -1) == -1)
 	{
-		printf("bash: %s: command not found\n", com->args[0] + 1);
+		write_error("bash: ", NULL, com->args[0] + 1, 0);
+		write_error(": command not found\n", NULL, NULL, 0);
 		g_ret = 127;
 		if (!com->path)
 			free(com->path);
@@ -49,7 +61,6 @@ void	pipe_redirection(t_node *com, t_minishell *sh)
 		return ;
 	if (com->next != NULL)
 	{
-//		close(com->fd[0]);
 		dup2(com->fd[1], 1);
 		close(com->fd[1]);
 	}
@@ -59,7 +70,8 @@ void	pipe_redirection(t_node *com, t_minishell *sh)
 
 int	command_not_found(t_minishell *sh, t_node *com)
 {
-	printf("bash: %s: No such file or directory\n", com->args[0]);
+	write_error("bash: ", NULL, com->args[0], 0);
+	write_error(": No such file or directory\n", NULL, NULL, 0);
 	free_var_init(sh, com);
 	g_ret = 127;
 	return (g_ret);

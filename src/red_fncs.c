@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:41:01 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/24 17:17:06 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:41:02 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_cut_file(t_node *com, int start, int end, int len)
 	free(com->content);
 	com->content = ft_strdup(tmp);
 	ft_free_array(com->args);
-	ft_malloc_array(&com->args, " ", tmp);
+	ft_malloc_array(&com->args, ' ', tmp);
 	free(tmp);
 }
 

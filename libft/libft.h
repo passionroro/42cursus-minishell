@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 16:16:20 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/24 17:12:49 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/04/10 22:36:39 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_putchar_fd(char c, int fd);
 void	*ft_memset(void *str, int c, t_size num);
 void	*ft_memmove(void *pdst, const void *psrc, unsigned long int n);
 char	*ft_strchr(const char *str, int c);
-char	**ft_split(char const *s, char *c);
+char	**ft_split(char const *s, char c);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 t_size	ft_strlcat(char *dst, const char *src, t_size n);

@@ -21,7 +21,6 @@ SRCS		=	main.c				\
 				linked_list.c		\
 				red_fncs.c			\
 				split_modified.c	\
-				my_split.c 			\
 				dollar_sign.c
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
