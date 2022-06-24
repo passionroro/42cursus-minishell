@@ -72,8 +72,8 @@ t_node	*list_init(t_minishell *sh)
 	char	**commands;
 	int		i;
 
-	commands = my_split(sh->input, "\"|");
-//	commands = ft_split_for_quotes(sh->input, '|');
+//	commands = my_split(sh->input, "\"|");
+	commands = ft_split_for_quotes(sh->input, '|');
 	commands = ft_clean_space(commands);
 	com = (t_node *)malloc(sizeof(t_node));
 	com->content = ft_strdup(commands[0]);
