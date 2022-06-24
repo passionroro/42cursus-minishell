@@ -1,0 +1,32 @@
+1. echo gwr  "gtwt "" " gwrgw'wtgg rwgt'
+2. $? exit value 0 in succsses
+---
+
+all cases work except echo "'""'"
+
+QUOTES:
+OK> echo $HOME
+/Users/rohoarau
+OK> echo "$HOME"
+/Users/rohoarau
+OK> echo '$HOME'
+$HOME
+OK> echo '$HO'ME
+$HOME
+OK> echo "$HO"ME
+ME
+OK > unset HOME
+OK > echo $HOME
+
+OK > echo "'"
+'
+WE DONT CARE > echo "'""'"
+''
+OK > echo """
+Please close the quotes
+
+OK > echo " $HO err"
+  err
+OK > echo salut$HOME'kkk'l coucouHOME
+salut/Users/anaiskkkl coucouHOME
+

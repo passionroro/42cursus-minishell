@@ -12,7 +12,6 @@
 
 #include "../include/minishell.h"
 
-//echo salut es amis 
 int	run_echo(t_node *com)
 {
 	int	i;
