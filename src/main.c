@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 19:06:27 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:29:44 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	reset_saved_fd(t_minishell *sh, t_node *tmp)
 	dup2(sh->saved_fd[1], 1);
 	close(sh->saved_fd[0]);
 	close(sh->saved_fd[1]);
-	ft_free_list(tmp);
+	ft_free_list(tmp, sh);
 }
 
 void	is_real_command(t_minishell *sh)
@@ -65,7 +65,7 @@ void	is_real_command(t_minishell *sh)
 	}
 	while (head)
 	{
-		exit_code(head->id);
+		exit_code(head, head->id, sh->envp);
 		head = head->next;
 	}
 	reset_saved_fd(sh, tmp);

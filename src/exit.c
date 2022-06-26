@@ -6,27 +6,30 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 18:58:38 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:31:13 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	exit_code(int id)
+void	exit_code(t_node *com, int id, char **env)
 {
-	int	wstatus;
+	int	code;
 
-	waitpid(id, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		g_ret = WEXITSTATUS(wstatus);
-	if (WIFSIGNALED(wstatus))
-		g_ret = WTERMSIG(wstatus);
+	waitpid(id, &code, 0);
+	if (is_built_in(env, com->args[0]) != 1)
+	{
+		if (WIFEXITED(code))
+			g_ret = WEXITSTATUS(code);
+		if (WIFSIGNALED(code))
+			g_ret = WTERMSIG(code);
+	}
 }
 
 int	exit_extent(t_node *com, int code, int quote)
 {
 	free_var_init(com->sh, com);
-	ft_free_list(com);
+	ft_free_list(com, com->sh);
 	if (quote == 0)
 		write_error("bash: exit: too many arguments\n", NULL, NULL, 0);
 	if (quote == 1)

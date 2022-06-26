@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 18:44:54 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:29:04 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
 int		input_isnt_empty(char *str, char **env);
 void	ft_free_array(char **str);
-void	exit_code(int id);
+void	exit_code(t_node *com, int id, char **env);
 int		pipe_it_up(t_minishell *sh, t_node *com);
 int		var_init(t_minishell *sh, t_node *com);
 int		ft_malloc_array(char ***str, char sep, char *line);
@@ -115,7 +115,7 @@ char	**env_create(t_node *com, int size);
 char	*env_replace(t_node *com, int pos);
 void	replace_pwd(t_node *com, char *dir, int code);
 void	replace_old_pwd(t_node *com);
-void	ft_free_list(t_node *com);
+void	ft_free_list(t_node *com, t_minishell *sh);
 void	remove_file(t_node *com, char c);
 int		ft_is_space(char c);
 char	*write_file_name(char *str);

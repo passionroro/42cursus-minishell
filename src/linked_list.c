@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:03:43 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 19:05:03 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:29:46 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**ft_clean_space(char **str)
 	return (str);
 }
 
-void	ft_free_list(t_node *com)
+void	ft_free_list(t_node *com, t_minishell *sh)
 {
 	t_node	*tmp;
 
@@ -55,6 +55,7 @@ void	ft_free_list(t_node *com)
 	{
 		tmp = com;
 		free(com->content);
+		free_var_init(sh, com);
 		com = com->next;
 		free(tmp);
 	}
