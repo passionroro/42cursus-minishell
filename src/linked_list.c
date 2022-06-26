@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:03:43 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 15:46:33 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 16:01:29 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ t_node	*list_init(t_minishell *sh)
 	int		i;
 
 	commands = ft_split_for_quotes(sh->input, '|');
-	commands = ft_clean_space(commands);
+	i = -1;
+	while (commands[++i])
+		commands[i] = ft_strtrim(commands[i], " ");
 	com = (t_node *)malloc(sizeof(t_node));
 	com->content = ft_strdup(commands[0]);
 	com->next = NULL;
@@ -97,7 +99,8 @@ t_node	*list_init(t_minishell *sh)
 	com->fd[1] = STDOUT_FILENO;
 	i = 0;
 	while (commands[++i])
-		new_node(com, commands[i], sh);
+		if (commands[i][0] != '\0')
+			new_node(com, commands[i], sh);
 	ft_free_array(commands);
 	return (com);
 }
