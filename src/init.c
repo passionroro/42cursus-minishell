@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:01:51 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 19:01:58 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/26 16:57:25 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	var_init(t_minishell *sh, t_node *com)
 	if (!com->args)
 		return (-1);
 	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp)))
-		if (is_built_in2(com->args[0]) != 1)
+		if (is_not_env(com->args[0]) != 1)
 			return (-1);
 	remove_quotes(com);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 15:47:04 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 17:09:50 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
 int		input_isnt_empty(char *str, char **env);
 void	ft_free_array(char **str);
-void	exit_code(t_node *com, int id, char **env);
+void	exit_code(t_node *com, int id);
 int		pipe_it_up(t_minishell *sh, t_node *com);
 int		var_init(t_minishell *sh, t_node *com);
 int		ft_malloc_array(char ***str, char sep, char *line);
@@ -100,7 +100,8 @@ int		pipe_it_up(t_minishell *sh, t_node *com);
 char	**env_init(char **env);
 char	*add_backslash(char *str);
 int		is_built_in(char **env, char *str);
-int		is_built_in2(char *str);
+int		is_not_env(char *str);
+int		built_in_exit(char *str);
 int		built_in_check(t_node *com);
 void	free_var_init(t_minishell *sh, t_node *com);
 int		run_unset(t_node *com);

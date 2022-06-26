@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 15:48:46 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 17:09:37 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	is_real_command(t_minishell *sh)
 	}
 	while (head)
 	{
-		exit_code(head, head->id, sh->envp);
+		exit_code(head, head->id);
 		head = head->next;
 	}
 	reset_saved_fd(sh, tmp);

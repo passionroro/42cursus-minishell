@@ -24,7 +24,7 @@ int	redirect_input(t_node *com, int i)
 	file = write_file_name(com->content + i);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (write_error("bash: ", file,
+		return (write_error("minishell: ", file,
 				": No such file or directory\n", -1));
 	dup2(fd, 0);
 	close(fd);
@@ -42,7 +42,7 @@ int	redirect_output(t_node *com, int i)
 		;
 	file = write_file_name(com->content + i);
 	if (file == NULL)
-		return (write_error("bash: syntax error near unexpected \
+		return (write_error("minishell: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
 	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
@@ -64,7 +64,7 @@ int	redirect_heredoc(t_node *com, int i)
 		;
 	her.delimiter = write_file_name(com->content + i);
 	if (her.delimiter == NULL)
-		return (write_error("bash: syntax error near unexpected \
+		return (write_error("minishell: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
 	her.container = ft_strdup("");
 	while (1)
@@ -91,7 +91,7 @@ int	redirect_append(t_node *com, int i)
 		;
 	file = write_file_name(com->content + i);
 	if (file == NULL)
-		return (write_error("bash: syntax error near unexpected \
+		return (write_error("minishell: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
