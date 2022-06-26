@@ -38,9 +38,7 @@ void	set_fd(t_minishell *sh, t_node *com)
 void	reset_saved_fd(t_minishell *sh, t_node *tmp)
 {
 	dup2(sh->saved_fd[0], 0);
-	dup2(sh->saved_fd[1], 1);
 	close(sh->saved_fd[0]);
-	close(sh->saved_fd[1]);
 	ft_free_list(tmp);
 }
 
