@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 15:29:04 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:33:32 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,7 @@ void	heredoc_part2(t_heredoc *her, t_node *com);
 int		quote_is_closed(t_minishell *sh);
 char	**ft_split_for_quotes(char *s, char c);
 void	dollar_sign_check(t_node *com, t_minishell *sh);
+void	signal_handler(int sig);
+void	signal_process(int sig);
 
 #endif
