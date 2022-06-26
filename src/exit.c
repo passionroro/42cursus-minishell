@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 16:56:43 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 20:56:39 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	exit_extent(t_node *com, int code, int quote)
 	if (quote == 0)
 		write_error("minishell: exit: too many arguments\n", NULL, NULL, 0);
 	if (quote == 1)
-		write_error("minishell: exit: numeric argument required\n", NULL, NULL, 0);
+		write_error("minishell: exit: numeric argument required\n", \
+				NULL, NULL, 0);
 	exit(code);
 }
 
