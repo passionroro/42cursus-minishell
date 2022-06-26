@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 15:33:32 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:47:04 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char	**env_create(t_node *com, int size);
 char	*env_replace(t_node *com, int pos);
 void	replace_pwd(t_node *com, char *dir, int code);
 void	replace_old_pwd(t_node *com);
-void	ft_free_list(t_node *com, t_minishell *sh);
+void	ft_free_list(t_node *com);
 void	remove_file(t_node *com, char c);
 int		ft_is_space(char c);
 char	*write_file_name(char *str);

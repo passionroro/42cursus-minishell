@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:47:35 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 15:29:48 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:46:56 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 		built_in_check(com);
 	dup2(com->fd[0], 0);
 	close(com->fd[0]);
-//	free_var_init(sh, com);
+	free_var_init(sh, com);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 15:33:54 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:47:00 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exit_code(t_node *com, int id, char **env)
 	signal(SIGINT, signal_process);
 	signal(SIGQUIT, signal_process);
 	waitpid(id, &code, 0);
-	if (is_built_in(env, com->args[0]) != 1)
+	if (is_built_in(env, com->content) != 1)
 	{
 		if (WIFEXITED(code))
 			g_ret = WEXITSTATUS(code);
