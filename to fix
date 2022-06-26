@@ -5,7 +5,7 @@ FIXED3. cat | | ls
     return (NULL) echo roro | | ls
 
 1. cat | cat | ls :  incorrect behavoir when because of unclosed fd
-2. echo 'salut' > txt : redirects with the quotes (is has this behavior since main_yossi > the version to work with :))
+FIXED2. echo 'salut' > txt : redirects with the quotes (is has this behavior since main_yossi > the version to work with :))
 
 ---
 
