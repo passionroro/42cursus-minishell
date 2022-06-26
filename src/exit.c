@@ -35,7 +35,8 @@ int	exit_extent(t_node *com, int code, int quote)
 	if (quote == 0)
 		write_error("minishell: exit: too many arguments\n", NULL, NULL, 0);
 	if (quote == 1)
-		write_error("minishell: exit: numeric argument required\n", NULL, NULL, 0);
+		write_error("minishell: exit: numeric argument required\n", \
+	NULL, NULL, 0);
 	exit(code);
 }
 
