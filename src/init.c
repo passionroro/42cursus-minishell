@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:01:51 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 16:57:25 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 17:26:40 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	erease_quote(t_node *com, int j, int i)
 	tmp = ft_strjoin(tmp, com->args[j] + (i + 1));
 	free(com->args[j]);
 	com->args[j] = tmp;
+	change_content(com);
 }
 
 void	remove_quotes(t_node *com)
