@@ -58,7 +58,7 @@ void	remove_dollar_txt(t_node *c, t_dollar d)
 	}
 }
 
-int	dollar_sign_access(t_node *c, t_dollar d, char **en)
+void	dollar_sign_access(t_node *c, t_dollar d, char **en)
 {
 	d.q = 0;
 	while (c->content[d.i + 1 + d.q] != 32 && c->content[d.i + 1 + d.q] != '\0'
@@ -82,7 +82,6 @@ int	dollar_sign_access(t_node *c, t_dollar d, char **en)
 		else if (en[d.n + 1] == NULL)
 			remove_dollar_txt(c, d);
 	}
-	return (-1);
 }
 
 void	dollar_sign_check(t_node *c, t_minishell *sh)

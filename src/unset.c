@@ -40,19 +40,47 @@ char	**env_remove(char **str, int pos)
 	return (tmp);
 }
 
-int	run_unset(t_node *com)
+int	check_non_valid_identifier(t_node *com)
 {
-	int		i;
+	int	j;
+	int	i;
 
-	if (com->args[1] == NULL)
+	j = 0;
+	while (com->args[++j])
+	{
+		i = -1;
+		while (com->args[j][++i])
+		{
+			if (!ft_isalpha(com->args[j][i]))
+			{
+				write_error("minishell: unset: `", NULL, com->args[j], 0);
+				write_error("': not a valid identifier\n", NULL, NULL, 0);
+				return (0);
+			}
+		}
+	}
+	return (1);
+}
+
+int	run_unset(t_node *c)
+{
+	int	i;
+	int	len;
+
+	if (c->args[1] == NULL)
+		return (-1);
+	if (!check_non_valid_identifier(c))
 		return (-1);
 	i = -1;
-	while (com->sh->envp[++i])
+	while (c->sh->envp[++i])
 	{
-		if (!ft_strncmp(com->sh->envp[i],
-				com->args[1], ft_strlen(com->args[1])))
+		len = 0;
+		while (c->sh->envp[i][len] != '=')
+			len++;
+		if (!ft_strncmp(c->sh->envp[i], c->args[1], ft_strlen(c->args[1]))
+			&& !ft_strncmp(c->sh->envp[i], c->args[1], len))
 		{
-			com->sh->envp = env_remove(com->sh->envp, i);
+			c->sh->envp = env_remove(c->sh->envp, i);
 			break ;
 		}
 	}

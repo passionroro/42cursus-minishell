@@ -12,17 +12,6 @@
 
 #include "../include/minishell.h"
 
-char	*get_path(char **env)
-{
-	int	i;
-
-	i = -1;
-	while (env[++i])
-		if (!ft_strncmp(env[i], "PATH=", 5))
-			return (env[i] + 5);
-	return (NULL);
-}
-
 void	set_fd(t_minishell *sh, t_node *com)
 {
 	sh->nodes = 0;

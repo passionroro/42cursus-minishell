@@ -81,74 +81,35 @@ token `newline'\n", NULL, NULL, -1));
 	return (-2);
 }
 
-int	redirect_append(t_node *com, int i)
+void	too_many_lines(t_node *com, t_redir *r)
 {
-	char	*file;
-	int		fd;
-
-	i += 1;
-	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
-		;
-	file = write_file_name(com->content + i);
-	if (file == NULL)
-		return (write_error("minishell: syntax error near unexpected \
-token `newline'\n", NULL, NULL, -1));
-	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (fd == -1)
-		return (write_error("Error : can't open file < ", file, " >\n", -1));
-	dup2(fd, 1);
-	close(fd);
-	remove_file(com, '>');
-	free(file);
-	return (0);
-}
-
-int	is_open_quotes(t_node *c, int len)
-{
-	int		i;
-	bool	dq;
-	bool	sq;
-
-	i = -1;
-	sq = true;
-	dq = true;
-	while (++i < len)
-	{
-		if (c->content[i] == 34 && sq)
-			dq = !dq;
-		if (c->content[i] == 39 && dq)
-			sq = !sq;
-	}
-	return (sq + dq);
+	if (com->content[r->i + 1] == '>')
+		r->exit = redirect_append(com, r->i);
+	else
+		r->exit = redirect_output(com, r->i);
 }
 
 int	redirect_check(t_node *com)
 {
-	int	i;
-	int	exit;
+	t_redir	r;
 
-	i = -1;
-	exit = 0;
-	while (com->content[++i] && !exit)
+	r.i = -1;
+	r.exit = 0;
+	while (com->content[++r.i] && !r.exit)
 	{
-		while (is_open_quotes(com, i) < 2)
-			i++;
-		if (com->content[i] == '<')
+		while (is_open_quotes(com, r.i++) < 2)
+			r.i++;
+		if (com->content[r.i] == '<')
 		{
-			if (com->content[i + 1] == '<')
-				exit = redirect_heredoc(com, i);
+			if (com->content[r.i + 1] == '<')
+				r.exit = redirect_heredoc(com, r.i);
 			else
-				exit = redirect_input(com, i);
-			i -= 1;
+				r.exit = redirect_input(com, r.i);
+			r.i -= 1;
 		}
-		else if (com->content[i] == '>')
-		{
-			if (com->content[i + 1] == '>')
-				exit = redirect_append(com, i);
-			else
-				exit = redirect_output(com, i);
-			i -= 1;
-		}
+		else if (com->content[r.i] == '>')
+			too_many_lines(com, &r);
+		r.i -= 1;
 	}
-	return (exit);
+	return (r.exit);
 }

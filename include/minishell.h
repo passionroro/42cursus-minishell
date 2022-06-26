@@ -87,6 +87,12 @@ typedef struct s_dollar
 	char	*t;
 }	t_dollar;
 
+typedef struct s_redir
+{
+	int	i;
+	int	exit;
+}	t_redir;
+
 t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
 int		input_isnt_empty(char *str, char **env);
@@ -129,5 +135,7 @@ void	dollar_sign_check(t_node *com, t_minishell *sh);
 void	signal_handler(int sig);
 void	signal_process(int sig);
 void	remove_quotes(t_node *com);
+int		is_open_quotes(t_node *c, int len);
+int		redirect_append(t_node *com, int i);
 
 #endif
