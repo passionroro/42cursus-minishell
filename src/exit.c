@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 15:47:00 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:49:18 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exit_code(t_node *com, int id, char **env)
 int	exit_extent(t_node *com, int code, int quote)
 {
 	free_var_init(com->sh, com);
-	ft_free_list(com, com->sh);
+	ft_free_list(com);
 	if (quote == 0)
 		write_error("bash: exit: too many arguments\n", NULL, NULL, 0);
 	if (quote == 1)
