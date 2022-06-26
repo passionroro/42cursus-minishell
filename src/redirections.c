@@ -103,6 +103,25 @@ token `newline'\n", NULL, NULL, -1));
 	return (0);
 }
 
+int	is_open_quotes(t_node *c, int len)
+{
+	int		i;
+	bool	dq;
+	bool	sq;
+
+	i = -1;
+	sq = true;
+	dq = true;
+	while (++i < len)
+	{
+		if (c->content[i] == 34 && sq)
+			dq = !dq;
+		if (c->content[i] == 39 && dq)
+			sq = !sq;
+	}
+	return (sq + dq);
+}
+
 int	redirect_check(t_node *com)
 {
 	int	i;
@@ -112,6 +131,8 @@ int	redirect_check(t_node *com)
 	exit = 0;
 	while (com->content[++i] && !exit)
 	{
+		while (is_open_quotes(com, i) < 2)
+			i++;
 		if (com->content[i] == '<')
 		{
 			if (com->content[i + 1] == '<')

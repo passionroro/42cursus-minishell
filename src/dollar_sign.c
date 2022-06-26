@@ -37,11 +37,22 @@ void	remove_dollar_txt(t_node *c, t_dollar d)
 
 	if (if_quotes(c, d) && c->content[d.i] == '$')
 	{
-		tmp = ft_substr(c->content, 0, d.i);
-		if (c->content[d.i + d.q + 1] != '\0')
-			tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 2));
+		if (c->content[d.i - 1] == 34)
+		{
+			tmp = ft_substr(c->content, 0, d.i - 1);
+			if (c->content[d.i + d.q + 2] != '\0')
+				tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 2));
+			else
+				tmp = ft_strjoin(tmp, "\n");
+		}
 		else
-			tmp = ft_strjoin(tmp, "\n");
+		{
+			tmp = ft_substr(c->content, 0, d.i);
+			if (c->content[d.i + d.q + 1] != '\0')
+				tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 1));
+			else
+				tmp = ft_strjoin(tmp, "\n");
+		}
 		free(c->content);
 		c->content = tmp;
 	}

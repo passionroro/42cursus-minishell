@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:47:35 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 17:26:35 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 20:54:57 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ void	pipe_redirection(t_node *com, t_minishell *sh)
 		close(com->fd[1]);
 	}
 	else
-	{
 		dup2(sh->saved_fd[1], 1);
-		close(sh->saved_fd[1]);
-	}
 	if (!ft_strncmp(com->args[0], "cat", 3))
 		close(com->fd[0]);
 }
@@ -92,6 +89,7 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 		free_var_init(sh, com);
 		return (-1);
 	}
+	remove_quotes(com);
 	com->id = fork();
 	if (com->id == 0)
 	{
