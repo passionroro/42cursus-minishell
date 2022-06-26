@@ -1,5 +1,5 @@
 FIXED1. [prompt][prompt]
-FIXED2. $? exit value 0 in succsses
+2. $? exit value 0 in succsses
 FIXED3. cat | | ls
   if (!s || (isonlyspaces()))
     return (NULL) echo roro | | ls
