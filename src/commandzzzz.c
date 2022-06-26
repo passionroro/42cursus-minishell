@@ -65,7 +65,12 @@ void	pipe_redirection(t_node *com, t_minishell *sh)
 		close(com->fd[1]);
 	}
 	else
+	{
 		dup2(sh->saved_fd[1], 1);
+		close(sh->saved_fd[1]);
+	}
+	if (!ft_strncmp(com->args[0], "cat", 3))
+		close(com->fd[0]);
 }
 
 int	command_not_found(t_minishell *sh, t_node *com)
