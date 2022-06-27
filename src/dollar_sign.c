@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dollar_sign.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/18 10:30:17 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/24 21:18:30 by henkaoua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -24,32 +35,31 @@ void	remove_dollar_txt(t_node *c, t_dollar d)
 {
 	char	*tmp;
 
-	if (if_quotes(c, d))
+	if (if_quotes(c, d) && c->content[d.i] == '$')
 	{
-		tmp = ft_substr(c->content, 0, d.i);
-		if (c->content[d.i + d.q + 1] != '\0')
-			tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 1));
+		if (c->content[d.i - 1] == 34)
+		{
+			tmp = ft_substr(c->content, 0, d.i - 1);
+			if (c->content[d.i + d.q + 2] != '\0')
+				tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 2));
+			else
+				tmp = ft_strjoin(tmp, "\n");
+		}
 		else
-			tmp = ft_strjoin(tmp, "\n");
+		{
+			tmp = ft_substr(c->content, 0, d.i);
+			if (c->content[d.i + d.q + 1] != '\0')
+				tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 1));
+			else
+				tmp = ft_strjoin(tmp, "\n");
+		}
 		free(c->content);
 		c->content = tmp;
 	}
 }
 
-void	replace_dq(t_node *com, t_dollar d)
-{
-	char	*tmp;
-	
-	tmp = ft_itoa(g_ret);
-	free(com->content);
-	com->content = ft_strjoin(ft_substr(com->content, 0, d.i), tmp);
-	free(tmp);
-}
-
 void	dollar_sign_access(t_node *c, t_dollar d, char **en)
 {
-	if (!ft_strncmp(c->content + d.i, "$?\0", 3))
-		return (replace_dq(c, d));
 	d.q = 0;
 	while (c->content[d.i + 1 + d.q] != 32 && c->content[d.i + 1 + d.q] != '\0'
 		&& c->content[d.i + 1 + d.q] != 34 && c->content[d.i + 1 + d.q] != 39)
@@ -77,11 +87,24 @@ void	dollar_sign_access(t_node *c, t_dollar d, char **en)
 void	dollar_sign_check(t_node *c, t_minishell *sh)
 {
 	t_dollar	d;
+	char		*itoa;
 
 	d.i = -1;
 	while (c->content[++d.i])
 	{
 		if (c->content[d.i] == '$')
+		{
+			if (c->content[d.i + 1] == '?' && if_quotes(c, d))
+			{
+				itoa = ft_itoa(g_ret);
+				d.t = ft_strjoin(ft_strjoin(ft_substr(c->content, 0, d.i), \
+				itoa), c->content + d.i + 2);
+				free(itoa);
+				free(c->content);
+				c->content = ft_strdup(d.t);
+				free(d.t);
+			}
 			dollar_sign_access(c, d, sh->envp);
+		}
 	}
 }

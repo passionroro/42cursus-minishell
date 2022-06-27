@@ -1,16 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/26 17:26:36 by rohoarau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-char	*get_path(char **env)
-{
-	int	i;
-
-	i = -1;
-	while (env[++i])
-		if (!ft_strncmp(env[i], "PATH=", 5))
-			return (env[i] + 5);
-	return (NULL);
-}
 
 void	set_fd(t_minishell *sh, t_node *com)
 {
@@ -27,8 +27,8 @@ void	set_fd(t_minishell *sh, t_node *com)
 void	reset_saved_fd(t_minishell *sh, t_node *tmp)
 {
 	dup2(sh->saved_fd[0], 0);
-	dup2(sh->saved_fd[1], 1);
 	close(sh->saved_fd[0]);
+	dup2(sh->saved_fd[1], 1);
 	close(sh->saved_fd[1]);
 	ft_free_list(tmp);
 }
@@ -54,7 +54,7 @@ void	is_real_command(t_minishell *sh)
 	}
 	while (head)
 	{
-		exit_code(head->id);
+		exit_code(head, head->id);
 		head = head->next;
 	}
 	reset_saved_fd(sh, tmp);

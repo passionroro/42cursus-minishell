@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 19:01:51 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/26 17:26:40 by rohoarau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
@@ -47,6 +58,7 @@ void	erease_quote(t_node *com, int j, int i)
 	tmp = ft_strjoin(tmp, com->args[j] + (i + 1));
 	free(com->args[j]);
 	com->args[j] = tmp;
+	change_content(com);
 }
 
 void	remove_quotes(t_node *com)
@@ -85,8 +97,7 @@ int	var_init(t_minishell *sh, t_node *com)
 	if (!com->args)
 		return (-1);
 	if (ft_malloc_array(&sh->path, ':', get_path(sh->envp)))
-		if (is_built_in2(com->args[0]) != 1)
+		if (is_not_env(com->args[0]) != 1)
 			return (-1);
-	remove_quotes(com);
 	return (0);
 }

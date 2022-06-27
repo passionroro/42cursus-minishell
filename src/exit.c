@@ -1,17 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/26 20:56:39 by rohoarau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	exit_code(int id)
+void	exit_code(t_node *com, int id)
 {
-	int	wstatus;
+	int	code;
 
 	signal(SIGINT, signal_process);
 	signal(SIGQUIT, signal_process);
-	waitpid(id, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		g_ret = WEXITSTATUS(wstatus);
-	if (WIFSIGNALED(wstatus))
-		g_ret = WTERMSIG(wstatus);
+	waitpid(id, &code, 0);
+	if (built_in_exit(com->content) != 1)
+	{
+		if (WIFEXITED(code))
+			g_ret = WEXITSTATUS(code);
+		if (WIFSIGNALED(code))
+			g_ret = WTERMSIG(code);
+	}
 }
 
 int	exit_extent(t_node *com, int code, int quote)
@@ -19,9 +33,10 @@ int	exit_extent(t_node *com, int code, int quote)
 	free_var_init(com->sh, com);
 	ft_free_list(com);
 	if (quote == 0)
-		write_error("bash: exit: too many arguments\n", NULL, NULL, 0);
+		write_error("minishell: exit: too many arguments\n", NULL, NULL, 0);
 	if (quote == 1)
-		write_error("bash: exit: numeric argument required\n", NULL, NULL, 0);
+		write_error("minishell: exit: numeric argument required\n", \
+				NULL, NULL, 0);
 	exit(code);
 }
 
