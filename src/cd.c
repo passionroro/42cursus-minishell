@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:47:35 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/14 18:48:10 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/27 12:59:52 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ int	old_pwd(char **env, t_node *com)
 	{
 		if (!ft_strncmp(env[i], "OLDPWD=", 7))
 		{
+			if (chdir(env[i] + 7) == -1)
+				return (printf("minishell: cd: %s: No such file or directory\n"\
+							, env[i] + 7));
 			tmp = getcwd(NULL, 0);
-			chdir(env[i] + 7);
 			replace_pwd(com, env[i] + 7, 0);
 			printf("%s\n", env[i] + 7);
 			free(com->sh->envp[i]);
@@ -57,7 +59,9 @@ int	run_cd(t_node *com)
 	}
 	if (!ft_strncmp(com->args[1], "-\0", 2))
 		return (old_pwd(com->sh->envp, com));
-	chdir(com->args[1]);
+	if (chdir(com->args[1]) == -1)
+		return (printf("minishell: cd: %s: No such file or directory\n", \
+					com->args[1]));
 	replace_old_pwd(com);
 	replace_pwd(com, getcwd(NULL, 0), 1);
 	g_ret = 0;
