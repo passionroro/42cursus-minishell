@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:36:40 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 17:26:38 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/27 20:13:29 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	redirect_input(t_node *com, int i)
 				": No such file or directory\n", -1));
 	dup2(fd, 0);
 	close(fd);
-	remove_file(com, '<');
+	remove_file(com, '<', ft_strlen(file));
 	free(file);
 	return (0);
 }
@@ -50,7 +50,7 @@ token `newline'\n", NULL, NULL, -1));
 				file, " >\n", -1));
 	dup2(fd, 1);
 	close(fd);
-	remove_file(com, '>');
+	remove_file(com, '>', ft_strlen(file));
 	free(file);
 	return (0);
 }
@@ -81,6 +81,24 @@ token `newline'\n", NULL, NULL, -1));
 	return (-2);
 }
 
+void	first_char_checker(t_node *com)
+{
+	if (com->content[0] == '<')
+	{
+		if (com->content[1] == '<')
+			redirect_heredoc(com, 0);
+		else
+			redirect_input(com, 0);
+	}
+	if (com->content[0] == '>')
+	{
+		if (com->content[1] == '>')
+			redirect_append(com, 0);
+		else
+			redirect_output(com, 0);
+	}
+}
+
 void	too_many_lines(t_node *com, t_redir *r)
 {
 	if (com->content[r->i + 1] == '>')
@@ -95,6 +113,7 @@ int	redirect_check(t_node *com)
 
 	r.i = -1;
 	r.exit = 0;
+	first_char_checker(com);
 	while (com->content[++r.i] && !r.exit)
 	{
 		while (is_open_quotes(com, r.i++) < 2)

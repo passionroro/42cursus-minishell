@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:41:01 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 17:26:39 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/27 20:13:32 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,28 @@ void	ft_cut_file(t_node *com, int start, int end, int len)
 	free(tmp);
 }
 
-void	remove_file(t_node *com, char c)
+int	get_strlen(char *str, char c, int len)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == c || str[i] == ' ')
+		i++;
+	len += 1;
+	while (str[i + len] == ' ')
+		len++;
+	return (i + len - 1);
+}
+
+void	remove_file(t_node *com, char c, int len)
 {
 	int	i;
 	int	start;
 
 	i = -1;
 	start = 0;
+	if (com->content[0] == c)
+		return (ft_cut_file(com, 0, get_strlen(com->content, c, len), get_strlen(com->content, c, len)));
 	while (com->content[++i])
 	{
 		if (com->content[i] == c && start == 0)

@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 17:26:36 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/27 19:52:11 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ token `newline'\n", NULL, NULL, -1));
 		return (write_error("Error : can't open file < ", file, " >\n", -1));
 	dup2(fd, 1);
 	close(fd);
-	remove_file(com, '>');
+	remove_file(com, '>', ft_strlen(file));
 	free(file);
 	return (0);
 }
