@@ -1,6 +1,7 @@
 TO FIX :
 1. cat << lol > txt | ls ::: IDK if we care, we can fix it if we are bored
 2. improving the function that checks if its a built_in by checking not only com->args[0]
+3. echo salut$HOME'kkk'l coucouHOME
 ---
 
 all cases work except echo "'""'"
@@ -28,6 +29,6 @@ Please close the quotes
 
 OK > echo " $HO err"
   err
-OK > echo salut$HOME'kkk'l coucouHOME
+NOT OK > echo salut$HOME'kkk'l coucouHOME
 salut/Users/anaiskkkl coucouHOME
 
