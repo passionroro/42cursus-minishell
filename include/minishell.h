@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 17:09:50 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/28 16:58:15 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_node
 	char				*content;
 	char				**args;
 	char				*path;
-	int					fd[2];
 	int					id;
 	struct s_minishell	*sh;
 }	t_node;
@@ -49,6 +48,7 @@ typedef struct s_minishell
 	char	**envp;
 	int		nodes;
 	int		saved_fd[2];
+	int		pipe_fd[2];
 	bool	even;
 }	t_minishell;
 
@@ -108,18 +108,18 @@ char	*add_backslash(char *str);
 int		is_built_in(char **env, char *str);
 int		is_not_env(char *str);
 int		built_in_exit(char *str);
-int		built_in_check(t_node *com);
+int		built_in_check(t_node *com, t_minishell *sh);
 void	free_var_init(t_minishell *sh, t_node *com);
-int		run_unset(t_node *com);
-int		run_export(t_node *com);
+int		run_unset(t_node *com, t_minishell *sh);
+int		run_export(t_node *com, t_minishell *sh);
 int		run_echo(t_node *com);
-int		run_env(t_node *com);
-int		run_cd(t_node *com);
+int		run_env(t_minishell *sh);
+int		run_cd(t_node *com, t_minishell *sh);
 int		run_pwd(char **env);
 int		run_exit(t_node *com);
 char	*get_path(char **env);
-char	**env_create(t_node *com, int size);
-char	*env_replace(t_node *com, int pos);
+char	**env_create(t_node *com, int size, t_minishell *sh);
+char	*env_replace(t_node *com, int pos, t_minishell *sh);
 void	replace_pwd(t_node *com, char *dir, int code);
 void	replace_old_pwd(t_node *com);
 void	ft_free_list(t_node *com);

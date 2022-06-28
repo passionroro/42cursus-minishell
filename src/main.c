@@ -6,23 +6,11 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 17:26:36 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/28 16:58:13 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	set_fd(t_minishell *sh, t_node *com)
-{
-	sh->nodes = 0;
-	while (com)
-	{
-		sh->nodes++;
-		if (com->next != NULL)
-			pipe(com->fd);
-		com = com->next;
-	}
-}
 
 void	reset_saved_fd(t_minishell *sh, t_node *tmp)
 {
@@ -44,7 +32,6 @@ void	is_real_command(t_minishell *sh)
 	if (!quote_is_closed(sh))
 		return ;
 	com = list_init(sh);
-	set_fd(sh, com);
 	head = com;
 	tmp = com;
 	while (com)

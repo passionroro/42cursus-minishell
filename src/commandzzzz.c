@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:47:35 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 20:54:57 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/28 16:58:10 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,6 @@ int	command_exec(t_node *com, t_minishell *sh)
 	return (execve(com->path, &com->args[0], sh->envp));
 }
 
-void	pipe_redirection(t_node *com, t_minishell *sh)
-{
-	if (com->last == NULL && com->next == NULL)
-		return ;
-	if (com->next != NULL)
-	{
-		dup2(com->fd[1], 1);
-		close(com->fd[1]);
-	}
-	else
-		dup2(sh->saved_fd[1], 1);
-	if (!ft_strncmp(com->args[0], "cat", 3))
-		close(com->fd[0]);
-}
-
 int	command_not_found(t_minishell *sh, t_node *com)
 {
 	write_error("minishell: ", NULL, com->args[0], 0);
@@ -79,28 +64,52 @@ int	command_not_found(t_minishell *sh, t_node *com)
 	return (g_ret);
 }
 
+void	non_builtin_execution(t_minishell *sh, t_node *com)
+{
+	//better checking builtin (< txt cat) because the command isn't always in args[0]
+	if (is_built_in(sh->envp, com->args[0]) != 1)
+	{
+		close(sh->pipe_fd[0]);
+		close(sh->saved_fd[0]);
+		if (com->next != NULL)
+			dup2(sh->pipe_fd[1], 1);
+		else
+			dup2(sh->saved_fd[1], 1);
+		close(sh->pipe_fd[1]);
+		close(sh->saved_fd[1]);
+		if (redirect_check(com) != 0)
+			free_var_init(sh, com);
+		else
+			command_exec(com, sh);
+	}
+	exit (1);
+}
+
 int	pipe_it_up(t_minishell *sh, t_node *com)
 {
 	if (var_init(sh, com) != 0)
 		return (command_not_found(sh, com));
-	pipe_redirection(com, sh);
-	if (redirect_check(com) != 0)
-	{
-		free_var_init(sh, com);
-		return (-1);
-	}
 	remove_quotes(com);
+	pipe(sh->pipe_fd);
 	com->id = fork();
 	if (com->id == 0)
-	{
-		if (is_built_in(sh->envp, com->args[0]) != 1)
-			return (command_exec(com, sh));
-		exit (1);
-	}
+		non_builtin_execution(sh, com);
+	if (com->next == NULL)
+		dup2(sh->saved_fd[1], 1);
 	if (is_built_in(sh->envp, com->args[0]) == 1)
-		built_in_check(com);
-	dup2(com->fd[0], 0);
-	close(com->fd[0]);
+	{
+		if (com->next != NULL)
+			dup2(sh->pipe_fd[1], 1);
+		if (redirect_check(com) != 0)
+		{
+			free_var_init(sh, com);
+			return (-1);
+		}
+		built_in_check(com, sh);
+	}
+	close(sh->pipe_fd[1]);
+	dup2(sh->pipe_fd[0], 0);
+	close(sh->pipe_fd[0]);
 	free_var_init(sh, com);
 	return (0);
 }

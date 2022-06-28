@@ -24,7 +24,7 @@ char	*get_home(char **env)
 	return (NULL);
 }
 
-int	old_pwd(char **env, t_node *com)
+int	old_pwd(char **env, t_node *com, t_minishell *sh)
 {
 	int		i;
 	char	*tmp;
@@ -40,8 +40,8 @@ int	old_pwd(char **env, t_node *com)
 			tmp = getcwd(NULL, 0);
 			replace_pwd(com, env[i] + 7, 0);
 			printf("%s\n", env[i] + 7);
-			free(com->sh->envp[i]);
-			com->sh->envp[i] = ft_strjoin(ft_strdup("OLDPWD="), tmp);
+			free(sh->envp[i]);
+			sh->envp[i] = ft_strjoin(ft_strdup("OLDPWD="), tmp);
 			free(tmp);
 			return (1);
 		}
@@ -49,16 +49,16 @@ int	old_pwd(char **env, t_node *com)
 	return (write_error("minishell: cd: OLDPWD not set\n", NULL, NULL, 1));
 }
 
-int	run_cd(t_node *com)
+int	run_cd(t_node *com, t_minishell *sh)
 {
 	if (com->args[1] == NULL || !ft_strncmp(com->args[1], "~\0", 2))
 	{
 		replace_old_pwd(com);
-		replace_pwd(com, get_home(com->sh->envp), 0);
-		return (chdir(get_home(com->sh->envp)));
+		replace_pwd(com, get_home(sh->envp), 0);
+		return (chdir(get_home(sh->envp)));
 	}
 	if (!ft_strncmp(com->args[1], "-\0", 2))
-		return (old_pwd(com->sh->envp, com));
+		return (old_pwd(sh->envp, com, sh));
 	if (chdir(com->args[1]) == -1)
 	{
 		write_error("minishell: cd: ", NULL, com->args[1], 0);
