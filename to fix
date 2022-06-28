@@ -1,6 +1,7 @@
 TO FIX :
 1. cat << lol > txt | ls
 2. echo 42 > txt | cat
+3. echo popo | pwd
 
 ---
 
