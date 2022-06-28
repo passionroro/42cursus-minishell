@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:44:48 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 17:09:50 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/28 16:58:15 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ typedef struct s_dollar
 	char	*t;
 }	t_dollar;
 
+typedef struct s_redir
+{
+	int	i;
+	int	exit;
+}	t_redir;
+
 t_node	*list_init(t_minishell *sh);
 void	ft_signals(struct termios *save);
 int		input_isnt_empty(char *str, char **env);
@@ -128,5 +134,8 @@ char	**ft_split_for_quotes(char *s, char c);
 void	dollar_sign_check(t_node *com, t_minishell *sh);
 void	signal_handler(int sig);
 void	signal_process(int sig);
+void	remove_quotes(t_node *com);
+int		is_open_quotes(t_node *c, int len);
+int		redirect_append(t_node *com, int i);
 
 #endif

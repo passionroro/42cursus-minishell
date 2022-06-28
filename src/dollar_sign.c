@@ -37,17 +37,28 @@ void	remove_dollar_txt(t_node *c, t_dollar d)
 
 	if (if_quotes(c, d) && c->content[d.i] == '$')
 	{
-		tmp = ft_substr(c->content, 0, d.i);
-		if (c->content[d.i + d.q + 1] != '\0')
-			tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 1));
+		if (c->content[d.i - 1] == 34)
+		{
+			tmp = ft_substr(c->content, 0, d.i - 1);
+			if (c->content[d.i + d.q + 2] != '\0')
+				tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 2));
+			else
+				tmp = ft_strjoin(tmp, "\n");
+		}
 		else
-			tmp = ft_strjoin(tmp, "\n");
+		{
+			tmp = ft_substr(c->content, 0, d.i);
+			if (c->content[d.i + d.q + 1] != '\0')
+				tmp = ft_strjoin(tmp, c->content + (d.i + d.q + 1));
+			else
+				tmp = ft_strjoin(tmp, "\n");
+		}
 		free(c->content);
 		c->content = tmp;
 	}
 }
 
-int	dollar_sign_access(t_node *c, t_dollar d, char **en)
+void	dollar_sign_access(t_node *c, t_dollar d, char **en)
 {
 	d.q = 0;
 	while (c->content[d.i + 1 + d.q] != 32 && c->content[d.i + 1 + d.q] != '\0'
@@ -71,7 +82,6 @@ int	dollar_sign_access(t_node *c, t_dollar d, char **en)
 		else if (en[d.n + 1] == NULL)
 			remove_dollar_txt(c, d);
 	}
-	return (-1);
 }
 
 void	dollar_sign_check(t_node *c, t_minishell *sh)
