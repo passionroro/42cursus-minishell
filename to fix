@@ -1,8 +1,6 @@
 TO FIX :
-1. cat << lol > txt | ls
-2. echo 42 > txt | cat
-3. echo popo | pwd
-
+1. cat << lol > txt | ls ::: IDK if we care, we can fix it if we are bored
+2. improving the function that checks if its a built_in by checking not only com->args[0]
 ---
 
 all cases work except echo "'""'"
