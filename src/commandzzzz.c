@@ -59,7 +59,7 @@ int	command_not_found(t_minishell *sh, t_node *com)
 {
 	write_error("minishell: ", NULL, com->args[0], 0);
 	write_error(": No such file or directory\n", NULL, NULL, 0);
-	free_var_init(sh, com);
+	free_var_init(sh, com, 0);
 	g_ret = 127;
 	return (g_ret);
 }
@@ -77,7 +77,7 @@ void	non_builtin_execution(t_minishell *sh, t_node *com)
 		close(sh->pipe_fd[1]);
 		close(sh->saved_fd[1]);
 		if (redirect_check(com) != 0)
-			free_var_init(sh, com);
+			free_var_init(sh, com, 0);
 		else
 			command_exec(com, sh);
 	}
@@ -100,15 +100,11 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 		if (com->next != NULL)
 			dup2(sh->pipe_fd[1], 1);
 		if (redirect_check(com) != 0)
-		{
-			free_var_init(sh, com);
-			return (-1);
-		}
+			return (free_var_init(sh, com, -1));
 		built_in_check(com, sh);
 	}
 	close(sh->pipe_fd[1]);
 	dup2(sh->pipe_fd[0], 0);
 	close(sh->pipe_fd[0]);
-	free_var_init(sh, com);
-	return (0);
+	return (free_var_init(sh, com, 0));
 }

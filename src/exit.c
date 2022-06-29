@@ -30,7 +30,7 @@ void	exit_code(t_node *com, int id)
 
 int	exit_extent(t_node *com, int code, int quote)
 {
-	free_var_init(com->sh, com);
+	free_var_init(com->sh, com, 0);
 	ft_free_list(com);
 	if (quote == 0)
 		write_error("minishell: exit: too many arguments\n", NULL, NULL, 0);

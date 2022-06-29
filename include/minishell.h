@@ -109,7 +109,7 @@ int		is_built_in(char **env, char **args);
 int		is_not_env(char *str);
 int		built_in_exit(char *str);
 int		built_in_check(t_node *com, t_minishell *sh);
-void	free_var_init(t_minishell *sh, t_node *com);
+int		free_var_init(t_minishell *sh, t_node *com, int ret);
 int		run_unset(t_node *com, t_minishell *sh);
 int		run_export(t_node *com, t_minishell *sh);
 int		run_echo(t_node *com);

@@ -14,18 +14,17 @@
 
 void	heredoc_part2(t_heredoc *her, t_node *com)
 {
-	int	fd;
+	int	fd[2];
 
-	fd = open("/tmp/file", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	free(her->input);
 	remove_file(com, '<',  ft_strlen(her->delimiter));
 	free(her->delimiter);
 	redirect_check(com);
-	dup2(fd, 0);
-	close(fd);
-	write(fd, her->container, ft_strlen(her->container));
-    dup2(fd, 0);
-    close(fd);
+	pipe(fd);
+	write(fd[1], her->container, ft_strlen(her->container));
+	close(fd[1]);
+	dup2(fd[0], 0);
+	close(fd[0]);
 	free(her->container);
 }
 
@@ -52,5 +51,5 @@ token `newline'\n", NULL, NULL, -1));
 		free(her.input);
 	}
 	heredoc_part2(&her, com);
-	return (-2);
+	return (0);
 }
