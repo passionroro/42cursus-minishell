@@ -29,7 +29,7 @@ token `newline'\n", NULL, NULL, -1));
 		return (write_error("Error : can't open file < ", file, " >\n", -1));
 	dup2(fd, 1);
 	close(fd);
-	remove_file(com, '>');
+ 	remove_file(com, '>', ft_strlen(file));
 	free(file);
 	return (0);
 }

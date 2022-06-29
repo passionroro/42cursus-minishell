@@ -123,7 +123,7 @@ char	*env_replace(t_node *com, int pos, t_minishell *sh);
 void	replace_pwd(t_node *com, char *dir, int code);
 void	replace_old_pwd(t_node *com);
 void	ft_free_list(t_node *com);
-void	remove_file(t_node *com, char c);
+ void	remove_file(t_node *com, char c, int len);
 int		ft_is_space(char c);
 char	*write_file_name(char *str);
 int		ft_strcmp(char *s1, char *s2);
