@@ -47,16 +47,6 @@ int	write_error(char *s1, char *s2, char *s3, int ret)
 	return (ret);
 }
 
-void	heredoc_part2(t_heredoc *her, t_node *com)
-{
-	free(her->input);
-	remove_file(com, '<',  ft_strlen(her->delimiter));
-	free(her->delimiter);
-	redirect_check(com);
-	printf("%s", her->container);
-	free(her->container);
-}
-
 int	built_in_exit(char *str)
 {
 	if (!ft_strncmp(str, "export ", 7)

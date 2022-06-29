@@ -66,8 +66,7 @@ int	command_not_found(t_minishell *sh, t_node *com)
 
 void	non_builtin_execution(t_minishell *sh, t_node *com)
 {
-	//better checking builtin (< txt cat) because the command isn't always in args[0]
-	if (is_built_in(sh->envp, com->args[0]) != 1)
+	if (is_built_in(sh->envp, com->args) != 1)
 	{
 		close(sh->pipe_fd[0]);
 		close(sh->saved_fd[0]);
@@ -96,7 +95,7 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 		non_builtin_execution(sh, com);
 	if (com->next == NULL)
 		dup2(sh->saved_fd[1], 1);
-	if (is_built_in(sh->envp, com->args[0]) == 1)
+	if (is_built_in(sh->envp, com->args) == 1)
 	{
 		if (com->next != NULL)
 			dup2(sh->pipe_fd[1], 1);

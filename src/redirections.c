@@ -55,30 +55,26 @@ token `newline'\n", NULL, NULL, -1));
 	return (0);
 }
 
-int	redirect_heredoc(t_node *com, int i)
+int	redirect_append(t_node *com, int i)
 {
-	t_heredoc	her;
+	char	*file;
+	int		fd;
 
 	i += 1;
 	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
 		;
-	her.delimiter = write_file_name(com->content + i);
-	if (her.delimiter == NULL)
+	file = write_file_name(com->content + i);
+	if (file == NULL)
 		return (write_error("minishell: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
-	her.container = ft_strdup("");
-	while (1)
-	{
-		her.input = readline("> ");
-		if (input_isnt_empty(her.input, NULL))
-			if (!ft_strcmp(her.input, her.delimiter))
-				break ;
-		her.container = ft_strjoin(her.container, her.input);
-		her.container = ft_strjoin(her.container, "\n\0");
-		free(her.input);
-	}
-	heredoc_part2(&her, com);
-	return (-2);
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd == -1)
+		return (write_error("Error : can't open file < ", file, " >\n", -1));
+	dup2(fd, 1);
+	close(fd);
+ 	remove_file(com, '>', ft_strlen(file));
+	free(file);
+	return (0);
 }
 
 void	first_char_checker(t_node *com)

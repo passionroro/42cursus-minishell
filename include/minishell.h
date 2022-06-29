@@ -105,7 +105,7 @@ int		redirect_check(t_node *com);
 int		pipe_it_up(t_minishell *sh, t_node *com);
 char	**env_init(char **env);
 char	*add_backslash(char *str);
-int		is_built_in(char **env, char *str);
+int		is_built_in(char **env, char **args);
 int		is_not_env(char *str);
 int		built_in_exit(char *str);
 int		built_in_check(t_node *com, t_minishell *sh);
@@ -128,7 +128,7 @@ int		ft_is_space(char c);
 char	*write_file_name(char *str);
 int		ft_strcmp(char *s1, char *s2);
 int		write_error(char *s1, char *s2, char *s3, int ret);
-void	heredoc_part2(t_heredoc *her, t_node *com);
+int		redirect_heredoc(t_node *com, int i);
 int		quote_is_closed(t_minishell *sh);
 char	**ft_split_for_quotes(char *s, char c);
 void	dollar_sign_check(t_node *com, t_minishell *sh);
@@ -136,6 +136,5 @@ void	signal_handler(int sig);
 void	signal_process(int sig);
 void	remove_quotes(t_node *com);
 int		is_open_quotes(t_node *c, int len);
-int		redirect_append(t_node *com, int i);
 
 #endif
