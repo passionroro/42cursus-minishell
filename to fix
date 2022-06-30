@@ -1,7 +1,6 @@
 TO FIX :
-1. cat << lol > txt | ls ::: IDK if we care, we can fix it if we are bored
-2. echo salut$HOME'kkk'l coucouHOME
----
+1. 
+-----
 
 all cases work except echo "'""'"
 
@@ -28,6 +27,6 @@ Please close the quotes
 
 OK > echo " $HO err"
   err
-NOT OK > echo salut$HOME'kkk'l coucouHOME
+OK > echo salut$HOME'kkk'l coucouHOME
 salut/Users/anaiskkkl coucouHOME
 
