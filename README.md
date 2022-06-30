@@ -44,3 +44,17 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 	close(sh->pipe_fd[0]);      //
 	return (free_var_init(sh, com, 0));
 ```
+
+Pretty sad to sum up a 2 months project and 1700 lines of code this quick but that's the main idea !
+
+If you have any questions about this project feel free to contact me or my teammate :)
+
+Big love to [Yossi](https://github.com/Joseph-Enkaoua), my partner for this project who made it possible <3 Love you m8
+
+## Tests
+| test | expected result |
+|----------|-------|
+|Parsing||
+|||
+|Redirections||
+|Builtins||
