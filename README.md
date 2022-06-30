@@ -33,7 +33,7 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 	if (var_init(sh, com) != 0) //parsing : creating a linked list and trimmimg white spaces
 		return (command_not_found(sh, com));
 	remove_quotes(com); //"ls" becomes ls
-	pipe(sh->pipe_fd);  //creating file descriptors to change the input and the input :)
+	pipe(sh->pipe_fd);  //creating file descriptors to change the input and the output :)
 	com->id = fork();   //creating a child process to execute the command
    	 ...
 		if (com->next != NULL)
