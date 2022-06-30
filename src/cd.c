@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:47:35 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/27 13:48:24 by henkaoua         ###   ########.fr       */
+/*   Updated: 2022/06/30 16:41:19 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*get_home(char **env)
 	while (env[++i])
 		if (!ft_strncmp(env[i], "HOME=", 5))
 			return (env[i] + 5);
-	write_error("minishell: cd: HOME not set\n", NULL, NULL, 0);
 	return (NULL);
 }
 
@@ -53,6 +52,8 @@ int	run_cd(t_node *com, t_minishell *sh)
 {
 	if (com->args[1] == NULL || !ft_strncmp(com->args[1], "~\0", 2))
 	{
+		if (get_home(sh->envp) == NULL)
+			return (write_error("minishell: cd: HOME not set\n", NULL, NULL, 0));
 		replace_old_pwd(com);
 		replace_pwd(com, get_home(sh->envp), 0);
 		return (chdir(get_home(sh->envp)));
