@@ -32,13 +32,12 @@ void	rl_replace_line(const char *text, int clear_undo);
 
 typedef struct s_node
 {
-	struct s_node		*next;
-	struct s_node		*last;
-	char				*content;
-	char				**args;
-	char				*path;
-	int					id;
-	struct s_minishell	*sh;
+	struct s_node	*next;
+	struct s_node	*last;
+	char			*content;
+	char			**args;
+	char			*path;
+	int				id;
 }	t_node;
 
 typedef struct s_minishell
@@ -117,12 +116,12 @@ int		run_echo(t_node *com);
 int		run_env(t_minishell *sh);
 int		run_cd(t_node *com, t_minishell *sh);
 int		run_pwd(char **env);
-int		run_exit(t_node *com);
+int		run_exit(t_node *com, t_minishell *sh);
 char	*get_path(char **env);
 char	**env_create(t_node *com, int size, t_minishell *sh);
 char	*env_replace(t_node *com, int pos, t_minishell *sh);
-void	replace_pwd(t_node *com, char *dir, int code);
-void	replace_old_pwd(t_node *com);
+void	replace_pwd(t_minishell *sh, char *dir, int code);
+void	replace_old_pwd(t_minishell *sh);
 void	ft_free_list(t_node *com);
 void	remove_file(t_node *com, char c, int len);
 int		ft_is_space(char c);

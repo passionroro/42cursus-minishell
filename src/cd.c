@@ -23,7 +23,7 @@ char	*get_home(char **env)
 	return (NULL);
 }
 
-int	old_pwd(char **env, t_node *com, t_minishell *sh)
+int	old_pwd(char **env, t_minishell *sh)
 {
 	int		i;
 	char	*tmp;
@@ -37,7 +37,7 @@ int	old_pwd(char **env, t_node *com, t_minishell *sh)
 				return (printf("minishell: cd: %s: No such file or directory\n"\
 							, env[i] + 7));
 			tmp = getcwd(NULL, 0);
-			replace_pwd(com, env[i] + 7, 0);
+			replace_pwd(sh, env[i] + 7, 0);
 			printf("%s\n", env[i] + 7);
 			free(sh->envp[i]);
 			sh->envp[i] = ft_strjoin(ft_strdup("OLDPWD="), tmp);
@@ -54,19 +54,19 @@ int	run_cd(t_node *com, t_minishell *sh)
 	{
 		if (get_home(sh->envp) == NULL)
 			return (write_error("minishell: cd: HOME not set\n", NULL, NULL, 0));
-		replace_old_pwd(com);
-		replace_pwd(com, get_home(sh->envp), 0);
+		replace_old_pwd(sh);
+		replace_pwd(sh, get_home(sh->envp), 0);
 		return (chdir(get_home(sh->envp)));
 	}
 	if (!ft_strncmp(com->args[1], "-\0", 2))
-		return (old_pwd(sh->envp, com, sh));
+		return (old_pwd(sh->envp, sh));
 	if (chdir(com->args[1]) == -1)
 	{
 		write_error("minishell: cd: ", NULL, com->args[1], 0);
 		return (write_error(": No such file or directory\n", NULL, NULL, 0));
 	}
-	replace_old_pwd(com);
-	replace_pwd(com, getcwd(NULL, 0), 1);
+	replace_old_pwd(sh);
+	replace_pwd(sh, getcwd(NULL, 0), 1);
 	g_ret = 0;
 	return (1);
 }

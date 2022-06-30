@@ -23,13 +23,13 @@ int	get_pwd_pos(char **env)
 	return (-1);
 }
 
-void	replace_pwd(t_node *com, char *dir, int code)
+void	replace_pwd(t_minishell *sh, char *dir, int code)
 {
 	int		pos;
 
-	pos = get_pwd_pos(com->sh->envp);
-	free(com->sh->envp[pos]);
-	com->sh->envp[pos] = ft_strjoin(ft_strdup("PWD="), dir);
+	pos = get_pwd_pos(sh->envp);
+	free(sh->envp[pos]);
+	sh->envp[pos] = ft_strjoin(ft_strdup("PWD="), dir);
 	if (!dir)
 		free(dir);
 	if (code == 1)
@@ -47,19 +47,19 @@ int	get_old_pwd_pos(char **env)
 	return (-1);
 }
 
-void	replace_old_pwd(t_node *com)
+void	replace_old_pwd(t_minishell *sh)
 {
 	char	*dir;
 	int		old_pos;
 	int		pwd_pos;
 
-	pwd_pos = get_pwd_pos(com->sh->envp);
-	old_pos = get_old_pwd_pos(com->sh->envp);
+	pwd_pos = get_pwd_pos(sh->envp);
+	old_pos = get_old_pwd_pos(sh->envp);
 	if (pwd_pos == -1 || old_pos == -1)
 		return ;
-	dir = ft_strdup(com->sh->envp[pwd_pos] + 4);
-	free(com->sh->envp[old_pos]);
-	com->sh->envp[old_pos] = ft_strjoin(ft_strdup("OLDPWD="), dir);
+	dir = ft_strdup(sh->envp[pwd_pos] + 4);
+	free(sh->envp[old_pos]);
+	sh->envp[old_pos] = ft_strjoin(ft_strdup("OLDPWD="), dir);
 	free(dir);
 }
 

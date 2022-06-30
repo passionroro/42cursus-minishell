@@ -60,7 +60,7 @@ void	ft_free_list(t_node *com)
 	}
 }
 
-void	new_node(t_node *com, char *str, t_minishell *sh)
+void	new_node(t_node *com, char *str)
 {
 	t_node	*new;
 
@@ -73,7 +73,6 @@ void	new_node(t_node *com, char *str, t_minishell *sh)
 	com->next = new;
 	com->path = NULL;
 	com->args = NULL;
-	com->sh = sh;
 }
 
 t_node	*list_init(t_minishell *sh)
@@ -92,11 +91,10 @@ t_node	*list_init(t_minishell *sh)
 	com->last = NULL;
 	com->path = NULL;
 	com->args = NULL;
-	com->sh = sh;
 	i = 0;
 	while (commands[++i])
 		if (commands[i][0] != '\0')
-			new_node(com, commands[i], sh);
+			new_node(com, commands[i]);
 	ft_free_array(commands);
 	return (com);
 }

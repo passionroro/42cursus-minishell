@@ -45,7 +45,7 @@ int	built_in_check(t_node *com, t_minishell *sh)
 	if (!ft_strncmp(com->args[0], "env\0", 4))
 		run_env(sh);
 	if (!ft_strncmp(com->args[0], "exit\0", 5))
-		run_exit(com);
+		run_exit(com, sh);
 	if (!ft_strncmp(com->args[0], "cd\0", 3))
 		run_cd(com, sh);
 	if (!ft_strncmp(com->args[0], "echo\0", 5))

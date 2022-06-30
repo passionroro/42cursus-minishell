@@ -28,9 +28,9 @@ void	exit_code(t_node *com, int id)
 	}
 }
 
-int	exit_extent(t_node *com, int code, int quote)
+int	exit_extent(t_node *com, int code, int quote, t_minishell *sh)
 {
-	free_var_init(com->sh, com, 0);
+	free_var_init(sh, com, 0);
 	ft_free_list(com);
 	if (quote == 0)
 		write_error("minishell: exit: too many arguments\n", NULL, NULL, 0);
@@ -40,7 +40,7 @@ int	exit_extent(t_node *com, int code, int quote)
 	exit(code);
 }
 
-int	run_exit(t_node *com)
+int	run_exit(t_node *com, t_minishell *sh)
 {
 	int	i;
 	int	code;
@@ -49,14 +49,14 @@ int	run_exit(t_node *com)
 	if (com->args[1] == NULL)
 		exit(0);
 	if (com->args[1] != NULL && com->args[2] != NULL)
-		exit_extent(com, 128, 0);
+		exit_extent(com, 128, 0, sh);
 	i = -1;
 	if (com->args[1] != NULL && com->args[2] == NULL)
 	{
 		while (ft_isdigit(com->args[1][++i]) == 1)
 			;
 		if (com->args[1][i] != '\0')
-			exit_extent(com, 128, 1);
+			exit_extent(com, 128, 1, sh);
 	}
 	code = ft_atoi(com->args[1]);
 	if (code >= 0 && code <= 255)
