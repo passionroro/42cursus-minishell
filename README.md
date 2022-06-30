@@ -35,12 +35,10 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 	remove_quotes(com); //"ls" becomes ls
 	pipe(sh->pipe_fd);  //creating file descriptors to change the input and the input :)
 	com->id = fork();   //creating a child process to execute the command
-	if (com->id == 0)
-		non_builtin_execution(sh, com);
-    ...
+   	 ...
 		if (com->next != NULL)
 			dup2(sh->pipe_fd[1], 1);    //changing the output
-    ...
+  	  ...
 	close(sh->pipe_fd[1]);      //
 	dup2(sh->pipe_fd[0], 0);    // changing the input
 	close(sh->pipe_fd[0]);      //
