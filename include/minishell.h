@@ -66,6 +66,7 @@ typedef struct s_heredoc
 	char	*input;
 	char	*container;
 	char	*delimiter;
+	int		fd;
 }	t_heredoc;
 
 typedef struct s_split
@@ -101,7 +102,7 @@ void	exit_code(t_node *com, int id);
 int		pipe_it_up(t_minishell *sh, t_node *com);
 int		var_init(t_minishell *sh, t_node *com);
 int		ft_malloc_array(char ***str, char sep, char *line);
-int		redirect_check(t_node *com);
+int		redirect_check(t_node *com, t_minishell *sh);
 int		pipe_it_up(t_minishell *sh, t_node *com);
 char	**env_init(char **env);
 char	*add_backslash(char *str);
@@ -128,7 +129,7 @@ int		ft_is_space(char c);
 char	*write_file_name(char *str);
 int		ft_strcmp(char *s1, char *s2);
 int		write_error(char *s1, char *s2, char *s3, int ret);
-int		redirect_heredoc(t_node *com, int i);
+int		redirect_heredoc(t_node *com, int i, t_minishell *sh);
 int		quote_is_closed(t_minishell *sh);
 char	**ft_split_for_quotes(char *s, char c);
 void	dollar_sign_check(t_node *com, t_minishell *sh);

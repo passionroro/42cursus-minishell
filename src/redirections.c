@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int	redirect_check(t_node *com);
+int	redirect_check(t_node *com, t_minishell *sh);
 
 int	redirect_input(t_node *com, int i)
 {
@@ -77,12 +77,12 @@ token `newline'\n", NULL, NULL, -1));
 	return (0);
 }
 
-void	first_char_checker(t_node *com)
+void	first_char_checker(t_node *com, t_minishell *sh)
 {
 	if (com->content[0] == '<')
 	{
 		if (com->content[1] == '<')
-			redirect_heredoc(com, 0);
+			redirect_heredoc(com, 0, sh);
 		else
 			redirect_input(com, 0);
 	}
@@ -103,13 +103,13 @@ void	too_many_lines(t_node *com, t_redir *r)
 		r->exit = redirect_output(com, r->i);
 }
 
-int	redirect_check(t_node *com)
+int	redirect_check(t_node *com, t_minishell *sh)
 {
 	t_redir	r;
 
 	r.i = -1;
 	r.exit = 0;
-	first_char_checker(com);
+	first_char_checker(com, sh);
 	while (com->content[++r.i] && !r.exit)
 	{
 		while (is_open_quotes(com, r.i++) < 2)
@@ -117,7 +117,7 @@ int	redirect_check(t_node *com)
 		if (com->content[r.i] == '<')
 		{
 			if (com->content[r.i + 1] == '<')
-				r.exit = redirect_heredoc(com, r.i);
+				r.exit = redirect_heredoc(com, r.i, sh);
 			else
 				r.exit = redirect_input(com, r.i);
 			r.i -= 1;
