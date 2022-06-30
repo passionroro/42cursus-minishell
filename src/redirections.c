@@ -79,6 +79,7 @@ void	too_many_lines(t_node *com, t_redir *r)
 		r->exit = redirect_append(com, r->i);
 	else
 		r->exit = redirect_output(com, r->i);
+	r->i -= 1;
 }
 
 int	redirect_check(t_node *com, t_minishell *sh)
@@ -90,7 +91,7 @@ int	redirect_check(t_node *com, t_minishell *sh)
 	first_char_checker(com, sh);
 	while (com->content[++r.i] && !r.exit)
 	{
-		while (is_open_quotes(com, r.i++) < 2)
+		while (is_open_quotes(com, r.i + 1) < 2)
 			r.i++;
 		if (com->content[r.i] == '<')
 		{
@@ -102,7 +103,6 @@ int	redirect_check(t_node *com, t_minishell *sh)
 		}
 		else if (com->content[r.i] == '>')
 			too_many_lines(com, &r);
-		r.i -= 1;
 	}
 	return (r.exit);
 }
