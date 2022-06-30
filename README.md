@@ -20,10 +20,13 @@ First we open a prompt. It will pend until we send it an input.
 while (1)
     input = readline("[prompt]$ ");
 ```
-Then the parsing. The main idea is to split the commands between every '|' character and use link the commands with linked lists. It's also a good time to check for quotes because bash doesn't handle `"cat | ls"` and `cat | ls` the same way.\
-Once the parsing is done, it is time to execute the commands. It will be mandatory to `fork()`, therefore the commands is executed in a child process and the _minishell_ keeps on running. Be careful, builtins command must not be forked !\
-Then we handle pipes. Taking `ls | wc` as an example, the the output of `ls` must become the input of `wc` (see `dup2()` command).\
-Have a look ! :\
+Then the parsing. The main idea is to split the commands between every '|' character and use link the commands with linked lists. It's also a good time to check for quotes because bash doesn't handle `"cat | ls"` and `cat | ls` the same way.
+
+Once the parsing is done, it is time to execute the commands. It will be mandatory to `fork()`, therefore the commands is executed in a child process and the _minishell_ keeps on running. Be careful, builtins command must not be forked !
+
+Then we handle pipes. Taking `ls | wc` as an example, the the output of `ls` must become the input of `wc` (see `dup2()` command).
+
+Have a look ! :
 ```c
 int	pipe_it_up(t_minishell *sh, t_node *com)
 {
