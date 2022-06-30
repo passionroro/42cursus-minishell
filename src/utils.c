@@ -12,11 +12,12 @@
 
 #include "../include/minishell.h"
 
-void	free_var_init(t_minishell *sh, t_node *com)
+int	free_var_init(t_minishell *sh, t_node *com, int ret)
 {
 	ft_free_array(com->args);
 	if (sh->path != NULL)
 		ft_free_array(sh->path);
+	return (ret);
 }
 
 int	ft_malloc_array(char ***str, char sep, char *line)

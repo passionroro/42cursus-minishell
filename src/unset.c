@@ -62,7 +62,7 @@ int	check_non_valid_identifier(t_node *com)
 	return (1);
 }
 
-int	run_unset(t_node *c)
+int	run_unset(t_node *c, t_minishell *sh)
 {
 	int	i;
 	int	len;
@@ -72,15 +72,15 @@ int	run_unset(t_node *c)
 	if (!check_non_valid_identifier(c))
 		return (-1);
 	i = -1;
-	while (c->sh->envp[++i])
+	while (sh->envp[++i])
 	{
 		len = 0;
-		while (c->sh->envp[i][len] != '=')
+		while (sh->envp[i][len] != '=')
 			len++;
-		if (!ft_strncmp(c->sh->envp[i], c->args[1], ft_strlen(c->args[1]))
-			&& !ft_strncmp(c->sh->envp[i], c->args[1], len))
+		if (!ft_strncmp(sh->envp[i], c->args[1], ft_strlen(c->args[1]))
+			&& !ft_strncmp(sh->envp[i], c->args[1], len))
 		{
-			c->sh->envp = env_remove(c->sh->envp, i);
+			sh->envp = env_remove(sh->envp, i);
 			break ;
 		}
 	}

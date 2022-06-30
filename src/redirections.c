@@ -6,13 +6,13 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:36:40 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/27 20:13:29 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 17:26:38 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	redirect_check(t_node *com);
+int	redirect_check(t_node *com, t_minishell *sh);
 
 int	redirect_input(t_node *com, int i)
 {
@@ -55,38 +55,34 @@ token `newline'\n", NULL, NULL, -1));
 	return (0);
 }
 
-int	redirect_heredoc(t_node *com, int i)
+int	redirect_append(t_node *com, int i)
 {
-	t_heredoc	her;
+	char	*file;
+	int		fd;
 
 	i += 1;
 	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
 		;
-	her.delimiter = write_file_name(com->content + i);
-	if (her.delimiter == NULL)
+	file = write_file_name(com->content + i);
+	if (file == NULL)
 		return (write_error("minishell: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
-	her.container = ft_strdup("");
-	while (1)
-	{
-		her.input = readline("> ");
-		if (input_isnt_empty(her.input, NULL))
-			if (!ft_strcmp(her.input, her.delimiter))
-				break ;
-		her.container = ft_strjoin(her.container, her.input);
-		her.container = ft_strjoin(her.container, "\n\0");
-		free(her.input);
-	}
-	heredoc_part2(&her, com);
-	return (-2);
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd == -1)
+		return (write_error("Error : can't open file < ", file, " >\n", -1));
+	dup2(fd, 1);
+	close(fd);
+ 	remove_file(com, '>', ft_strlen(file));
+	free(file);
+	return (0);
 }
 
-void	first_char_checker(t_node *com)
+void	first_char_checker(t_node *com, t_minishell *sh)
 {
 	if (com->content[0] == '<')
 	{
 		if (com->content[1] == '<')
-			redirect_heredoc(com, 0);
+			redirect_heredoc(com, 0, sh);
 		else
 			redirect_input(com, 0);
 	}
@@ -107,13 +103,13 @@ void	too_many_lines(t_node *com, t_redir *r)
 		r->exit = redirect_output(com, r->i);
 }
 
-int	redirect_check(t_node *com)
+int	redirect_check(t_node *com, t_minishell *sh)
 {
 	t_redir	r;
 
 	r.i = -1;
 	r.exit = 0;
-	first_char_checker(com);
+	first_char_checker(com, sh);
 	while (com->content[++r.i] && !r.exit)
 	{
 		while (is_open_quotes(com, r.i++) < 2)
@@ -121,7 +117,7 @@ int	redirect_check(t_node *com)
 		if (com->content[r.i] == '<')
 		{
 			if (com->content[r.i + 1] == '<')
-				r.exit = redirect_heredoc(com, r.i);
+				r.exit = redirect_heredoc(com, r.i, sh);
 			else
 				r.exit = redirect_input(com, r.i);
 			r.i -= 1;

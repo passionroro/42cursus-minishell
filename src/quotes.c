@@ -1,43 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 19:06:25 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 17:26:36 by rohoarau         ###   ########.fr       */
+/*   Created: 2022/06/16 16:54:16 by henkaoua          #+#    #+#             */
+/*   Updated: 2022/06/16 16:54:18 by henkaoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	is_open_quotes(t_node *c, int len)
+int	quote_is_closed(t_minishell *sh)
 {
 	int		i;
-	bool	dq;
-	bool	sq;
+	char	c;
 
 	i = -1;
-	sq = true;
-	dq = true;
-	while (++i < len)
+	sh->even = true;
+	while (sh->input[++i])
 	{
-		if (c->content[i] == 34 && sq)
-			dq = !dq;
-		if (c->content[i] == 39 && dq)
-			sq = !sq;
+		if (sh->input[i] == 34 || sh->input[i] == 39)
+		{
+			c = sh->input[i];
+			sh->even = !sh->even;
+			while (sh->input[++i] && sh->input[i] != c)
+				;
+			if (sh->input[i] == c)
+				sh->even = !sh->even;
+		}
 	}
-	return (sq + dq);
-}
-
-char	*get_path(char **env)
-{
-	int	i;
-
-	i = -1;
-	while (env[++i])
-		if (!ft_strncmp(env[i], "PATH=", 5))
-			return (env[i] + 5);
-	return (NULL);
+	if (!sh->even)
+		write_error("Error : open quotes\n", NULL, NULL, -1);
+	return (sh->even);
 }

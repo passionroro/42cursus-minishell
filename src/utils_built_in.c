@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:14:11 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/27 19:52:28 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/06/26 16:57:57 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,6 @@ int	write_error(char *s1, char *s2, char *s3, int ret)
 	if (s3)
 		ft_putstr_fd(s3, 2);
 	return (ret);
-}
-
-void	heredoc_part2(t_heredoc *her, t_node *com)
-{
-	free(her->input);
-	free(her->delimiter);
-	remove_file(com, '<', 0);
-	redirect_check(com);
-	printf("%s", her->container);
-	free(her->container);
 }
 
 int	built_in_exit(char *str)

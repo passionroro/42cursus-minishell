@@ -73,30 +73,30 @@ int	export_no_args(char **tab)
 	return (1);
 }
 
-int	run_export(t_node *com)
+int	run_export(t_node *com, t_minishell *sh)
 {
 	int		i;
 	int		len;
 	char	*cmd;
 
 	if (com->args[1] == NULL)
-		return (export_no_args(com->sh->envp));
+		return (export_no_args(sh->envp));
 	len = -1;
 	while (com->args[1][++len] != '=')
 		if (com->args[1][len] == '\0')
 			return (-1);
 	cmd = ft_substr(com->args[1], 0, len);
 	i = -1;
-	while (com->sh->envp[++i])
+	while (sh->envp[++i])
 	{
-		if (!ft_strncmp(com->sh->envp[i], cmd, len))
+		if (!ft_strncmp(sh->envp[i], cmd, len))
 		{
-			com->sh->envp[i] = env_replace(com, i);
+			sh->envp[i] = env_replace(com, i, sh);
 			break ;
 		}
 	}
-	if (com->sh->envp[i] == NULL)
-		com->sh->envp = env_create(com, i);
+	if (sh->envp[i] == NULL)
+		sh->envp = env_create(com, i, sh);
 	free(cmd);
 	g_ret = 0;
 	return (1);
