@@ -55,7 +55,8 @@ void	remove_file(t_node *com, char c, int len)
 	i = -1;
 	start = 0;
 	if (com->content[0] == c)
-		return (ft_cut_file(com, 0, get_strlen(com->content, c, len), get_strlen(com->content, c, len)));
+		return (ft_cut_file(com, 0, get_strlen(com->content, c, len),
+				get_strlen(com->content, c, len)));
 	while (com->content[++i])
 	{
 		if (com->content[i] == c && start == 0)
@@ -99,16 +100,4 @@ char	*write_file_name(char *str)
 		new[i] = str[i];
 	new[i] = '\0';
 	return (new);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	while (*s1 != '\0')
-	{
-		if (*s1 != *s2)
-			return (*s1 - *s2);
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
 }

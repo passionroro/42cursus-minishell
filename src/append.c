@@ -12,60 +12,24 @@
 
 #include "../include/minishell.h"
 
-int	is_heredoc(t_node *com)
+int	redirect_append(t_node *com, int i)
 {
-	int	i;
-
-	i = -1;
-	while (com->content[++i] != '<' && com->content[i])
-		;
-	if (com->content[i + 1] == '<')
-		return (1);
-	return (0);
-}
-
-void	heredoc_part2(t_heredoc *her, t_node *com, t_minishell *sh)
-{
-	int	fd[2];
-
-	free(her->input);
-	remove_file(com, '<', ft_strlen(her->delimiter));
-	free(her->delimiter);
-	redirect_check(com, sh);
-	pipe(fd);
-	write(fd[1], her->container, ft_strlen(her->container));
-	close(fd[1]);
-	dup2(fd[0], 0);
-	close(fd[0]);
-	free(her->container);
-	close(sh->saved_fd[1]);
-}
-
-int	redirect_heredoc(t_node *com, int i, t_minishell *sh)
-{
-	t_heredoc	her;
+	char	*file;
+	int		fd;
 
 	i += 1;
 	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
 		;
-	her.delimiter = write_file_name(com->content + i);
-	if (her.delimiter == NULL)
+	file = write_file_name(com->content + i);
+	if (file == NULL)
 		return (write_error("minishell: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
-	her.fd = dup(1);
-	dup2(sh->saved_fd[1], 1);
-	her.container = ft_strdup("");
-	while (1)
-	{
-		her.input = readline("> ");
-		if (input_isnt_empty(her.input, NULL))
-			if (!ft_strcmp(her.input, her.delimiter))
-				break ;
-		her.container = ft_strjoin(her.container, her.input);
-		her.container = ft_strjoin(her.container, "\n\0");
-		free(her.input);
-	}
-	dup2(her.fd, 1);
-	heredoc_part2(&her, com, sh);
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd == -1)
+		return (write_error("Error : can't open file < ", file, " >\n", -1));
+	dup2(fd, 1);
+	close(fd);
+	remove_file(com, '>', ft_strlen(file));
+	free(file);
 	return (0);
 }

@@ -1,0 +1,18 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/henkaoua/Desktop/minishell'
+mkdir -p obj/
+gcc -c -Wall -Wextra -Werror -g -O0 -I include/ src/commandzzzz.c -o obj/commandzzzz.o
+ 
+mkdir -p obj/
+gcc -c -Wall -Wextra -Werror -g -O0 -I include/ src/redirections.c -o obj/redirections.o
+mkdir -p obj/
+gcc -c -Wall -Wextra -Werror -g -O0 -I include/ src/append.c -o obj/append.o
+echo "Compilation of obj/:  \033[1;32mOK\033[m\n"
+make -C libft/
+echo "Compilation of libft/:  \033[1;32mOK\033[m\n"
+gcc -Wall -Wextra -Werror obj/main.o obj/commandzzzz.o obj/utils.o obj/built_in.o obj/utils_built_in.o obj/echo.o obj/env.o obj/export.o obj/unset.o obj/cd.o obj/pwd.o obj/signals.o obj/init.o obj/exit.o obj/redirections.o obj/linked_list.o obj/red_fncs.o obj/split_modified.o obj/dollar_sign.o obj/one_more_utils.o obj/herdoc.o obj/append.o -I include/ libft/libft.a -o minishell -lreadline -L /Users/henkaoua/.brew/opt/readline/lib -I /Users/henkaoua/.brew/opt/readline/include
+echo "Compilation of minishell:  \033[1;32mOK\033[m\n"
+clear
+echo "\033[1;31m$HEADER\033[m"
+make: Leaving directory `/Users/henkaoua/Desktop/minishell'
+ 

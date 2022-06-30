@@ -75,25 +75,12 @@ void	non_builtin_execution(t_minishell *sh, t_node *com)
 		else
 			dup2(sh->saved_fd[1], 1);
 		close(sh->pipe_fd[1]);
-		//close(sh->saved_fd[1]);
 		if (redirect_check(com, sh) != 0)
 			free_var_init(sh, com, 0);
 		else
 			command_exec(com, sh);
 	}
 	exit (1);
-}
-
-int	is_heredoc(t_node *com)
-{
-	int	i;
-
-	i = -1;
-	while (com->content[++i] != '<' && com->content[i])
-		;
-	if (com->content[i + 1] == '<')
-			return (1);
-	return (0);
 }
 
 int	pipe_it_up(t_minishell *sh, t_node *com)
