@@ -66,6 +66,7 @@ typedef struct s_heredoc
 	char	*input;
 	char	*container;
 	char	*delimiter;
+	int		fd;
 }	t_heredoc;
 
 typedef struct s_split

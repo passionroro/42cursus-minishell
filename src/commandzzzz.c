@@ -75,7 +75,7 @@ void	non_builtin_execution(t_minishell *sh, t_node *com)
 		else
 			dup2(sh->saved_fd[1], 1);
 		close(sh->pipe_fd[1]);
-		close(sh->saved_fd[1]);
+		//close(sh->saved_fd[1]);
 		if (redirect_check(com, sh) != 0)
 			free_var_init(sh, com, 0);
 		else

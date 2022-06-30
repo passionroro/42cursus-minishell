@@ -22,7 +22,6 @@ void	heredoc_part2(t_heredoc *her, t_node *com, t_minishell *sh)
 	redirect_check(com, sh);
 	pipe(fd);
 	write(fd[1], her->container, ft_strlen(her->container));
-	write(sh->pipe_fd[0], her->container, ft_strlen(her->container));
 	close(fd[1]);
 	dup2(fd[0], 0);
 	close(fd[0]);
@@ -31,7 +30,7 @@ void	heredoc_part2(t_heredoc *her, t_node *com, t_minishell *sh)
 
 int	redirect_heredoc(t_node *com, int i, t_minishell *sh)
 {
-	t_heredoc	    her;
+	t_heredoc	her;
 
 	i += 1;
 	while (ft_is_space(com->content[++i]) && com->content[i] != '\0')
@@ -40,6 +39,8 @@ int	redirect_heredoc(t_node *com, int i, t_minishell *sh)
 	if (her.delimiter == NULL)
 		return (write_error("minishell: syntax error near unexpected \
 token `newline'\n", NULL, NULL, -1));
+	her.fd = sh->pipe_fd[1];
+	dup2(sh->saved_fd[1], 1);
 	her.container = ft_strdup("");
 	while (1)
 	{
@@ -51,6 +52,7 @@ token `newline'\n", NULL, NULL, -1));
 		her.container = ft_strjoin(her.container, "\n\0");
 		free(her.input);
 	}
+	dup2(her.fd, 1);
 	heredoc_part2(&her, com, sh);
 	return (0);
 }
