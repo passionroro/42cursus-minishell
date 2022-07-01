@@ -22,7 +22,7 @@ while (1)
 ```
 Then the parsing. The main idea is to split the commands between every '|' character and link the commands with linked lists. It's also a good time to check for quotes because bash doesn't handle `"cat | ls"` and `cat | ls` the same way.
 
-Once the parsing is done, it is time to execute the commands. It will be mandatory to `fork()`, therefore the commands is executed in a child process and the _minishell_ keeps on running. Be careful, builtins command must not be forked !
+Once the parsing is done, it is time to execute the commands. It will be mandatory to `fork()`, therefore the command is executed in a child process and the _minishell_ keeps on running. Be careful, builtins command must not be forked !
 
 Then we handle pipes. Taking `ls | wc` as an example, the the output of `ls` must become the input of `wc` (see `dup2()` command).
 
