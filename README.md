@@ -20,7 +20,7 @@ First we open a prompt. It will pend until we send it an input.
 while (1)
     input = readline("[prompt]$ ");
 ```
-Then the parsing. The main idea is to split the commands between every '|' character and use link the commands with linked lists. It's also a good time to check for quotes because bash doesn't handle `"cat | ls"` and `cat | ls` the same way.
+Then the parsing. The main idea is to split the commands between every '|' character and link the commands with linked lists. It's also a good time to check for quotes because bash doesn't handle `"cat | ls"` and `cat | ls` the same way.
 
 Once the parsing is done, it is time to execute the commands. It will be mandatory to `fork()`, therefore the commands is executed in a child process and the _minishell_ keeps on running. Be careful, builtins command must not be forked !
 
