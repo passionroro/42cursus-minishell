@@ -6,7 +6,7 @@
 /*   By: henkaoua <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 18:58:36 by henkaoua          #+#    #+#             */
-/*   Updated: 2022/06/26 20:56:39 by rohoarau         ###   ########.fr       */
+/*   Updated: 2022/07/01 09:37:41 by rohoarau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	exit_code(t_node *com, int id)
 		if (WIFEXITED(code))
 			g_ret = WEXITSTATUS(code);
 		if (WIFSIGNALED(code))
-			g_ret = WTERMSIG(code);
+			g_ret = WTERMSIG(code) + 128;
 	}
 }
 
