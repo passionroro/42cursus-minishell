@@ -78,7 +78,10 @@ void	non_builtin_execution(t_minishell *sh, t_node *com)
 		if (redirect_check(com, sh) != 0)
 			free_var_init(sh, com, 0);
 		else
+		{
+			remove_quotes(com);
 			command_exec(com, sh);
+		}
 	}
 	exit (1);
 }
@@ -87,7 +90,6 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 {
 	if (var_init(sh, com) != 0)
 		return (command_not_found(sh, com));
-	remove_quotes(com);
 	pipe(sh->pipe_fd);
 	com->id = fork();
 	if (com->id == 0)
@@ -102,6 +104,7 @@ int	pipe_it_up(t_minishell *sh, t_node *com)
 			dup2(sh->pipe_fd[1], 1);
 		if (redirect_check(com, sh) != 0)
 			return (free_var_init(sh, com, -1));
+		remove_quotes(com);
 		built_in_check(com, sh);
 	}
 	close(sh->pipe_fd[1]);
